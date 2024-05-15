@@ -1,7 +1,27 @@
+.containerStep {
+    margin: 3rem 7.5rem;
+    min-height: 305px;
+}
+
 .appointBoxButtons {
     display: flex;
     justify-content: space-between;
     margin: 0 1rem 1rem 1rem;
+}
+
+.Text {
+    position: absolute;
+    color: #FFF;
+    font-family: Roboto;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 7.5rem;
+    gap: 0.5rem;
+    width: calc(100% - 7.5rem);
 }
 
 .prev,
@@ -22,10 +42,9 @@
     font-style: normal;
     font-weight: 300;
     line-height: normal;
-    padding: 0 0.5rem;
     border: none;
     cursor: pointer;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     z-index: 3;
 }
 

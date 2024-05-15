@@ -2,6 +2,7 @@ import React from 'react';
 import { StepProvider, useStepContext } from '../../context/StepContext';
 import { Step0, Step1, Step2, Step3, Step4 } from '../ComponentesTurnos/indexTurnos';
 import StepButtons from './buttonsStep';
+import TurnosHeader from './TurnosHeader';
 
 const CrearTurno = () => {
     return (
@@ -14,18 +15,17 @@ const CrearTurno = () => {
 const CreandoTurnos = () => {
     const { currentStep } = useStepContext();
 
-    // Definir los textos de los botones para cada paso
     const buttonTexts = [
-        { prev: 'Inicio', next: 'Siguiente' },
-        { prev: 'Anterior', next: 'Siguiente' },
-        { prev: 'Anterior', next: 'Siguiente' },
-        { prev: 'Anterior', next: 'Siguiente' },
+        { prev: 'Inicio', next: 'Continuar' },
+        { prev: 'Anterior', next: 'Continuar' },
+        { prev: 'Anterior', next: 'Continuar' },
+        { prev: 'Anterior', next: 'Ir a Pagar' },
         { prev: 'Anterior', next: 'Ir a Inicio' }
     ];
 
     return (
         <div>
-            <h1>CrearTurno</h1>
+            <TurnosHeader step={currentStep} />
             <div className="containerStep">
                 {currentStep === 0 && <Step0 />}
                 {currentStep === 1 && <Step1 />}

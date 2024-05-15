@@ -1,7 +1,7 @@
 const Step1 = () => {
     return (
         <div>
-            <h1>ElegiPeluquero</h1>
+            {/* <h1>ElegiPeluquero</h1> */}
         </div>
     )
 }

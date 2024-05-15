@@ -3,7 +3,7 @@ import Footer from "../Footer/Footer";
 const Step3 = () => {
     return (
         <div>
-            <h1>Confirmar Datos y Pagar</h1>
+            {/* <h1>Confirmar Datos y Pagar</h1> */}
             {/* <div className="titleturno" style={{ color: `${config.customization.primary.text}` }}>
                 <h1>Datos del Turno</h1>
             </div>
