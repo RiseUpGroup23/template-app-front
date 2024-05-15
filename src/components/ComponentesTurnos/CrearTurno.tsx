@@ -6,12 +6,12 @@ import StepButtons from './buttonsStep';
 const CrearTurno = () => {
     return (
         <StepProvider>
-            <TurnoFormulario />
+            <CreandoTurnos />
         </StepProvider>
     );
 };
 
-const TurnoFormulario = () => {
+const CreandoTurnos = () => {
     const { currentStep } = useStepContext();
 
     // Definir los textos de los botones para cada paso

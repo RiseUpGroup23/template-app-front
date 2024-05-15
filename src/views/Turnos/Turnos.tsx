@@ -10,9 +10,9 @@ const Turnos = () => {
 
     return (
         <div className="appContainer" style={{ background: `linear-gradient(90deg, ${hexToRgb(config.customization.secondary.text, .5)} 31%, ${hexToRgb(config.customization.secondary.text, .0)} 100%), url(${config.customization.background.backgroundTurno}) lightgray 50% / cover no-repeat` }}>
-            <Header/>
-            <CrearTurno/>
-            <Footer/>
+            <Header />
+            <CrearTurno />
+            <Footer />
         </div>
     )
 }

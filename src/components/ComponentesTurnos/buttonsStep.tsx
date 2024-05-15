@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStepContext } from '../../context/StepContext';
-import { useLocation } from 'react-router-dom';
+import './styleTurnos.css';
 
 interface StepButtonsProps {
     prevButtonText: string;
@@ -9,19 +9,17 @@ interface StepButtonsProps {
 
 const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonText }) => {
     const { currentStep, nextStep, prevStep } = useStepContext();
-    const location = useLocation(); // Obtener la ubicación actual
 
-    // Función para redirigir a la ruta "/"
-    const goToHome = () => {
-        window.location.href = "/"; // Redirigir a la ruta "/"
+    const IrAInicio = () => {
+        window.location.href = "/";
     };
 
     return (
-        <div>
-            {currentStep === 0 && <button onClick={goToHome}>{prevButtonText}</button>}
-            {currentStep > 0 && <button onClick={prevStep}>{prevButtonText}</button>}
-            {currentStep < 4 && <button onClick={nextStep}>{nextButtonText}</button>}
-            {currentStep === 4 && <button onClick={goToHome}>{nextButtonText}</button>}
+        <div className="appointBoxButtons">
+            {currentStep === 0 && <button className='prev' onClick={IrAInicio}>{prevButtonText}</button>}
+            {currentStep > 0 && <button className='prev' onClick={prevStep}>{prevButtonText}</button>}
+            {currentStep < 4 && <button className='next' onClick={nextStep}>{nextButtonText}</button>}
+            {currentStep === 4 && <button className='next' onClick={IrAInicio}>{nextButtonText}</button>}
         </div>
     );
 };
