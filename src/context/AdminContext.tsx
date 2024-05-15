@@ -73,7 +73,10 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
             },
             "reservationPrice": 10,
             "customization": {
-                "backgroundImage": "https://s3-alpha-sig.figma.com/img/fb29/aa9b/f34c0aec12775a858d51e72a1e715812?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=N5JSRPNDpH8k-s-wuoiCD3qpXTEvx7tAdGG9OGh57Z6-hurWtnchtszgY4DMquqWv9Hhe3rmCboG1ktg6qHh9T3sSuEMRkckbNYJzi1Uok50LZ5IZmm0-oCYAMBsyLqPy6XNnis66RzQWMjeRUra5vMEB1tIT4-4KdSKXpSO9fwPLJk3DUPPz3WubHRffdnxTa~TENK5ovVUT-ut-npsfRw3yQWoUL4rDyMrWQHa59Sw8eyYLbdqHY5evFX9NJV9tSxEySfpb1Y~nwV5AdPTr7Oy4QiI4AhSowSsaokpogUgOfGxDfnzLPaAz1aBC2wYtEPsFrRa8SjKESpc1gzuCg__",
+                "background": {
+                    "backgroundImage": "https://s3-alpha-sig.figma.com/img/fb29/aa9b/f34c0aec12775a858d51e72a1e715812?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=N5JSRPNDpH8k-s-wuoiCD3qpXTEvx7tAdGG9OGh57Z6-hurWtnchtszgY4DMquqWv9Hhe3rmCboG1ktg6qHh9T3sSuEMRkckbNYJzi1Uok50LZ5IZmm0-oCYAMBsyLqPy6XNnis66RzQWMjeRUra5vMEB1tIT4-4KdSKXpSO9fwPLJk3DUPPz3WubHRffdnxTa~TENK5ovVUT-ut-npsfRw3yQWoUL4rDyMrWQHa59Sw8eyYLbdqHY5evFX9NJV9tSxEySfpb1Y~nwV5AdPTr7Oy4QiI4AhSowSsaokpogUgOfGxDfnzLPaAz1aBC2wYtEPsFrRa8SjKESpc1gzuCg__",
+                    "backgroundTurno": "https://s3-alpha-sig.figma.com/img/462e/0fed/f6d7e314bc34f5d0e3d1597355bd9246?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=e~603BJTKwqLHQh3yYs3qq4~1oZfqtJBHZ5aSHkdeecf~wmNRTkyz1f9S8ZHyjmgKyrjBk7tDNy~U~vflKGd9PDDP3i4oWUq43mzoCON8gL8wZUaTpz6Mp78cpWEmyRJ3iG7a9ekd3A59k0O86gQZPc-Lw-HVQBy40DPhSqjVHXxyurG229er~kIrdVaa1rY2lqkq1an31F14pFqHtE30GzC5mb-DdOoS75Qorrqu9M7BMaL-z-DEzNL5Y6FYQ1sIl9KM9Nhv5BiA7cLL5XKuNaMZZtd0hqfjZO52EtV5NISgT-4z09L4PfCiaKOev8ue2frbRwdIXEdpInNvTAahQ__",
+                },
                 "primary": {
                     "color": "#694D2C",
                     "text": "#fff"

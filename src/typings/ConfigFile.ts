@@ -30,7 +30,10 @@ export interface ConfigFile {
     contact: Contact;
     reservationPrice: Number;
     customization: {
-        backgroundImage: string;
+        background: {
+            backgroundImage: string;
+            backgroundTurno: string;
+        };
         primary: {
             color: string;
             text: string;
