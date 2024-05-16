@@ -33,7 +33,7 @@ const MenuTurnos = () => {
 
                 .listHeader .botonHeader:hover {
                     border-color: transparent;
-                    background: linear-gradient(90deg, ${hexToRgb(config.customization.primary.color, 1, .5)} 0%, ${hexToRgb(config.customization.primary.color, 1, .35)} 100%);
+                    background: linear-gradient(90deg, ${hexToRgb(config.customization.primary.color, 1, .35)} 0%, ${hexToRgb(config.customization.primary.color, 1, .5)} 100%);
                 }
             `}</style>
             <button style={{ color: `${config.customization.primary.text}` }} className={`botonHeader ${location.pathname === '/reprogramar' || location.pathname === '/reservar' ? 'active' : ''}`} onClick={handleClick}>Turnos</button>
@@ -46,12 +46,7 @@ const MenuTurnos = () => {
                     </Link>
                     <Link to={"/reprogramar"}>
                         <button className="botonHeader" style={{ color: `${config.customization.primary.text}` }}>
-                            Reprogramar
-                        </button>
-                    </Link>
-                    <Link to={"/reprogramar"}>
-                        <button className="botonHeader" style={{ color: `${config.customization.primary.text}` }}>
-                            Cancelar turno
+                            Cambiar turno
                         </button>
                     </Link>
                 </div>

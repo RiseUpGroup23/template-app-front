@@ -34,7 +34,11 @@
     width: min-content;
     object-fit: contain;
     max-height: 3rem;
-    mix-blend-mode: difference;
+}
+
+.diff {
+    width: min-content;
+    border-radius: 1rem;
 }
 
 .firstColumn,

@@ -20,7 +20,7 @@ const Header = () => {
         <div className="headerContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color, .75)}` }}>
             <Link to={"/"}>
                 <div className="logoHeader">
-                    <img src={config.logoImage} alt="logoImage" />
+                    <img src={config.customization.logo.primary} alt="logoImage" />
                 </div>
             </Link>
 
