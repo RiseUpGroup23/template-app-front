@@ -14,6 +14,7 @@
 
 .infoContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 150vw;
@@ -24,5 +25,100 @@
 .circleContainer {
     border-radius: 100%;
     width: 200vw;
-    height: 110vw;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    border-bottom-left-radius: 50% 50%;
+    border-bottom-right-radius: 50% 50%;
+}
+
+.contenidoHome {
+    display: flex;
+    width: 90vw;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    margin: 6% 0;
+}
+
+.contenidoHome>div {
+    width: 50%;
+}
+
+.imagenHome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.textoHome {
+    font-size: 4vw;
+}
+
+.imagenHome img {
+    width: 50vw;
+    object-fit: contain;
+}
+
+.blackInfo {
+    width: 100vw;
+    height: 15rem;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.blackInfoItem {
+    display: flex;
+    width: 50%;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.blackInfoItem p {
+    color: white;
+    font-size: min(4vw, 2.25rem);
+    white-space: nowrap;
+}
+
+@media (max-width:1024px) {
+
+    .blackInfo {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .blackInfoItem {
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .blackInfoItem p {
+        width: 55%;
+    }
+
+    .blackInfoItem svg {
+        transform: scale(.75);
+    }
+}
+
+@media (max-width:767px) {
+    .contenidoHome {
+        flex-direction: column-reverse;
+    }
+
+    .contenidoHome>div {
+        width: 100%;
+    }
+
+    .imagenHome img {
+        width: 100%;
+    }
+
+    .textoHome {
+        font-size: 5vw;
+    }
 }
