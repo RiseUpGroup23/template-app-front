@@ -2,7 +2,7 @@ import React from 'react';
 import { StepProvider, useStepContext } from '../../context/StepContext';
 import { Step0, Step1, Step2, Step3, Step4 } from '../ComponentesTurnos/indexTurnos';
 import StepButtons from './buttonsStep';
-
+import { AppointmentProvider } from '../../context/ApContext';
 const CrearTurno = () => {
     return (
         <StepProvider>
@@ -25,7 +25,11 @@ const CreandoTurnos = () => {
     return (
         <div>
             <div className="containerStep">
-                {currentStep === 0 && <Step0 />}
+                {currentStep === 0 && (
+                    <AppointmentProvider>
+                        <Step0 />
+                    </AppointmentProvider>
+                )}
                 {currentStep === 1 && <Step1 />}
                 {currentStep === 2 && <Step2 />}
                 {currentStep === 3 && <Step3 />}
