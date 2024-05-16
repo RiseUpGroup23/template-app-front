@@ -1,4 +1,4 @@
-function hexToRgb(hex: string, opacity = 1) {
+function hexToRgb(hex: string, opacity = 1, tone = 0) {
     hex = hex.replace(/^#/, '');
 
     let r, g, b;
@@ -13,7 +13,13 @@ function hexToRgb(hex: string, opacity = 1) {
     } else {
         return null;
     }
-    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+
+    // Aplicar oscurecimiento según el tono proporcionado
+    const darkenedR = r * (1 - tone);
+    const darkenedG = g * (1 - tone);
+    const darkenedB = b * (1 - tone);
+
+    return `rgba(${darkenedR}, ${darkenedG}, ${darkenedB}, ${opacity})`;
 }
 
-export default hexToRgb
+export default hexToRgb;
