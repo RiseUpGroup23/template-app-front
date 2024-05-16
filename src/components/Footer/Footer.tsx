@@ -13,7 +13,7 @@ const Footer = () => {
         <div className="footer">
             <div className="footerElements">
                 <div className="firstColumn">
-                    <img src={config.logoImage} alt="footerLogoImg" />
+                    <div className="diff" style={{ background: `${config.customization.primary.color}` }}><img src={config.customization.logo.primary} alt="footerLogoImg" /></div>
                     <span>
                         Peluquería y barbería especializada.
                     </span>

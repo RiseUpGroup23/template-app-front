@@ -17,7 +17,6 @@ export interface Contact {
 
 export interface ConfigFile {
     imgsCarrousel: Img[];
-    logoImage: string;
     presentationText: string;
     imagePresentation: string;
     presentationTitle: string;
@@ -42,5 +41,9 @@ export interface ConfigFile {
             color: string;
             text: string;
         };
+        logo: {
+            primary: string;
+            secondary: string;
+        }
     }
 }

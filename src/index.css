@@ -16,6 +16,12 @@ a {
   color: unset;
 }
 
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
 #root {
   display: flex;
   flex-direction: column;
