@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./header.css"
 import MenuTurnos from "./MenuTurnos";
 import { Link, useLocation } from "react-router-dom";
@@ -6,15 +6,18 @@ import { useConfig } from "../../context/AdminContext";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import MenuDrawer from "./MenuDrawer";
 import hexToRgb from "../../modules/hexToRgb";
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 const Header = () => {
     const { config, invertColors } = useConfig()
     const isMobile = useMediaQuery('(max-width:1024px)');
     const location = useLocation()
+    const [inverted, setInverted] = useState(false)
     if (!config) return <></>
 
     return (
-        <div className="headerContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color, .5)}` }}>
+        <div className="headerContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color, .75)}` }}>
             <Link to={"/"}>
                 <div className="logoHeader">
                     <img src={config.logoImage} alt="logoImage" />
@@ -33,7 +36,12 @@ const Header = () => {
                                 <button style={{ color: `${config.customization.primary.text}` }} className={`botonHeader ${location.pathname === '/' ? 'active' : ''}`}>Inicio</button>
                             </Link>
                             <MenuTurnos />
-                            <button onClick={invertColors} style={{ color: `${config.customization.primary.text}` }} className={`botonHeader`}>Invertir</button>
+                            <button onClick={() => {
+                                invertColors()
+                                setInverted((prev) => !prev)
+                            }} style={{ color: `${config.customization.primary.text}` }} className={`botonHeader inverter`}>
+                                {inverted ? <LightModeIcon /> : <LightModeOutlinedIcon />}
+                            </button>
                         </>
                     )}
                 </div>
