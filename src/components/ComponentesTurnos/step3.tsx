@@ -1,21 +1,22 @@
-import Footer from "../Footer/Footer";
+import { useConfig } from '../../context/AdminContext';
+import './styleTurnos.css';
 
 const Step3 = () => {
+    const { config } = useConfig()
+    if (!config) return <></>
+
     return (
         <div>
-            {/* <h1>Confirmar Datos y Pagar</h1> */}
-            {/* <div className="titleturno" style={{ color: `${config.customization.primary.text}` }}>
-                <h1>Datos del Turno</h1>
+            <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>Resumen de la <span>Reserva</span></div>
+            <div className="resumeContainer">
+                <div className="resumeText">
+                    <div style={{ color: `${config.customization.primary.text}` }}>Fecha: <span style={{fontWeight: "bold"}}>09-11-2001</span></div>
+                    <div style={{ color: `${config.customization.primary.text}`, marginTop: "15%" }}>Hora: <span style={{fontWeight: "bold"}}>20:45 Hs.</span></div>
+                </div>
+                <div className="resumeInfo" style={{ color: `${config.customization.primary.text}` }}>
+                    Recordá llegar 10 minutos antes del horario reservado para evitar inconvenientes.
+                </div>
             </div>
-            <div>
-                <div>
-                    <h2 style={{ color: `${config.customization.primary.text}` }}>Fecha: <span style={{ color: `${config.customization.primary.text}` }}>dd-mm-yyyy</span></h2>
-                    <h2 style={{ color: `${config.customization.primary.text}` }}>Hora: <span style={{ color: `${config.customization.primary.text}` }}>00:00 Hs.</span></h2>
-                </div>
-                <div>
-                    <h2 style={{ color: `${config.customization.primary.text}` }}>Recordá llegar 10 minutos antes del horario reservado para evitar inconvenientes.</h2>
-                </div>
-            </div> */}
         </div>
     )
 }
