@@ -25,12 +25,12 @@ const CreandoTurnos = () => {
     return (
         <div>
             <div className="containerStep">
-                {currentStep === 0 && (
+                {currentStep === 0 && <Step0 />}
+                {currentStep === 1 && (
                     <AppointmentProvider>
-                        <Step0 />
+                        <Step1 />
                     </AppointmentProvider>
                 )}
-                {currentStep === 1 && <Step1 />}
                 {currentStep === 2 && <Step2 />}
                 {currentStep === 3 && <Step3 />}
                 {currentStep === 4 && <Step4 />}

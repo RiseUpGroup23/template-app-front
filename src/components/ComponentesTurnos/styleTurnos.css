@@ -101,13 +101,13 @@
 
 .calendarContainer,
 .clockContainer {
-    /* background: #FFF; */
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.8);
     width: 25rem;
     height: 22rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 3rem;
 }
 
 .pickersContainer {
@@ -158,4 +158,138 @@
     color: lightgrey;
     cursor: default;
     pointer-events: none;
+}
+
+@media (max-width:1300px) {
+    .containerStep {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0px;
+    }
+
+    .appointTitle {
+        font-size: 1.7rem;
+        text-align: center;
+        width: 350px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        margin-left: 25px;
+    }
+
+    .pickersContainer,
+    .resumeContainer {
+        margin-top: 2rem;
+        flex-direction: column;
+        align-items: center;
+        transform: scale(0.8);
+        position: relative;
+        top: -5rem;
+        gap: 1rem;
+    }
+
+    .resumeText {
+        width: 100%;
+        text-align: center;
+    }
+
+    .resumeInfo {
+        width: 90%;
+    }
+
+    .resumeContainer {
+        margin-top: 5rem;
+    }
+
+    .resumeContainer {
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .resumeInfo {
+        padding: 2.5rem;
+    }
+
+    .appointBoxContainer {
+        margin: 3rem auto;
+    }
+
+    .formContainer form {
+        flex-direction: column;
+    }
+
+    .appointImgText {
+        padding: 0;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        flex-direction: column;
+    }
+
+    .step0Container .buttonContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 4rem;
+    }
+
+    .step0Container .title {
+        text-align: center;
+    }
+
+    .appointContainer {
+        margin-bottom: 0;
+    }
+
+    .appointBoxContainer {
+        margin: 1.5rem 0 5rem 0;
+    }
+
+    .step0Container .question {
+        margin: 2rem 0;
+    }
+
+    .step1 .question {
+        margin: 1rem 0 2rem !important;
+    }
+
+    .step0Container .question,
+    .step0Container .title {
+        font-size: 1.25rem;
+    }
+
+    .buttonContainer button {
+        transform: scale(0.85);
+    }
+
+    .step0Container .buttonContainer {
+        gap: 1rem;
+    }
+
+    .dniContainer {
+        margin: 0 1rem;
+    }
+
+    .pickersBox {
+        height: 40rem;
+    }
+
+    .success-page .appointBoxContainer {
+        margin-bottom: 0;
+    }
+
+    .success-page .appointBoxButtons {
+        flex-direction: column-reverse;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .appointBoxContainer.errorPage {
+        margin-bottom: 0;
+        height: 0;
+    }
+
+    .resumeContainer.errorPage {
+        flex-direction: column-reverse;
+    }
 }
