@@ -25,7 +25,11 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
             customization: {
                 ...prevConfig.customization,
                 primary: prevConfig.customization.secondary,
-                secondary: prevConfig.customization.primary
+                secondary: prevConfig.customization.primary,
+                logo: {
+                    primary: prevConfig.customization.logo.secondary,
+                    secondary: prevConfig.customization.logo.primary,
+                }
             }
         }));
     }
@@ -64,7 +68,6 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
                 }
             ],
             "imagePresentation": "https://s3-alpha-sig.figma.com/img/3ebf/c0e7/fdd4af1e2241a74ef7035d45a059b2f8?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=F2c4AX8OZ8EanbbpDtc0fY08vCITcA4EBFy80zfJVg-MxquQrERZzrvkzE7QEjBLKt5iD-dBOXXBlfw9odzjFgHQUFu811wA76REd5CLTMgh80JCaiCoOxZHEThsArTHUzuKXQshHSotecqc2~z1-vi3GtBTmsEUpXWftmxniFITK1slIhDWb2NqhRfML1emEV3ppf4HfrwAtU~QO7vQIaRJFWUixur0Ct7CbA5gRsx05aVugkqfXaV-mqyDKq3H7ka0jwLHpWJ4ajXX2N4BebLQuimgdu4~2guppnVeTeKZryZPITqjJKYmHT1rDsGyFN3Mw0Zgaqd-lGdRgMUr4A__",
-            "logoImage": "https://res.cloudinary.com/dakg9xzba/image/upload/v1715712218/qtvtt6swa7h8kmyl5ow0.png",
             "banners": {
                 "imageReservations": "https://res.cloudinary.com/dakg9xzba/image/upload/v1708442386/sumyjstqotfk7wsuegrv.png",
                 "imageNews": "https://res.cloudinary.com/dakg9xzba/image/upload/v1708442655/m7e16tvyafdgb0shmodz.png",
@@ -84,6 +87,10 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
                 "secondary": {
                     "color": "#E7E7E7",
                     "text": "#000"
+                },
+                "logo": {
+                    "primary": "https://res.cloudinary.com/dakg9xzba/image/upload/v1715712218/qtvtt6swa7h8kmyl5ow0.png",
+                    "secondary": "https://s3-alpha-sig.figma.com/img/0bb5/277a/0745cfadae6ec3cf56d173003a1c3140?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=eRAYKYJNPl8XrtOrhwKM4v~xlVKKHMjSqfDPIi21HEMunsexjVW~BA-lnlEFVMj-MiHlQm0wZOVQlI4H7amBQ-e2Bs-IHgWhmu~iMyDGFYopAuUKGi8u3IBQkMvvIqBfdYtumpJMhfAbqBThjVarpUjZl0W-8PWLLDWbiqE0vOcZcyd6LYWSzkHrTS0Tfw4eL3qE2oaaSi6MrwWtVngDlEQ4DCoPE1CI5Y1aQiBOCobAkV0ufPFlUc-aNye84Lae-1-Ti0pXNfQ2avLAPn3w7gQdee87OyTvCXFVQRGRWxGFcYGQ-8z9InASAUOPHT~ThJOSqkM~kOEcWLgwdqQRZQ__"
                 }
             }
         })
