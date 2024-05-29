@@ -7,6 +7,7 @@ interface ConfigContextProps {
     newConfig: ConfigFile | undefined;
     setNewConfig: React.Dispatch<React.SetStateAction<ConfigFile | undefined>>;
     invertColors: () => void;
+    fetchConfigFromDB: () => void;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -34,16 +35,9 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         }));
     }
 
-    const contextValue: ConfigContextProps = {
-        config,
-        setConfig,
-        newConfig,
-        setNewConfig,
-        invertColors
-    };
-
-    useEffect(() => {
-        setConfig({
+    const fetchConfigFromDB = () => {
+        //axios a la DB.. etc
+        const sampleDB = {
             "presentationText": "En nuestra peluquería, nos especializamos en ofrecer servicios de alta calidad que realzan la belleza natural de nuestros clientes. \n\n Nuestro talentoso equipo de estilistas está comprometido en crear looks personalizados que reflejen la individualidad y estilo único de cada persona.",
             "presentationTitle": "CADA **DETALLE** IMPORTA EN TU **IMAGEN**",
             "contact": {
@@ -91,9 +85,26 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
                 "logo": {
                     "primary": "https://res.cloudinary.com/dakg9xzba/image/upload/v1715712218/qtvtt6swa7h8kmyl5ow0.png",
                     "secondary": "https://s3-alpha-sig.figma.com/img/0bb5/277a/0745cfadae6ec3cf56d173003a1c3140?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=eRAYKYJNPl8XrtOrhwKM4v~xlVKKHMjSqfDPIi21HEMunsexjVW~BA-lnlEFVMj-MiHlQm0wZOVQlI4H7amBQ-e2Bs-IHgWhmu~iMyDGFYopAuUKGi8u3IBQkMvvIqBfdYtumpJMhfAbqBThjVarpUjZl0W-8PWLLDWbiqE0vOcZcyd6LYWSzkHrTS0Tfw4eL3qE2oaaSi6MrwWtVngDlEQ4DCoPE1CI5Y1aQiBOCobAkV0ufPFlUc-aNye84Lae-1-Ti0pXNfQ2avLAPn3w7gQdee87OyTvCXFVQRGRWxGFcYGQ-8z9InASAUOPHT~ThJOSqkM~kOEcWLgwdqQRZQ__"
-                }
+                },
+                "shopName": "El barberoloco"
             }
-        })
+        }
+        setConfig(sampleDB)
+        setNewConfig(sampleDB)
+
+    }
+
+    const contextValue: ConfigContextProps = {
+        config,
+        setConfig,
+        newConfig,
+        setNewConfig,
+        invertColors,
+        fetchConfigFromDB
+    };
+
+    useEffect(() => {
+        fetchConfigFromDB()
     }, [])
 
     return (

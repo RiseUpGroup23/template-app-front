@@ -45,5 +45,6 @@ export interface ConfigFile {
             primary: string;
             secondary: string;
         }
+        shopName: string;
     }
 }
