@@ -7,12 +7,12 @@ const data = [
 ];
 
 const Customization = () => {
-    const { config } = useConfig()
-    if (!config) return (<></>)
+    const { newConfig } = useConfig()
+    if (!newConfig) return (<></>)
 
     return (
         <div className="mainContainer">
-            <span className="initialTitle">¡Hola, <strong>{config.customization.shopName}!</strong></span>
+            <span className="initialTitle">¡Hola, <strong>{newConfig.customization.shopName}!</strong></span>
             <span className="proxApo">
                 Personalizar página
             </span>
@@ -34,6 +34,23 @@ const Customization = () => {
                     </div>
                 ))}
             </div>
+            <span className="proxApo">
+                Paleta de colores
+                <div className="blackLayout">
+                    <div className="colorsContainer">
+                        <span className="colorGroupName">Paleta principal</span>
+                        <div className="colorDemo" style={{ background: `${newConfig.customization.primary.color}` }}></div>
+                        <div className="colorDemo" style={{ background: `${newConfig.customization.primary.text}` }}></div>
+                        <img className="colorDemo" src={newConfig.customization.logo.primary} alt="logoPrimary" />
+                    </div>
+                    <div className="colorsContainer">
+                        <span className="colorGroupName">Paleta secundaria</span>
+                        <div className="colorDemo" style={{ background: `${newConfig.customization.secondary.color}` }}></div>
+                        <div className="colorDemo" style={{ background: `${newConfig.customization.secondary.text}` }}></div>
+                        <img className="colorDemo" src={newConfig.customization.logo.secondary} alt="logoSecondary" />
+                    </div>
+                </div>
+            </span>
         </div>
     )
 }

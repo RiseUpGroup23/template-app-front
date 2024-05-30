@@ -5,6 +5,7 @@ import { Route, Router, Routes } from "react-router-dom"
 import MainEditor from "./Sections/MainEditor"
 import { useConfig } from "../../context/AdminContext"
 import Customization from "./Sections/Customization"
+import Appointments from "./Sections/Appointments"
 
 const AdminModule = () => {
     const { config } = useConfig()
@@ -18,7 +19,8 @@ const AdminModule = () => {
                 </div>
                 <Routes>
                     <Route path="/" element={<MainEditor />} />
-                    <Route path="/personalizacion" element={<Customization/>} />
+                    <Route path="/personalizacion" element={<Customization />} />
+                    <Route path="/turnos" element={<Appointments />} />
                 </Routes>
             </div>
         </div>
