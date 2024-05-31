@@ -1,4 +1,68 @@
 .rowButtonAction:not(:last-child) {
     margin-right: 1rem;
+}
+
+.rowButtonAction {
     cursor: pointer;
+}
+
+#modal-modal-title {
+    font-size: 2rem;
+    font-family: "Inter";
+}
+
+.modalButtons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.backModal,
+.confirmModal,
+.cancelModal {
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+    font-size: 1.25rem;
+}
+
+.backModal svg {
+    width: 1rem;
+}
+
+.backModal svg path {
+    fill: rgba(0, 0, 0, 0.70);
+}
+
+.backModal {
+    background: #ECECEC;
+    height: 2.5rem;
+    padding: 0.5rem 1rem;
+}
+
+.confirmModal,
+.cancelModal {
+    padding: 0.5rem 3rem;
+    background: #C2E36D;
+    height: 3rem;
+}
+
+.cancelModal {
+    background: #de5858;
+    color: white;
+}
+
+.closeIcon {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    cursor: pointer;
+}
+
+.MuiBackdrop-root.MuiModal-backdrop {
+    background-color: rgba(255, 255, 255, 0.25) !important;
 }
