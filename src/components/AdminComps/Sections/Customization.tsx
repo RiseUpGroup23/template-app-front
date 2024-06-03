@@ -1,11 +1,8 @@
 import React from "react"
 import { useConfig } from "../../../context/AdminContext"
-import EditTextModal from "../Buttons/EditTextModal";
-
-const data = [
-    { title: 'Titulo 1', description: 'CADA **DETALLE** IMPORTA EN TU IMAGEN', action: 'Editar' },
-    { title: 'Titulo 2', description: 'En nuestra peluquería, nos especializamos en dar la mejor experiencia al cliente que nos elige garantizando su satisfaccion total en cada uno de nuestros servicios', action: 'Editar' }
-];
+import { renderImageRow, renderTextRow } from "../Rows/rows"
+import EditColorModal from "../Buttons/ColorModal"
+import ImageEditModal from "../Buttons/ImageEditModal"
 
 const Customization = () => {
     const { newConfig } = useConfig()
@@ -23,21 +20,11 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
-                {data.map((item, index) => (
-                    <div className="rowContainer" key={index}>
-                        {Object.values(item).map((value, index) => (
-                            <div className="rowItem" key={index} style={{ width: index === 0 ? '35%' : index === 1 ? '45%' : '20%' }}>
-                                {value !== "Editar" ? (
-                                    <span>{value}</span>
-                                ) : (
-                                    <div className="actionsContainer">
-                                        <EditTextModal initialTitle={item.description} />
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                ))}
+
+                {renderTextRow("Nombre de tienda", newConfig.customization.shopName, "customization.shopName")}
+                {renderTextRow("Titulo 1", newConfig.presentationTitle, "presentationTitle")}
+                {renderTextRow("Texto de presentación", newConfig.presentationText, "presentationText")}
+
             </div>
             <span className="proxApo">
                 Personalizar imágenes
@@ -48,36 +35,24 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
-                {data.map((item, index) => (
-                    <div className="rowContainer" key={index}>
-                        {Object.values(item).map((value, index) => (
-                            <div className="rowItem" key={index} style={{ width: index === 0 ? '35%' : index === 1 ? '45%' : '20%' }}>
-                                {value !== "Editar" ? (
-                                    <span>{value}</span>
-                                ) : (
-                                    <div className="actionsContainer">
-                                        <EditTextModal initialTitle={item.description} />
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                {renderImageRow("Fondo del inicio", newConfig.customization.background.backgroundImage, "customization.background.backgroundImage")}
+                {renderImageRow("Fondo para turnos", newConfig.customization.background.backgroundTurno, "customization.background.backgroundTurno")}
+                {renderImageRow("Imagen de presentación", newConfig.imagePresentation, "imagePresentation")}
             </div>
             <span className="proxApo">
                 Paleta de colores
                 <div className="blackLayout">
                     <div className="colorsContainer">
                         <span className="colorGroupName">Paleta principal</span>
-                        <div className="colorDemo" style={{ background: `${newConfig.customization.primary.color}` }}></div>
-                        <div className="colorDemo" style={{ background: `${newConfig.customization.primary.text}` }}></div>
-                        <img className="colorDemo" src={newConfig.customization.logo.primary} alt="logoPrimary" />
+                        <EditColorModal initialColor={newConfig.customization.primary.color} prop={"customization.primary.color"} />
+                        <EditColorModal initialColor={newConfig.customization.primary.text} prop={"customization.primary.text"} />
+                        <ImageEditModal initialImg={newConfig.customization.logo.primary} prop="customization.logo.primary" customTrigger={<img src={newConfig.customization.logo.primary} className="colorDemo" alt="logoPrimary" />} />
                     </div>
                     <div className="colorsContainer">
                         <span className="colorGroupName">Paleta secundaria</span>
-                        <div className="colorDemo" style={{ background: `${newConfig.customization.secondary.color}` }}></div>
-                        <div className="colorDemo" style={{ background: `${newConfig.customization.secondary.text}` }}></div>
-                        <img className="colorDemo" src={newConfig.customization.logo.secondary} alt="logoSecondary" />
+                        <EditColorModal initialColor={newConfig.customization.secondary.color} prop={"customization.secondary.color"} />
+                        <EditColorModal initialColor={newConfig.customization.secondary.text} prop={"customization.secondary.text"} />
+                        <ImageEditModal initialImg={newConfig.customization.logo.secondary} prop="customization.logo.secondary" customTrigger={<img src={newConfig.customization.logo.secondary} className="colorDemo" alt="logoSecondary" />} />
                     </div>
                 </div>
             </span>

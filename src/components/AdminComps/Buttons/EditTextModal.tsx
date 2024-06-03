@@ -5,10 +5,13 @@ import Modal from '@mui/material/Modal';
 import MDEditor, { commands } from "@uiw/react-md-editor";
 import { arrowIco } from '../Sections/MainEditor';
 import CloseIcon from '@mui/icons-material/Close';
+import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
+import { useConfig } from '../../../context/AdminContext';
 
 interface Props {
     initialTitle: string;
+    prop: string;
 }
 
 export const style = {
@@ -28,11 +31,22 @@ export const style = {
     borderRadius: "1rem"
 };
 
-const EditTextModal = ({ initialTitle }: Props) => {
+const EditTextModal = ({ initialTitle, prop }: Props) => {
     const [value, setValue] = React.useState(initialTitle);
     const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const { editProp } = useConfig()
+
+    const handleSave = () => {
+        setLoading(true)
+        setTimeout(() => {
+            editProp(prop, value)
+            setLoading(false)
+            setOpen(false)
+        }, 2000)
+    }
 
     return (
         <>
@@ -69,7 +83,9 @@ const EditTextModal = ({ initialTitle }: Props) => {
                     </div>
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className="confirmModal">Guardar</button>
+                        <button className="confirmModal" onClick={handleSave}>
+                            {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
+                        </button>
                     </div>
                 </Box>
             </Modal>

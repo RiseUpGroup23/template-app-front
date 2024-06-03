@@ -6,9 +6,11 @@ import MainEditor from "./Sections/MainEditor"
 import { useConfig } from "../../context/AdminContext"
 import Customization from "./Sections/Customization"
 import Appointments from "./Sections/Appointments"
+import Alert from '@mui/material/Alert';
+
 
 const AdminModule = () => {
-    const { config } = useConfig()
+    const { config, alert } = useConfig()
     if (!config) return (<></>)
     return (
         <div className="adminModule">
@@ -23,6 +25,9 @@ const AdminModule = () => {
                     <Route path="/turnos" element={<Appointments />} />
                 </Routes>
             </div>
+            {alert && alert.type !== "hidden" && <Alert className="alertBox" severity={alert.type}>
+                {alert.msg}
+            </Alert>}
         </div>
     )
 }
