@@ -3,6 +3,12 @@
     display: flex;
 }
 
+.alertBox {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+}
+
 .floatLogo {
     width: 7.125rem;
     height: 7.125rem;
@@ -106,6 +112,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
+}
+
+.rowContainer .rowItem img {
+    width: 75px;
+    object-fit: contain;
 }
 
 .rowContainer .rowItem:not(:last-child) {
@@ -247,6 +258,21 @@
     color: white;
 }
 
-.notThisMonth{
+.calendarDay span {
+    height: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.notThisMonth {
     opacity: 0.3;
+}
+
+.selected span {
+    background: #fff;
+    border-radius: 100%;
+    color: #000;
 }
