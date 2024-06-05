@@ -276,3 +276,77 @@
     border-radius: 100%;
     color: #000;
 }
+
+@media (max-width:1024px) {
+    .editorContainer {
+        width: 100vw;
+        margin: 0;
+    }
+
+    .drawerButton {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+    }
+
+    .drawerButton svg {
+        color: #fff;
+    }
+
+    .mainContainer {
+        margin-top: 1rem;
+        width: calc(100% - 2rem);
+    }
+
+    .initialTitle,
+    .proxApo {
+        font-size: 1.5rem;
+    }
+
+    .floatLogo {
+        display: none;
+    }
+
+    .MuiDrawer-paper,
+    .MuiList-padding {
+        width: 70vw !important;
+        background-color: #232323 !important;
+    }
+
+    .MuiList-padding {
+        width: 68vw !important;
+        margin-left: 1vw !important;
+    }
+
+    .menuItem {
+        padding: 0;
+    }
+
+    .menuItem span {
+        font-size: 1.5rem !important;
+    }
+
+    .itemSelected span {
+        font-weight: bold;
+    }
+
+    .colorsContainer {
+        gap: unset;
+        justify-content: space-around;
+    }
+
+    .rowItem span,
+    .colorGroupName {
+        font-size: 1rem !important;
+    }
+
+    .rowButtonAction svg {
+        width: 1.75rem;
+        height: 1.75rem;
+    }
+
+    .colorDemo {
+        width: 3rem;
+        height: 3rem;
+    }
+}
