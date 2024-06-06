@@ -211,6 +211,7 @@
     border-radius: 100%;
     object-fit: contain;
     cursor: pointer;
+    max-width: 4rem;
 }
 
 .colorGroupName {
@@ -348,5 +349,6 @@
     .colorDemo {
         width: 3rem;
         height: 3rem;
+        max-width: 3rem;
     }
 }
