@@ -6,13 +6,13 @@ import Admin from './views/Admin/Admin';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path='/reservar' element={<Turnos/>} />
-        <Route path='/admin/*' element={<Admin/>} />
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/reservar" element={<Turnos />} />
+          <Route path="/admin/*" element={<Admin />} />
+        </Routes>
+      </Router>
   );
 }
 

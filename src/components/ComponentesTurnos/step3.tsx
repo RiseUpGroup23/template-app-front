@@ -123,62 +123,56 @@ const Step3 = () => {
                     Seleccione la <span>fecha</span> y la <span>hora</span>
                 </div>
                 <div className="pickersContainer" style={{ color: 'white' }}>
-                    {loading ? (
-                        <div className="circularProg">{<CircularProgress size={50} sx={{ color: "black", marginTop: "50px" }} />}</div>
-                    ) : (
-                        <>
-                            <div className="calendarContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
-                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                    <DateCalendar
-                                        disablePast
-                                        value={date}
-                                        onChange={(newValue) => {
-                                            !loading && handleDate(newValue);
-                                        }}
-                                        minDate={dayjs().date(1)}
-                                        maxDate={dayjs().date(1).add(nextTwoMonths, 'month').subtract(1, 'day')}
-                                        views={["day"]}
-                                        dayOfWeekFormatter={(date) => {
-                                            return dayjs(date).subtract(1, "day").locale("es").format('ddd').toUpperCase().slice(0, -1);
-                                        }}
-                                        shouldDisableDate={(day) => {
-                                            const dayOfWeek = day.locale('en').format('dddd').toLowerCase();
-                                            const isBannedDay = availability.bans.includes(day.format('DD/MM/YYYY'));
-                                            return !availability[dayOfWeek].length || isBannedDay;
-                                        }}
-                                    />
-                                </LocalizationProvider>
-                            </div>
-                            <div className="clockContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
-                                <div className="clockTitle" style={{ color: `${config.customization.primary.text}` }}>Horarios disponibles</div>
-                                <div className="clockDivisor">
-                                    {clockLeft?.length ? (
-                                        <div className="clockLeft" style={{ gridTemplateRows: `repeat(${gridDimension},1fr)` }}>
-                                            {clockLeft?.map((elem, index) => (
-                                                <div key={`ch-l-${index}`} className={"clockHour" + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
-                                                    {elem}
-                                                </div>
-                                            ))}
+                    <div className="calendarContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateCalendar
+                                disablePast
+                                value={date}
+                                onChange={(newValue) => {
+                                    !loading && handleDate(newValue);
+                                }}
+                                minDate={dayjs().date(1)}
+                                maxDate={dayjs().date(1).add(nextTwoMonths, 'month').subtract(1, 'day')}
+                                views={["day"]}
+                                dayOfWeekFormatter={(date) => {
+                                    return dayjs(date).subtract(1, "day").locale("es").format('ddd').toUpperCase().slice(0, -1);
+                                }}
+                                shouldDisableDate={(day) => {
+                                    const dayOfWeek = day.locale('en').format('dddd').toLowerCase();
+                                    const isBannedDay = availability.bans.includes(day.format('DD/MM/YYYY'));
+                                    return !availability[dayOfWeek].length || isBannedDay;
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </div>
+                    <div className="clockContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
+                        <div className="clockTitle" style={{ color: `${config.customization.primary.text}` }}>Horarios disponibles</div>
+                        <div className="clockDivisor">
+                            {clockLeft?.length ? (
+                                <div className="clockLeft" style={{ gridTemplateRows: `repeat(${gridDimension},1fr)` }}>
+                                    {clockLeft?.map((elem, index) => (
+                                        <div key={`ch-l-${index}`} className={"clockHour" + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
+                                            {elem}
                                         </div>
-                                    ) : (
-                                        <></>
-                                    )}
-                                    {clockLeft?.length && clockRight?.length ? <Divider orientation="vertical" flexItem /> : <></>}
-                                    {clockRight?.length ? (
-                                        <div className="clockRight" style={{ gridTemplateRows: `repeat(${gridDimension},1fr)` }}>
-                                            {clockRight?.map((elem, index) => (
-                                                <div key={`ch-r-${index}`} className={"clockHour" + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
-                                                    {elem}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <></>
-                                    )}
+                                    ))}
                                 </div>
-                            </div>
-                        </>
-                    )}
+                            ) : (
+                                <></>
+                            )}
+                            {clockLeft?.length && clockRight?.length ? <Divider orientation="vertical" flexItem /> : <></>}
+                            {clockRight?.length ? (
+                                <div className="clockRight" style={{ gridTemplateRows: `repeat(${gridDimension},1fr)` }}>
+                                    {clockRight?.map((elem, index) => (
+                                        <div key={`ch-r-${index}`} className={"clockHour" + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
+                                            {elem}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <></>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         )
@@ -186,3 +180,9 @@ const Step3 = () => {
 }
 
 export default Step3;
+
+
+// {loading ? (
+//     <div className="circularProg">{<CircularProgress size={50} sx={{ color: "black", marginTop: "50px" }} />}</div>
+// ) : (
+// )}
