@@ -102,7 +102,7 @@ const Appointments = () => {
                 <div className="calendarBox">
                     <div className="proxApoHeader rowContainer">
                         {diasSemana.map((dia) => (
-                            <div className="rowItem" style={{ width: `calc(100% / ${diasSemana.length})` }}>{dia}</div>
+                            <div key={dia} className="rowItem" style={{ width: `calc(100% / ${diasSemana.length})` }}>{dia}</div>
                         ))}
                     </div>
                     <div className="AdminCalendarContainer">

@@ -1,8 +1,10 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { ConfigFile } from '../typings/ConfigFile';
 import axios from 'axios';
+import { TypeOfService } from '../typings/TypeOfServices';
+import { Professional } from '../typings/Professional';
 
-const dbUrl = "https://template-peluquerias-back.vercel.app/"
+const dbUrl = "https://template-peluquerias-back.vercel.app"
 
 interface ConfigContextProps {
     config: ConfigFile | undefined;
@@ -15,6 +17,12 @@ interface ConfigContextProps {
     editProp: any;
     alert: any;
     setAlert: React.Dispatch<React.SetStateAction<any>>;
+    services: TypeOfService[] | undefined;
+    setServices: React.Dispatch<React.SetStateAction<TypeOfService[] | undefined>>;
+    professionals: Professional[] | undefined;
+    setProfessionals: React.Dispatch<React.SetStateAction<Professional[] | undefined>>;
+    fetchProfessionals: () => void;
+    fetchServices: () => void;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -26,6 +34,8 @@ interface ConfigProviderProps {
 export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
     const [config, setConfig] = useState<ConfigFile>();
     const [newConfig, setNewConfig] = useState<ConfigFile>();
+    const [services, setServices] = useState<TypeOfService[]>();
+    const [professionals, setProfessionals] = useState<Professional[]>();
     const [alert, setAlert] = useState({
         type: "hidden",
         msg: ""
@@ -58,7 +68,19 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         axios.put(dbUrl, newData)
     }
 
+    const fetchProfessionals = async () => {
+        const dbData = await axios(`${dbUrl}/professionals`).then((res) => res.data)
+        if (dbData) {
+            setProfessionals(dbData)
+        }
+    }
 
+    const fetchServices = async () => {
+        const dbData = await axios(`${dbUrl}/typesOfServices`).then((res) => res.data)
+        if (dbData) {
+            setServices(dbData)
+        }
+    }
 
     function editProp(nombreProp: string, valor: any): any {
         const nuevoEstado = { ...newConfig };
@@ -77,9 +99,9 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         objeto[ultimaPropiedad] = valor;
 
         setNewConfig(nuevoEstado as ConfigFile)
-        updateConfigToDB(nuevoEstado as ConfigFile).then(()=>{
+        updateConfigToDB(nuevoEstado as ConfigFile).then(() => {
             setAlert({ type: "success", msg: "Configuración actualizada con éxito" })
-        }).catch(()=>{
+        }).catch(() => {
             setAlert({ type: "error", msg: "Hubo un error al guardar, intentelo de nuevo más tarde" })
         })
 
@@ -96,7 +118,13 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         updateConfigToDB,
         editProp,
         alert,
-        setAlert
+        setAlert,
+        services,
+        setServices,
+        professionals,
+        setProfessionals,
+        fetchProfessionals,
+        fetchServices
     };
 
     useEffect(() => {

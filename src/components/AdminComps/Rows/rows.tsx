@@ -37,3 +37,21 @@ export function renderImageRow(label: string, valor: string, prop: string): JSX.
         </div>
     );
 }
+
+export function renderServiceRow(label: string, valor: string): JSX.Element {
+    return (
+        <div className="rowContainer">
+            <div className="rowItem" style={{ width: '35%' }}>
+                <span>{label}</span>
+            </div>
+            <div className="rowItem" style={{ width: '45%' }}>
+                <img src={valor} alt={label} />
+            </div>
+            <div className="rowItem" style={{ width: '20%' }}>
+                <div className="actionsContainer">
+                    <button>Edit</button>
+                </div>
+            </div>
+        </div>
+    );
+}
