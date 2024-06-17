@@ -2,53 +2,51 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import MDEditor, { commands } from "@uiw/react-md-editor";
 import { arrowIco } from '../Sections/MainEditor';
 import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
 import { useConfig } from '../../../context/AdminContext';
+import { style } from "./EditTextModal"
+import { TypeOfService } from '../../../typings/TypeOfServices';
+import { TextField } from '@mui/material';
 
 interface Props {
-    initialTitle: string;
-    prop: string;
-    noMD?: boolean;
+    service: TypeOfService;
+    index: number;
 }
 
-export const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "80vw",
-    maxWidth: "600px",
-    bgcolor: '#2E2E2E;',
-    color: "#fff",
-    boxShadow: 24,
-    p: 4,
-    display: "flex",
-    flexDirection: "column",
-    gap: "2rem",
-    alignItems: "center",
-    borderRadius: "1rem"
-};
-
-const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
-    const [value, setValue] = React.useState(initialTitle);
+const ServiceModal = ({ service }: Props) => {
+    const [srvc, setSrvc] = React.useState(service)
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
+    const [src, setSrc] = React.useState(service.image)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const { editProp } = useConfig()
+    const { editService } = useConfig()
 
     const handleSave = () => {
         setLoading(true)
-        setTimeout(() => {
-            editProp(prop, value)
+        editService(service._id, srvc).then(()=>{
             setLoading(false)
             setOpen(false)
-        }, 2000)
+        })
     }
+
+    const handleDrag = (event: React.DragEvent<HTMLLabelElement>) => {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setSelectedImage(file);
+            const imageUrl = URL.createObjectURL(file);
+            setSrc(imageUrl);
+        }
+    };
 
     return (
         <>
@@ -72,17 +70,49 @@ const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
                 <Box sx={style}>
                     <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Editar título
+                        Editar servicio
                     </Typography>
-                    <div data-color-mode="light" style={{ width: "100%" }}>
-                        <MDEditor
-                            height={200}
-                            value={value}
-                            onChange={(text) => setValue(text ?? "")}
-                            commands={noMD ? [] : [commands.bold, commands.italic, commands.strikethrough]}
-                            extraCommands={[]}
-                        />
+
+                    <div className="textInModal">
+                        <span>Nombre: </span>
+                        <input type='text' value={srvc.name} onChange={(e) => setSrvc((prev) => ({ ...prev, name: e.target.value }))} />
                     </div>
+
+                    <div className="textInModal">
+                        <span>Duracion: </span>
+                        <input type='text' value={srvc.duration} onChange={(e) => setSrvc((prev) => ({ ...prev, duration: Number(e.target.value) || e.target.value === "" ? Number(e.target.value) : prev.duration }))} />
+                    </div>
+
+                    <div className="textInModal">
+                        <span>Precio: </span>
+                        <input type='text' value={srvc.price} onChange={(e) => setSrvc((prev) => ({ ...prev, price: Number(e.target.value) || e.target.value === "" ? Number(e.target.value) : prev.price }))} />
+                    </div>
+
+                    <div className='dragContainer'>
+                        <img className='editBoxImage' src={src as string} alt="editImagePreview" />
+                        <label
+                            htmlFor="images"
+                            className="drop-container"
+                            id="dropcontainer"
+                            onDragOver={handleDrag}
+                            onDragEnter={handleDrag}
+                            onDragLeave={handleDrag}
+                            onDrop={(event) => {
+                                handleDrag(event)
+                                const file = event.dataTransfer.files[0];
+                                if (file) {
+                                    setSelectedImage(file);
+                                    const imageUrl = URL.createObjectURL(file);
+                                    setSrc(imageUrl);
+                                }
+                            }}
+                        >
+                            <span className="drop-title">Arrastrar un archivo aquí</span>
+                            o
+                            <input type="file" id="images" accept="image/*" required onChange={handleImageChange} />
+                        </label>
+                    </div>
+
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
                         <button className="confirmModal" onClick={handleSave}>
@@ -95,4 +125,4 @@ const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
     )
 }
 
-export default EditTextModal
+export default ServiceModal

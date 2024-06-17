@@ -16,6 +16,14 @@ const items = [
     {
         title: "Turnos",
         url: "/admin/turnos"
+    },
+    {
+        title: "Profesionales",
+        url: "/admin/profesionales"
+    },
+    {
+        title: "Servicios",
+        url: "/admin/servicios"
     }
 ]
 
@@ -37,7 +45,7 @@ const Menu = () => {
         !isMobile ?
             <div className="menuContainer">
                 {items.map((item, index) =>
-                    <Link to={item.url}>
+                    <Link to={item.url} key={index}>
                         <div className={`menuItem ${selected === index ? "itemSelected" : ""}`}>
                             {item.title}
                         </div>
@@ -47,11 +55,11 @@ const Menu = () => {
             :
             <div className="drawerButton">
                 <button onClick={toggleDrawer(true)}><MenuIcon /></button>
-                <Drawer open={open} onClose={toggleDrawer(false)}>
+                <Drawer className="adminDrawer" open={open} onClose={toggleDrawer(false)}>
                     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
                         <List>
                             {items.map(({ title, url }, index) => (
-                                <Link to={url}>
+                                <Link to={url} key={url}>
                                     <ListItem className={`menuItem ${selected === index ? "itemSelected" : ""}`} key={title} disablePadding>
                                         <ListItemButton>
                                             <ListItemText primary={title} />
