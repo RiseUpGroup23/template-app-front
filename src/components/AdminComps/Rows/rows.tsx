@@ -1,8 +1,10 @@
 import React from "react";
 import EditTextModal from "../Buttons/EditTextModal";
 import ImageEditModal from "../Buttons/ImageEditModal";
+import ServiceModal from "../Buttons/ServiceModal";
+import { TypeOfService } from "../../../typings/TypeOfServices";
 
-export function renderTextRow(label: string, valor: string, prop: string): JSX.Element {
+export function renderTextRow(label: string, valor: string, prop: string, noMD?: boolean): JSX.Element {
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
@@ -13,7 +15,7 @@ export function renderTextRow(label: string, valor: string, prop: string): JSX.E
             </div>
             <div className="rowItem" style={{ width: '20%' }}>
                 <div className="actionsContainer">
-                    <EditTextModal initialTitle={valor} prop={prop} />
+                    <EditTextModal initialTitle={valor} prop={prop} noMD={noMD || false} />
                 </div>
             </div>
         </div>
@@ -38,7 +40,7 @@ export function renderImageRow(label: string, valor: string, prop: string): JSX.
     );
 }
 
-export function renderServiceRow(label: string, valor: string): JSX.Element {
+export function renderServiceRow(label: string, valor: string, service: TypeOfService, index: number): JSX.Element {
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
@@ -49,7 +51,7 @@ export function renderServiceRow(label: string, valor: string): JSX.Element {
             </div>
             <div className="rowItem" style={{ width: '20%' }}>
                 <div className="actionsContainer">
-                    <button>Edit</button>
+                    <ServiceModal service={service} index={index} />
                 </div>
             </div>
         </div>

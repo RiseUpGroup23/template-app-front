@@ -38,7 +38,7 @@ const DeleteModal = () => {
                 <Box sx={style}>
                     <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        ¿Deseas eliminar el turno?
+                        ¿Deseas cancelar el turno?
                     </Typography>
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>

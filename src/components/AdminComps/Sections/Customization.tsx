@@ -21,7 +21,6 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
 
-                {renderTextRow("Nombre de tienda", newConfig.customization.shopName, "customization.shopName")}
                 {renderTextRow("Titulo 1", newConfig.presentationTitle, "presentationTitle")}
                 {renderTextRow("Texto de presentación", newConfig.presentationText, "presentationText")}
 
@@ -38,6 +37,26 @@ const Customization = () => {
                 {renderImageRow("Fondo del inicio", newConfig.customization.background.backgroundImage, "customization.background.backgroundImage")}
                 {renderImageRow("Fondo para turnos", newConfig.customization.background.backgroundTurno, "customization.background.backgroundTurno")}
                 {renderImageRow("Imagen de presentación", newConfig.imagePresentation, "imagePresentation")}
+            </div>
+            <span className="proxApo">
+                Información del negocio
+            </span>
+            <div className="blackLayout">
+                <div className="proxApoHeader rowContainer">
+                    <div className="rowItem" style={{ width: "35%" }}><span>Textos</span></div>
+                    <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
+                    <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
+                </div>
+
+                {renderTextRow("Nombre", newConfig.customization.shopName, "customization.shopName", true)}
+                {renderTextRow("Dirección", newConfig.contact.address, "contact.address", true)}
+                {renderTextRow("Ciudad", newConfig.contact.city, "contact.city", true)}
+                {renderTextRow("Provincia", newConfig.contact.state, "contact.state", true)}
+                {renderTextRow("Número de contacto", newConfig.contact.phone, "contact.phone", true)}
+                {renderTextRow("Correo", newConfig.contact.email, "contact.email", true)}
+                {renderTextRow("Facebook", newConfig.contact.facebook, "contact.facebook", true)}
+                {renderTextRow("Instagram", newConfig.contact.instagram, "contact.instagram", true)}
+
             </div>
             <span className="proxApo">
                 Paleta de colores

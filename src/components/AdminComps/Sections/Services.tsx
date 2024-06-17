@@ -29,7 +29,7 @@ const Services = () => {
                     <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
-                {services?.map(({ name, image }) => renderServiceRow(name, image))}
+                {services?.map((service, index) => renderServiceRow(service.name, service.image, service, index))}
             </div>
         </div>
     )

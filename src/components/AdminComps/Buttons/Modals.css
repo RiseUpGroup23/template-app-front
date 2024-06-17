@@ -77,8 +77,8 @@
 }
 
 .editBoxImage {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     object-fit: contain;
     margin-bottom: 1rem;
 }
@@ -131,4 +131,26 @@ input[type=file]::file-selector-button {
 
 input[type=file]::file-selector-button:hover {
     background: rgba(123, 154, 46, 0.74)
+}
+
+.textInModal{
+    display: flex;
+    gap: 1rem;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.textInModal span{
+    font-size: 1.5rem;
+}
+
+.textInModal input{
+    border-radius: 0;
+    background-color: #555;
+    color: white;
+    box-shadow: none;
+    font-family: "Inter";
+    padding-left: .5rem;
+    border-color: transparent;
+    font-weight: bold;
 }

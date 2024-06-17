@@ -1,4 +1,5 @@
 export interface TypeOfService {
+    _id: string;
     name: string;
     duration: number;
     image: string;

@@ -23,6 +23,7 @@ interface ConfigContextProps {
     setProfessionals: React.Dispatch<React.SetStateAction<Professional[] | undefined>>;
     fetchProfessionals: () => void;
     fetchServices: () => void;
+    editService: any;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -108,6 +109,15 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         return nuevoEstado;
     }
 
+    async function editService(id: string, newValue: TypeOfService) {
+        await axios.put(`${dbUrl}/typesOfServices/${id}`, newValue).then(() => {
+            setAlert({ type: "success", msg: "Configuración actualizada con éxito" })
+            fetchServices()
+        }).catch(() => {
+            setAlert({ type: "error", msg: "Hubo un error al guardar, intentelo de nuevo más tarde" })
+        })
+    }
+
     const contextValue: ConfigContextProps = {
         config,
         setConfig,
@@ -124,7 +134,8 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         professionals,
         setProfessionals,
         fetchProfessionals,
-        fetchServices
+        fetchServices,
+        editService
     };
 
     useEffect(() => {
