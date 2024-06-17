@@ -119,7 +119,7 @@ const Step3 = () => {
         availability && (
             <div className="pickersBox">
                 {style()}
-                <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>
+                <div className="appointTitle2" style={{ color: `${config.customization.primary.text}` }}>
                     Seleccione la <span>fecha</span> y la <span>hora</span>
                 </div>
                 <div className="pickersContainer" style={{ color: 'white' }}>
