@@ -30,7 +30,9 @@ export const style = {
     flexDirection: "column",
     gap: "2rem",
     alignItems: "center",
-    borderRadius: "1rem"
+    borderRadius: "1rem",
+    maxHeight: "80vh",
+    overflow: "scroll"
 };
 
 const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
