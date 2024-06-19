@@ -31,7 +31,7 @@ export const style = {
     gap: "2rem",
     alignItems: "center",
     borderRadius: "1rem",
-    maxHeight: "80vh",
+    maxHeight: "95dvh",
     overflow: "scroll"
 };
 
