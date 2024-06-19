@@ -20,7 +20,7 @@ export const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: "80vw",
+    width: "75vw",
     maxWidth: "600px",
     bgcolor: '#2E2E2E;',
     color: "#fff",
@@ -30,9 +30,7 @@ export const style = {
     flexDirection: "column",
     gap: "2rem",
     alignItems: "center",
-    borderRadius: "1rem",
-    maxHeight: "95dvh",
-    overflow: "scroll"
+    borderRadius: "1rem"
 };
 
 const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
