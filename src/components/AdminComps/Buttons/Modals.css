@@ -133,18 +133,18 @@ input[type=file]::file-selector-button:hover {
     background: rgba(123, 154, 46, 0.74)
 }
 
-.textInModal{
+.textInModal {
     display: flex;
     gap: 1rem;
     width: 70%;
     justify-content: space-between;
 }
 
-.textInModal span{
+.textInModal span {
     font-size: 1.5rem;
 }
 
-.textInModal input{
+.textInModal input {
     border-radius: 0;
     background-color: #555;
     color: white;
@@ -153,4 +153,10 @@ input[type=file]::file-selector-button:hover {
     padding-left: .5rem;
     border-color: transparent;
     font-weight: bold;
+}
+
+@media (max-width:1024px) {
+    .textInModal {
+        width: 95%;
+    }
 }

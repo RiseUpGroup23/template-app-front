@@ -4,10 +4,10 @@ import { useMediaQuery } from "@mui/material";
 import DeleteModal from "../Buttons/DeleteModal";
 
 let data = [
-    { name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
-    { name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
-    { name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
-    { name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
+    { _id: "sa239", name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
+    { _id: "sa239", name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
+    { _id: "sa239", name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
+    { _id: "sa239", name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
 ];
 
 const meses = [
@@ -50,7 +50,7 @@ function renderizarCalendario(mes: number, diaSeleccionado: number | null, onDia
                 const selectedDate = new Date(año, mes - 1, i);
                 setDate(selectedDate);
             }}>
-                <span>{i}</span>
+                <span>{i} <p className="info">99 turnos</p></span>
             </div>
         );
     }
@@ -73,7 +73,7 @@ function renderizarCalendario(mes: number, diaSeleccionado: number | null, onDia
 
 
 const Appointments = () => {
-    const { newConfig } = useConfig()
+    const { newConfig, cancelAppointment } = useConfig()
     const [actualMonth, setActualMonth] = useState(new Date().getMonth())
     const [selected, setSelected] = useState(new Date().getDate())
     const [date, setDate] = useState(new Date())
@@ -127,7 +127,8 @@ const Appointments = () => {
             {selected !== 0 &&
                 <>
                     <span className="proxApo">
-                        {diasSemana[date.getDay() - 1]} - {date.toLocaleDateString()}
+                        {diasSemana[date.getDay() - 1]} - {date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })
+                    }
                     </span>
                     <div className="apoCards">
                         {data.map((apo) => (
@@ -141,7 +142,7 @@ const Appointments = () => {
                                     </span>
                                 </div>
                                 <div className="apoCardEdit">
-                                    <DeleteModal />
+                                    <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(apo._id)} />
                                 </div>
                             </div>
                         ))}

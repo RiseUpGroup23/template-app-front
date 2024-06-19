@@ -24,6 +24,7 @@ interface ConfigContextProps {
     fetchProfessionals: () => void;
     fetchServices: () => void;
     editService: any;
+    cancelAppointment: any;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -74,6 +75,10 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         if (dbData) {
             setProfessionals(dbData)
         }
+    }
+
+    const cancelAppointment = async (id: string) => {
+        console.log("cancelar turno");
     }
 
     const fetchServices = async () => {
@@ -135,7 +140,8 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         setProfessionals,
         fetchProfessionals,
         fetchServices,
-        editService
+        editService,
+        cancelAppointment
     };
 
     useEffect(() => {

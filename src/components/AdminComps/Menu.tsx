@@ -2,7 +2,10 @@ import { Box, Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuer
 import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import "./AdminModules.css"
+import DeleteModal from "./Buttons/DeleteModal";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const items = [
     {
@@ -32,6 +35,7 @@ const Menu = () => {
     const [selected, setSelected] = useState(items.findIndex(item => item.url.includes(window.location.pathname)))
     const location = useLocation();
     const [open, setOpen] = React.useState(false);
+    const { logout } = useAuth0()
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -51,7 +55,19 @@ const Menu = () => {
                         </div>
                     </Link>
                 )}
-            </div>
+                <DeleteModal
+                    customTrigger={
+                        <div className="logoutButton">
+
+                            <span className="logoutText">
+                                Cerrar sesión
+                            </span>
+                            <LogoutIcon />
+                        </div>}
+                    message="¿Desea cerrar la sesión?"
+                    action={logout}
+                />
+            </div >
             :
             <div className="drawerButton">
                 <button onClick={toggleDrawer(true)}><MenuIcon /></button>
@@ -68,6 +84,13 @@ const Menu = () => {
                                 </Link>
                             ))}
                         </List>
+
+                        <div className="logoutButton" onClick={() => logout()}>
+                            <span className="logoutText">
+                                Cerrar sesión
+                            </span>
+                            <LogoutIcon />
+                        </div>
                     </Box>
                 </Drawer>
             </div>

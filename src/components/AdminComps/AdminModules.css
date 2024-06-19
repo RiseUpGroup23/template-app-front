@@ -32,6 +32,18 @@
     position: fixed;
 }
 
+.logoutButton {
+    color: white;
+    position: fixed;
+    bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .menuItem {
     color: white;
     font-size: min(2rem, 2vw);
@@ -196,6 +208,17 @@
 
 .actionsContainer {
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.switchColorMode{
+    display: flex;
+    justify-content: space-between;
+}
+
+.switchOptions{
+    font-size: .75rem;
 }
 
 .colorsContainer {
@@ -267,6 +290,17 @@
     color: white;
 }
 
+.calendarDay .info {
+    color: #FFFFFF80;
+    font-size: .75rem;
+    margin: 0;
+    margin-top: .25rem;
+}
+
+.calendarDay.selected .info {
+    color: #000;
+}
+
 .calendarDay span {
     height: 100%;
     aspect-ratio: 1;
@@ -274,6 +308,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    flex-direction: column;
 }
 
 .notThisMonth {
@@ -313,12 +348,12 @@
     gap: .25rem;
 }
 
-.apoCardEdit svg{
+.apoCardEdit svg {
     width: 1.5rem;
     height: 1.5rem;
 }
 
-.rowButtonAction{
+.rowButtonAction {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -365,6 +400,12 @@
         margin-left: 1vw !important;
     }
 
+    .logoutButton {
+        font-size: 1.5rem;
+        left: 1rem;
+        align-items: flex-end;
+    }
+
     .menuItem {
         padding: 0;
     }
@@ -405,6 +446,10 @@
 
     .calendarDay {
         aspect-ratio: 1;
+    }
+
+    .calendarDay .info {
+        display: none;
     }
 
     .monthsSelector {
