@@ -31,8 +31,8 @@ export const style = {
     gap: "2rem",
     alignItems: "center",
     borderRadius: "1rem",
-    maxHeight: "80vh";
-    overflow: "scroll";
+    maxHeight: "80vh",
+    overflow: "scroll"
 };
 
 const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
