@@ -1,8 +1,15 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useConfig } from "../../../context/AdminContext"
+import { renderProfessionalRow } from "../Rows/rows"
 
 const Professionals = () => {
-    const { newConfig } = useConfig()
+    const { newConfig, professionals, fetchProfessionals } = useConfig()
+
+    useEffect(() => {
+        fetchProfessionals()
+        //eslint-disable-next-line
+    }, [])
+
     if (!newConfig) return (<></>)
 
     return (
@@ -17,7 +24,7 @@ const Professionals = () => {
                     <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
-
+                {professionals?.map((prof) => renderProfessionalRow(prof))}
             </div>
         </div>
     )
