@@ -62,7 +62,7 @@ export function renderServiceRow(label: string, valor: string, service: TypeOfSe
 
 export function renderProfessionalRow(professional: Professional): JSX.Element {
     return (
-        <div className="rowContainer">
+        <div className="rowContainer" key={professional._id}>
             <div className="rowItem" style={{ width: '35%' }}>
                 <span>{professional.name} {professional.lastname}</span>
             </div>

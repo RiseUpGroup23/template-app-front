@@ -212,9 +212,11 @@
     justify-content: center;
 }
 
-.switchColorMode{
+.switchColorMode,
+.headerWithButton{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .switchOptions{
@@ -359,6 +361,17 @@
     justify-content: center;
 }
 
+.newProfButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #C2E36D;
+    border-radius: 1rem;
+    color: #000;
+    gap: .5vw;
+    padding: .5rem 1rem;
+}
+
 @media (max-width:1024px) {
     .editorContainer {
         width: 100vw;
@@ -472,5 +485,9 @@
 
     .apoCard {
         width: 85%;
+    }
+
+    .newProfButton{
+        font-size: .875rem;
     }
 }

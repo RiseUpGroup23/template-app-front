@@ -52,6 +52,12 @@
     height: 3rem;
 }
 
+.buttonDisabled{
+    background: #838383;
+    color: lightgray;
+    pointer-events: none;
+}
+
 .cancelModal {
     background: #de5858;
     color: white;
@@ -154,6 +160,12 @@ input[type=file]::file-selector-button:hover {
     border-color: transparent;
     font-weight: bold;
 }
+
+.MuiBox-root {
+    scrollbar-width: 1rem; 
+    scrollbar-color: #C2E36D transparent; 
+}
+
 
 @media (max-width:1024px) {
     .textInModal {

@@ -1,6 +1,9 @@
 import React, { useEffect } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { renderProfessionalRow } from "../Rows/rows"
+import AddIcon from '@mui/icons-material/Add';
+import ProfessionalModal from "../Buttons/ProfessionalModal";
+import { Professional } from "../../../typings/Professional";
 
 const Professionals = () => {
     const { newConfig, professionals, fetchProfessionals } = useConfig()
@@ -16,7 +19,15 @@ const Professionals = () => {
         <div className="mainContainer">
             <span className="initialTitle">¡Hola, <strong>{newConfig.customization.shopName}!</strong></span>
             <span className="proxApo">
-                Editar profesionales
+                <div className="headerWithButton">
+                    <span>Editar profesionales</span>
+                    <ProfessionalModal professional={{} as Professional} customTrigger={
+                        <button className="newProfButton">
+                            <AddIcon />
+                            Agregar
+                        </button>
+                    } />
+                </div>
             </span>
             <div className="blackLayout">
                 <div className="proxApoHeader rowContainer">
