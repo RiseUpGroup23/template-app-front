@@ -58,6 +58,7 @@
 .imagenHome img {
     width: 50vw;
     object-fit: contain;
+    max-width: 500px;
 }
 
 .blackInfo {

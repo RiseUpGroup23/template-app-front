@@ -7,6 +7,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { style } from "./EditTextModal"
 import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
+import uploadImage from '../utils/uploadImage';
+import { useConfig } from '../../../context/AdminContext';
 
 interface Props {
     initialImg: string;
@@ -19,9 +21,13 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
     const [loading, setLoading] = useState(false)
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [src, setSrc] = useState(initialImg)
+    const { editProp, setAlert } = useConfig()
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setLoading(false)
+        setOpen(false)
+    };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -37,28 +43,18 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
         event.stopPropagation();
     }
 
-    const handleUploadImage = async () => {
-        if (selectedImage) {
-            try {
-                setLoading(true)
-                const formData = new FormData();
-                formData.append('photo', selectedImage);
-
-                const response = await fetch(`/images`, {
-                    method: 'POST',
-                    body: formData,
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Error en la solicitud POST: ${response.statusText}`);
-                }
-
-                const data = await response.json();
-            } catch (error) {
-                console.error(error);
-            }
-        } else {
-            console.warn('Selecciona una imagen antes de subirla.');
+    const handleSave = async () => {
+        if (!selectedImage) {
+            return handleClose()
+        }
+        setLoading(true)
+        try {
+            const imageUrl = await uploadImage(selectedImage)
+            await editProp(prop, imageUrl)
+            handleClose()
+        } catch (error) {
+            console.log("Error al guardar imagen", error);
+            handleClose()
         }
     };
 
@@ -118,7 +114,7 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
                     </div>
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className="confirmModal">
+                        <button className="confirmModal" onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>
                     </div>

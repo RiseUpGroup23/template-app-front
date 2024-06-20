@@ -8,6 +8,7 @@ interface Availability {
 }
 
 export interface Professional {
+    _id: string;
     name: string;
     lastname: string;
     email: string;
