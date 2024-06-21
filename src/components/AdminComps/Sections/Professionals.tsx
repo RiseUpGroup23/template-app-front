@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useConfig } from "../../../context/AdminContext"
-import { renderProfessionalRow } from "../Rows/rows"
+import { RenderProfessionalRow } from "../Rows/rows"
 import AddIcon from '@mui/icons-material/Add';
 import ProfessionalModal from "../Buttons/ProfessionalModal";
 import { Professional } from "../../../typings/Professional";
@@ -32,10 +32,10 @@ const Professionals = () => {
             <div className="blackLayout">
                 <div className="proxApoHeader rowContainer">
                     <div className="rowItem" style={{ width: "35%" }}><span>Nombre</span></div>
-                    <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
-                    <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
+                    <div className="rowItem" style={{ width: "40%" }}><span>Vista Previa</span></div>
+                    <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
                 </div>
-                {professionals?.map((prof) => renderProfessionalRow(prof))}
+                {professionals?.map((prof) => RenderProfessionalRow(prof))}
             </div>
         </div>
     )

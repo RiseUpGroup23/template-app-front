@@ -108,6 +108,10 @@
     display: flex;
 }
 
+.blackLayout .rowContainer:last-child {
+    padding-bottom: 1rem;
+}
+
 .rowContainer .rowItem {
     color: white;
     display: flex;
@@ -124,6 +128,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
+    max-width: 800px;
 }
 
 .rowContainer .rowItem img {
@@ -210,16 +215,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 1rem;
 }
 
 .switchColorMode,
-.headerWithButton{
+.headerWithButton {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.switchOptions{
+.switchOptions {
     font-size: .75rem;
 }
 
@@ -361,7 +367,7 @@
     justify-content: center;
 }
 
-.newProfButton{
+.newProfButton {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -441,6 +447,10 @@
         font-size: 1rem !important;
     }
 
+    .rowContainer .rowItem span {
+        max-width: 100px;
+    }
+
     .rowButtonAction svg {
         width: 1.75rem;
         height: 1.75rem;
@@ -487,7 +497,11 @@
         width: 85%;
     }
 
-    .newProfButton{
+    .newProfButton {
         font-size: .875rem;
+    }
+
+    .actionsContainer {
+        gap: .5rem;
     }
 }
