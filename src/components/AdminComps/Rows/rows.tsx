@@ -5,8 +5,11 @@ import ServiceModal from "../Buttons/ServiceModal";
 import { TypeOfService } from "../../../typings/TypeOfServices";
 import ProfessionalModal from "../Buttons/ProfessionalModal";
 import { Professional } from "../../../typings/Professional";
+import DeleteModal from "../Buttons/DeleteModal";
+import { useConfig } from "../../../context/AdminContext";
+import axios from "axios";
 
-export function renderTextRow(label: string, valor: string, prop: string, noMD?: boolean): JSX.Element {
+export function RenderTextRow(label: string, valor: string, prop: string, noMD?: boolean): JSX.Element {
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
@@ -24,7 +27,7 @@ export function renderTextRow(label: string, valor: string, prop: string, noMD?:
     );
 }
 
-export function renderImageRow(label: string, valor: string, prop: string): JSX.Element {
+export function RenderImageRow(label: string, valor: string, prop: string): JSX.Element {
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
@@ -42,35 +45,65 @@ export function renderImageRow(label: string, valor: string, prop: string): JSX.
     );
 }
 
-export function renderServiceRow(label: string, valor: string, service: TypeOfService, index: number): JSX.Element {
+export function RenderServiceRow(service: TypeOfService): JSX.Element {
+    const { fetchServices, setAlert } = useConfig()
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
-                <span>{label}</span>
+                <span>{service.name}</span>
             </div>
-            <div className="rowItem" style={{ width: '45%' }}>
-                <img src={valor} alt={label} />
+            <div className="rowItem" style={{ width: '40%' }}>
+                <img src={service.image} alt={service.name} />
             </div>
-            <div className="rowItem" style={{ width: '20%' }}>
+            <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
-                    <ServiceModal service={service} index={index} />
+                    <DeleteModal message="¿Desea eliminar este servicio?" action={async () => {
+                        await axios.delete(`https://template-peluquerias-back.vercel.app/typesOfServices/${service._id}`).then(() => {
+                            fetchServices()
+                            setAlert({
+                                type: "success",
+                                msg: "Se eliminó el servicio con éxito"
+                            })
+                        }).catch(() => {
+                            setAlert({
+                                type: "error",
+                                msg: "Hubo un error al eliminar el servicio"
+                            })
+                        })
+                    }} />
+                    <ServiceModal service={service} />
                 </div>
             </div>
         </div>
     );
 }
 
-export function renderProfessionalRow(professional: Professional): JSX.Element {
+export function RenderProfessionalRow(professional: Professional): JSX.Element {
+    const { fetchProfessionals, setAlert } = useConfig()
     return (
         <div className="rowContainer" key={professional._id}>
             <div className="rowItem" style={{ width: '35%' }}>
                 <span>{professional.name} {professional.lastname}</span>
             </div>
-            <div className="rowItem" style={{ width: '45%' }}>
+            <div className="rowItem" style={{ width: '40%' }}>
                 <img src={professional.image} alt={professional.name} />
             </div>
-            <div className="rowItem" style={{ width: '20%' }}>
+            <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
+                    <DeleteModal message="¿Desea eliminar este profesional?" action={async () => {
+                        await axios.delete(`https://template-peluquerias-back.vercel.app/professionals/${professional._id}`).then(() => {
+                            fetchProfessionals()
+                            setAlert({
+                                type: "success",
+                                msg: "Se eliminó el profesional con éxito"
+                            })
+                        }).catch(() => {
+                            setAlert({
+                                type: "error",
+                                msg: "Hubo un error al eliminar el profesional"
+                            })
+                        })
+                    }} />
                     <ProfessionalModal professional={professional} />
                 </div>
             </div>

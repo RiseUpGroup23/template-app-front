@@ -50,7 +50,10 @@ const DeleteModal = ({ message, action, customTrigger }: Props) => {
                     </Typography>
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className="cancelModal" onClick={action}>Confirmar</button>
+                        <button className="cancelModal" onClick={() => {
+                            action()
+                            handleClose()
+                        }}>Confirmar</button>
                     </div>
                 </Box>
             </Modal>

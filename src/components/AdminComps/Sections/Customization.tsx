@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
-import { renderImageRow, renderTextRow } from "../Rows/rows"
+import { RenderImageRow, RenderTextRow } from "../Rows/rows"
 import EditColorModal from "../Buttons/ColorModal"
 import ImageEditModal from "../Buttons/ImageEditModal"
 import Switch from '@mui/material/Switch';
@@ -24,8 +24,8 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
 
-                {renderTextRow("Titulo 1", newConfig.presentationTitle, "presentationTitle")}
-                {renderTextRow("Texto de presentación", newConfig.presentationText, "presentationText")}
+                {RenderTextRow("Titulo 1", newConfig.presentationTitle, "presentationTitle")}
+                {RenderTextRow("Texto de presentación", newConfig.presentationText, "presentationText")}
 
             </div>
             <span className="proxApo">
@@ -37,9 +37,9 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
-                {renderImageRow("Fondo del inicio", newConfig.customization.background.backgroundImage, "customization.background.backgroundImage")}
-                {renderImageRow("Fondo para turnos", newConfig.customization.background.backgroundTurno, "customization.background.backgroundTurno")}
-                {renderImageRow("Imagen de presentación", newConfig.imagePresentation, "imagePresentation")}
+                {RenderImageRow("Fondo del inicio", newConfig.customization.background.backgroundImage, "customization.background.backgroundImage")}
+                {RenderImageRow("Fondo para turnos", newConfig.customization.background.backgroundTurno, "customization.background.backgroundTurno")}
+                {RenderImageRow("Imagen de presentación", newConfig.imagePresentation, "imagePresentation")}
             </div>
             <span className="proxApo">
                 Información del negocio
@@ -51,14 +51,14 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
 
-                {renderTextRow("Nombre", newConfig.customization.shopName, "customization.shopName", true)}
-                {renderTextRow("Dirección", newConfig.contact.address, "contact.address", true)}
-                {renderTextRow("Ciudad", newConfig.contact.city, "contact.city", true)}
-                {renderTextRow("Provincia", newConfig.contact.state, "contact.state", true)}
-                {renderTextRow("Número de contacto", newConfig.contact.phone, "contact.phone", true)}
-                {renderTextRow("Correo", newConfig.contact.email, "contact.email", true)}
-                {renderTextRow("Facebook", newConfig.contact.facebook, "contact.facebook", true)}
-                {renderTextRow("Instagram", newConfig.contact.instagram, "contact.instagram", true)}
+                {RenderTextRow("Nombre", newConfig.customization.shopName, "customization.shopName", true)}
+                {RenderTextRow("Dirección", newConfig.contact.address, "contact.address", true)}
+                {RenderTextRow("Ciudad", newConfig.contact.city, "contact.city", true)}
+                {RenderTextRow("Provincia", newConfig.contact.state, "contact.state", true)}
+                {RenderTextRow("Número de contacto", newConfig.contact.phone, "contact.phone", true)}
+                {RenderTextRow("Correo", newConfig.contact.email, "contact.email", true)}
+                {RenderTextRow("Facebook", newConfig.contact.facebook, "contact.facebook", true)}
+                {RenderTextRow("Instagram", newConfig.contact.instagram, "contact.instagram", true)}
 
             </div>
             <span className="proxApo">
