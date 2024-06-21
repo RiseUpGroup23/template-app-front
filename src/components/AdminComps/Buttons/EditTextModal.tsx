@@ -32,7 +32,7 @@ export const style = {
     alignItems: "center",
     borderRadius: "1rem",
     maxHeight: "80vh",
-    overflowY: "scroll",
+    overflowY: "auto",
     overflowX:"hidden"
 };
 
