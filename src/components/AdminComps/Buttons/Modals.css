@@ -52,7 +52,7 @@
     height: 3rem;
 }
 
-.buttonDisabled{
+.buttonDisabled {
     background: #838383;
     color: lightgray;
     pointer-events: none;
@@ -162,13 +162,26 @@ input[type=file]::file-selector-button:hover {
 }
 
 .MuiBox-root {
-    scrollbar-width: 1rem; 
-    scrollbar-color: #C2E36D transparent; 
+    scrollbar-width: 1rem;
+    scrollbar-color: #C2E36D transparent;
 }
 
 
 @media (max-width:1024px) {
     .textInModal {
-        width: 95%;
+        width: 100%;
+    }
+
+    .textInModal span,
+    .textInModal input {
+        width: 50%;
+    }
+
+    .drop-container {
+        transform: scale(.8);
+    }
+
+    .confirmModal {
+        padding: .5rem 2rem;
     }
 }
