@@ -39,7 +39,7 @@ const Header = () => {
                             <button onClick={() => {
                                 invertColors()
                                 setInverted((prev) => !prev)
-                            }} style={{ color: `${config.customization.primary.text}` }} className={`botonHeader inverter`}>
+                            }} style={{ visibility: `${config.customization.twoColors ? "visible" : "hidden"}`, color: `${config.customization.primary.text}` }} className={`botonHeader inverter`}>
                                 {inverted ? <LightModeIcon /> : <LightModeOutlinedIcon />}
                             </button>
                         </>

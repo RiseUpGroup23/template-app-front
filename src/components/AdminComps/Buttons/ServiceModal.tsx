@@ -9,7 +9,6 @@ import "./Modals.css"
 import { useConfig } from '../../../context/AdminContext';
 import { style } from "./EditTextModal"
 import { TypeOfService } from '../../../typings/TypeOfServices';
-import { TextField } from '@mui/material';
 import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
 
@@ -24,7 +23,7 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
     const [loading, setLoading] = React.useState(false);
     const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
     const [src, setSrc] = React.useState(service.image || "https://iconape.com/wp-content/png_logo_vector/settings.png")
-    const { editService, fetchServices, setAlert } = useConfig()
+    const { editService, fetchServices, setAlert, dbUrl } = useConfig()
     const [disabled, setDisabled] = React.useState(true)
 
     const handleOpen = () => setOpen(true);
@@ -43,7 +42,7 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
                 setOpen(false)
             })
         } else {
-            await axios.post(`https://template-peluquerias-back.vercel.app/typesOfServices`, newData).then(() => {
+            await axios.post(`${dbUrl}/typesOfServices`, newData).then(() => {
                 fetchServices()
                 setAlert({
                     type: "success",
@@ -110,7 +109,7 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
                     </div>
 
                     <div className="textInModal">
-                        <span>Duracion: </span>
+                        <span>Duracion (min): </span>
                         <input type='text' value={srvc.duration} onChange={(e) => setSrvc((prev) => ({ ...prev, duration: Number(e.target.value) || e.target.value === "" ? Number(e.target.value) : prev.duration }))} />
                     </div>
 

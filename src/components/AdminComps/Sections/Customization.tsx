@@ -7,8 +7,9 @@ import Switch from '@mui/material/Switch';
 import { Stack } from "@mui/material"
 
 const Customization = () => {
-    const { newConfig } = useConfig()
-    const [oneColorMode, setOneColorMode] = useState(false)
+    const { newConfig, editProp } = useConfig()
+    const [oneColorMode, setOneColorMode] = useState(!newConfig?.customization.twoColors)
+
     if (!newConfig) return (<></>)
 
     return (
@@ -66,7 +67,10 @@ const Customization = () => {
                     <span>Paleta de colores</span>
                     <Stack className="switchOptions" direction="row" spacing={1} alignItems="center">
                         <span>Simple</span>
-                        <Switch checked={!oneColorMode} onChange={() => setOneColorMode((prev) => !prev)} />
+                        <Switch checked={!oneColorMode} onChange={() => {
+                            editProp("customization.twoColors", oneColorMode)
+                            setOneColorMode((prev) => !prev)
+                        }} />
                         <span>Doble</span>
                     </Stack>
                 </div>

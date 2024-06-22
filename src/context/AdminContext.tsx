@@ -25,6 +25,7 @@ interface ConfigContextProps {
     fetchServices: () => void;
     editService: any;
     cancelAppointment: any;
+    dbUrl:string;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -141,7 +142,8 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         fetchProfessionals,
         fetchServices,
         editService,
-        cancelAppointment
+        cancelAppointment,
+        dbUrl
     };
 
     useEffect(() => {
