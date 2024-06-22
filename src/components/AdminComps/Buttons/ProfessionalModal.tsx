@@ -23,7 +23,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
     const [loading, setLoading] = React.useState(false);
     const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
     const [src, setSrc] = React.useState(professional.image || "https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png")
-    const { setAlert, fetchProfessionals } = useConfig()
+    const { setAlert, fetchProfessionals, services,dbUrl } = useConfig()
     const [disabled, setDisabled] = React.useState(true)
 
     const handleOpen = () => {
@@ -38,13 +38,14 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
     React.useEffect(() => {
         setDisabled(Object.values(prof).length < 3 || Object.values(prof).some((e) => e === ""))
+        console.log(prof);
     }, [prof])
 
     const handleSave = async () => {
         setLoading(true)
         const newData = { ...prof, image: selectedImage ? await uploadImage(selectedImage).catch(() => prof.image) : (prof.image || src) }
         if (customTrigger) { // Creando nuevo
-            await axios.post(`https://template-peluquerias-back.vercel.app/professionals`, newData).then(() => {
+            await axios.post(`${dbUrl}/professionals`, newData).then(() => {
                 fetchProfessionals()
                 setAlert({
                     type: "success",
@@ -57,7 +58,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                 })
             })
         } else {
-            await axios.put(`https://template-peluquerias-back.vercel.app/professionals/${prof._id}`, newData).then(() => {
+            await axios.put(`${dbUrl}/professionals/${prof._id}`, newData).then(() => {
                 fetchProfessionals()
                 setAlert({
                     type: "success",
@@ -86,6 +87,24 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
             const imageUrl = URL.createObjectURL(file);
             setSrc(imageUrl);
         }
+    };
+
+    const handleCheck = (serviceId: string) => {
+        setProf((prev) => {
+            const serviceExists = prev.typesOfServices?.some(ser => ser._id === serviceId);
+
+            if (serviceExists) {
+                return ({
+                    ...prev,
+                    typesOfServices: prev.typesOfServices.filter(ser => ser._id !== serviceId)
+                } as Professional)
+            } else {
+                return ({
+                    ...prev,
+                    typesOfServices: [...prev.typesOfServices || [], services!.find(ser => ser._id === serviceId)]
+                } as Professional)
+            }
+        });
     };
 
     return (
@@ -140,6 +159,18 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     <div className="textInModal">
                         <span>Turnos cada (min): </span>
                         <input type='text' value={prof.timeWindow} onChange={(e) => setProf((prev) => ({ ...prev, timeWindow: Number(e.target.value) || e.target.value === "" ? Number(e.target.value) : prev.timeWindow }))} />
+                    </div>
+
+                    <div className="textInModal">
+                        <span>Tipos de servicio: </span>
+                        <div className="editToS">
+                            {services?.map((service, index) => (
+                                <div key={index}>
+                                    <input checked={prof.typesOfServices?.some(ser => ser._id === service._id)} onChange={() => handleCheck(service._id)} type='checkbox' id={`service-${index}`} />
+                                    <label htmlFor={`service-${index}`}>{service.name}</label>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                     <div className='dragContainer'>

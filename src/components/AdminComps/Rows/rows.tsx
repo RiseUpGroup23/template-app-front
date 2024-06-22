@@ -46,7 +46,7 @@ export function RenderImageRow(label: string, valor: string, prop: string): JSX.
 }
 
 export function RenderServiceRow(service: TypeOfService): JSX.Element {
-    const { fetchServices, setAlert } = useConfig()
+    const { fetchServices, setAlert, dbUrl } = useConfig()
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
@@ -58,7 +58,7 @@ export function RenderServiceRow(service: TypeOfService): JSX.Element {
             <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
                     <DeleteModal message="¿Desea eliminar este servicio?" action={async () => {
-                        await axios.delete(`https://template-peluquerias-back.vercel.app/typesOfServices/${service._id}`).then(() => {
+                        await axios.delete(`${dbUrl}/typesOfServices/${service._id}`).then(() => {
                             fetchServices()
                             setAlert({
                                 type: "success",
@@ -79,7 +79,7 @@ export function RenderServiceRow(service: TypeOfService): JSX.Element {
 }
 
 export function RenderProfessionalRow(professional: Professional): JSX.Element {
-    const { fetchProfessionals, setAlert } = useConfig()
+    const { fetchProfessionals, setAlert, dbUrl } = useConfig()
     return (
         <div className="rowContainer" key={professional._id}>
             <div className="rowItem" style={{ width: '35%' }}>
@@ -91,7 +91,7 @@ export function RenderProfessionalRow(professional: Professional): JSX.Element {
             <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
                     <DeleteModal message="¿Desea eliminar este profesional?" action={async () => {
-                        await axios.delete(`https://template-peluquerias-back.vercel.app/professionals/${professional._id}`).then(() => {
+                        await axios.delete(`${dbUrl}/professionals/${professional._id}`).then(() => {
                             fetchProfessionals()
                             setAlert({
                                 type: "success",

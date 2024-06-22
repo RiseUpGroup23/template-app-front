@@ -6,10 +6,11 @@ import ProfessionalModal from "../Buttons/ProfessionalModal";
 import { Professional } from "../../../typings/Professional";
 
 const Professionals = () => {
-    const { newConfig, professionals, fetchProfessionals } = useConfig()
+    const { newConfig, professionals, fetchProfessionals, fetchServices } = useConfig()
 
     useEffect(() => {
         fetchProfessionals()
+        fetchServices()
         //eslint-disable-next-line
     }, [])
 
@@ -19,15 +20,7 @@ const Professionals = () => {
         <div className="mainContainer">
             <span className="initialTitle">¡Hola, <strong>{newConfig.customization.shopName}!</strong></span>
             <span className="proxApo">
-                <div className="headerWithButton">
-                    <span>Editar profesionales</span>
-                    <ProfessionalModal professional={{} as Professional} customTrigger={
-                        <button className="newProfButton">
-                            <AddIcon />
-                            Agregar
-                        </button>
-                    } />
-                </div>
+                Editar profesionales
             </span>
             <div className="blackLayout">
                 <div className="proxApoHeader rowContainer">
@@ -36,6 +29,13 @@ const Professionals = () => {
                     <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
                 </div>
                 {professionals?.map((prof) => RenderProfessionalRow(prof))}
+            </div>
+            <div className="addSection">
+                <ProfessionalModal professional={{} as Professional} customTrigger={
+                    <button className="newProfButton">
+                        <AddIcon />
+                    </button>
+                } />
             </div>
         </div>
     )

@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { style } from "./EditTextModal"
 import "./Modals.css"
 import { arrowIco } from '../Sections/MainEditor';
+import { CircularProgress } from '@mui/material';
 
 interface Props {
     message: string;
@@ -15,7 +16,12 @@ interface Props {
 
 const DeleteModal = ({ message, action, customTrigger }: Props) => {
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+    const [loading, setLoading] = React.useState(false);
+    
+    const handleOpen = () => {
+        setLoading(false)
+        setOpen(true)
+    };
     const handleClose = () => setOpen(false);
 
     return (
@@ -50,10 +56,13 @@ const DeleteModal = ({ message, action, customTrigger }: Props) => {
                     </Typography>
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className="cancelModal" onClick={() => {
-                            action()
+                        <button className="cancelModal" onClick={async () => {
+                            setLoading(true)
+                            await action()
                             handleClose()
-                        }}>Confirmar</button>
+                        }}>
+                            {!loading ? "Confirmar" : <CircularProgress size={20} sx={{ color: "white" }} />}
+                        </button>
                     </div>
                 </Box>
             </Modal>

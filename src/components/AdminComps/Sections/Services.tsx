@@ -19,15 +19,7 @@ const Services = () => {
         <div className="mainContainer">
             <span className="initialTitle">¡Hola, <strong>{newConfig.customization.shopName}!</strong></span>
             <span className="proxApo">
-                <div className="headerWithButton">
-                    <span>Editar servicios</span>
-                    <ServiceModal service={{} as TypeOfService} customTrigger={
-                        <button className="newProfButton">
-                            <AddIcon />
-                            Agregar
-                        </button>
-                    } />
-                </div>
+                Editar servicios
             </span>
             <div className="blackLayout">
                 <div className="proxApoHeader rowContainer">
@@ -36,6 +28,13 @@ const Services = () => {
                     <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
                 </div>
                 {services?.map((service) => RenderServiceRow(service))}
+            </div>
+            <div className="addSection">
+                <ServiceModal service={{} as TypeOfService} customTrigger={
+                    <button className="newProfButton">
+                        <AddIcon />
+                    </button>
+                } />
             </div>
         </div>
     )
