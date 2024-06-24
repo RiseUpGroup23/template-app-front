@@ -11,7 +11,7 @@ import { style } from "./EditTextModal"
 import { Availability, Professional } from '../../../typings/Professional';
 import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
-import { useMediaQuery } from '@mui/material';
+import { Alert, useMediaQuery } from '@mui/material';
 
 interface Props {
     professional: Professional;
@@ -20,19 +20,42 @@ interface Props {
 
 const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
+const mock = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
+const defaultTimeAvailabilities: any = {};
+
+mock.forEach(day => {
+    defaultTimeAvailabilities[day] = {
+        initialHour: "08:00",
+        finalHour: "13:00",
+        secondInitialHour: "15:00",
+        secondFinalHour: "21:00",
+        active: true
+    };
+});
+
+const hourToNumber = (hour: string) => {
+    return Number(hour.replace(":", ""))
+}
+
 const ProfessionalModal = ({ professional, customTrigger }: Props) => {
+    const { setAlert, fetchProfessionals, services, dbUrl } = useConfig()
     const [prof, setProf] = React.useState(professional)
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
     const [src, setSrc] = React.useState(professional.image || "https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png")
-    const { setAlert, fetchProfessionals, services, dbUrl } = useConfig()
     const [disabled, setDisabled] = React.useState(true)
     const isMobile = useMediaQuery('(max-width:600px)');
+    const [error, setError] = React.useState<any>({})
+    const [errorMessage, setErrorMessage] = React.useState("")
 
 
     const handleOpen = () => {
-        setProf(professional)
+        setProf({
+            ...professional,
+            timeAvailabilities: professional?.timeAvailabilities?.monday ? professional.timeAvailabilities : defaultTimeAvailabilities
+        })
         setOpen(true)
     };
 
@@ -43,6 +66,28 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
     React.useEffect(() => {
         setDisabled(Object.values(prof).length < 3 || Object.values(prof).some((e) => e === ""))
+        prof?.timeAvailabilities && Object.keys(prof.timeAvailabilities).forEach(day => {
+            const thisDay = prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities]
+            const inicioM = hourToNumber(thisDay.initialHour)
+            const finM = hourToNumber(thisDay.finalHour)
+            const inicioT = hourToNumber(thisDay.secondInitialHour)
+            const finT = hourToNumber(thisDay.secondFinalHour)
+            setError((prev: any) => ({
+                ...prev,
+                [day]: {
+                    ...prev[day],
+                    initialHour: false
+                }
+            }))
+            if (thisDay.initialHour.length !== 5 || thisDay.finalHour.length !== 5 || thisDay.secondInitialHour.length !== 5 || thisDay.secondFinalHour.length !== 5) return setDisabled(true)
+            if (inicioM >= finM || inicioM >= inicioT || inicioM >= finT || finM >= inicioT || finM >= finT || inicioT >= finT) {
+                setError((prev: any) => ({
+                    ...prev,
+                    [day]: true
+                }))
+                setErrorMessage(`El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios vayan de menor a mayor`)
+            }
+        })
     }, [prof])
 
     const handleSave = async () => {
@@ -114,11 +159,11 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
     const changeAvailability = (value: string, day: string, prop: string) => {
         let newValue = value
         if (value.length > 5) return
+        setErrorMessage("")
         if (value.length === 3 && !value.includes(":")) {
             newValue = newValue.slice(0, 2) + ":" + value.charAt(2)
         }
         if (newValue.length >= 1 && newValue !== "0" && !Number(newValue.slice(0, 2))) return
-
         setProf(prev => (
             {
                 ...prev,
@@ -231,15 +276,19 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                                     </td>
                                     <td style={{ width: "80%", textAlign: "center" }}>
                                         <div className="inputSchedule">
-                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].initialHour} onChange={(e) => changeAvailability(e.target.value, day, "initialHour")} />
-                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].finalHour} onChange={(e) => changeAvailability(e.target.value, day, "finalHour")} />
-                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondInitialHour} onChange={(e) => changeAvailability(e.target.value, day, "secondInitialHour")} />
-                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondFinalHour} onChange={(e) => changeAvailability(e.target.value, day, "secondFinalHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].initialHour} onChange={(e) => changeAvailability(e.target.value, day, "initialHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].finalHour} onChange={(e) => changeAvailability(e.target.value, day, "finalHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondInitialHour} onChange={(e) => changeAvailability(e.target.value, day, "secondInitialHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondFinalHour} onChange={(e) => changeAvailability(e.target.value, day, "secondFinalHour")} />
                                         </div>
                                     </td>
                                 </tr>
                             ))}
                         </table>
+                        {errorMessage !== "" && <div className="avaAlert">
+                            <Alert severity="error">{errorMessage}</Alert>
+                        </div>}
+
                     </div>
 
                     <div className='dragContainer'>
@@ -269,7 +318,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className={`confirmModal ${disabled ? "buttonDisabled" : ""}`} onClick={handleSave}>
+                        <button className={`confirmModal ${disabled || errorMessage !== "" ? "buttonDisabled" : ""}`} onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>
                     </div>

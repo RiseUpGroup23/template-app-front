@@ -204,6 +204,18 @@ input[type=file]::file-selector-button:hover {
     text-align: center;
 }
 
+.availabilityError {
+    background-color: #de5858 !important;
+}
+
+.avaAlert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1rem;
+}
+
 @media (max-width:1024px) {
     .textInModal {
         width: 100%;
