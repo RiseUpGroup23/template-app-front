@@ -1,10 +1,12 @@
 import { TypeOfService } from "./TypeOfServices";
 
-interface Availability {
+export interface Availability {
+    _id: string;
     initialHour: string;
     finalHour: string;
     secondInitialHour: string;
     secondFinalHour: string;
+    active?: boolean;
 }
 
 export interface Professional {

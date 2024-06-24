@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { RenderServiceRow } from "../Rows/rows"
 import ServiceModal from "../Buttons/ServiceModal";
 import { TypeOfService } from "../../../typings/TypeOfServices";
+import { CircularProgress } from "@mui/material";
 
 const Services = () => {
     const { fetchServices, services, newConfig } = useConfig()
@@ -22,12 +23,20 @@ const Services = () => {
                 Editar servicios
             </span>
             <div className="blackLayout">
-                <div className="proxApoHeader rowContainer">
-                    <div className="rowItem" style={{ width: "35%" }}><span>Nombre</span></div>
-                    <div className="rowItem" style={{ width: "40%" }}><span>Vista Previa</span></div>
-                    <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
-                </div>
-                {services?.map((service) => RenderServiceRow(service))}
+                {services?.length ?
+                    <>
+                        <div className="proxApoHeader rowContainer">
+                            <div className="rowItem" style={{ width: "35%" }}><span>Nombre</span></div>
+                            <div className="rowItem" style={{ width: "40%" }}><span>Vista Previa</span></div>
+                            <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
+                        </div>
+                        {services?.map((service) => RenderServiceRow(service))}
+                    </>
+                    :
+                    <div className="blackLayLoading">
+                        <CircularProgress size={50} sx={{ color: "white" }} />
+                    </div>
+                }
             </div>
             <div className="addSection">
                 <ServiceModal service={{} as TypeOfService} customTrigger={

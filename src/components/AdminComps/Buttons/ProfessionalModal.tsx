@@ -8,14 +8,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
 import { useConfig } from '../../../context/AdminContext';
 import { style } from "./EditTextModal"
-import { Professional } from '../../../typings/Professional';
+import { Availability, Professional } from '../../../typings/Professional';
 import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
+import { useMediaQuery } from '@mui/material';
 
 interface Props {
     professional: Professional;
     customTrigger?: any;
 }
+
+const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
 const ProfessionalModal = ({ professional, customTrigger }: Props) => {
     const [prof, setProf] = React.useState(professional)
@@ -23,8 +26,10 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
     const [loading, setLoading] = React.useState(false);
     const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
     const [src, setSrc] = React.useState(professional.image || "https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png")
-    const { setAlert, fetchProfessionals, services,dbUrl } = useConfig()
+    const { setAlert, fetchProfessionals, services, dbUrl } = useConfig()
     const [disabled, setDisabled] = React.useState(true)
+    const isMobile = useMediaQuery('(max-width:600px)');
+
 
     const handleOpen = () => {
         setProf(professional)
@@ -38,7 +43,6 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
     React.useEffect(() => {
         setDisabled(Object.values(prof).length < 3 || Object.values(prof).some((e) => e === ""))
-        console.log(prof);
     }, [prof])
 
     const handleSave = async () => {
@@ -107,6 +111,28 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
         });
     };
 
+    const changeAvailability = (value: string, day: string, prop: string) => {
+        let newValue = value
+        if (value.length > 5) return
+        if (value.length === 3 && !value.includes(":")) {
+            newValue = newValue.slice(0, 2) + ":" + value.charAt(2)
+        }
+        if (newValue.length >= 1 && newValue !== "0" && !Number(newValue.slice(0, 2))) return
+
+        setProf(prev => (
+            {
+                ...prev,
+                timeAvailabilities: {
+                    ...prev.timeAvailabilities,
+                    [day]: {
+                        ...prev.timeAvailabilities[day as keyof typeof prev.timeAvailabilities],
+                        [prop]: newValue
+                    }
+                }
+            }
+        ))
+    }
+
     return (
         <>
             <div className="rowButtonAction" onClick={handleOpen}>
@@ -148,7 +174,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
                     <div className="textInModal">
                         <span>Teléfono: </span>
-                        <input type='text' value={prof.phoneNumber} onChange={(e) => setProf((prev) => ({ ...prev, phoneNumber: e.target.value }))} />
+                        <input type='text' value={prof.phoneNumber} onChange={(e) => setProf((prev) => ({ ...prev, phoneNumber: Number(e.target.value) || e.target.value === "" ? e.target.value : prev.phoneNumber }))} />
                     </div>
 
                     <div className="textInModal">
@@ -171,6 +197,49 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                                 </div>
                             ))}
                         </div>
+                    </div>
+
+                    <div className="availabilityEditor">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style={{ width: `${isMobile ? "10%" : "20%"}` }}>Laborable</th>
+                                    <th style={{ width: `${isMobile ? "10%" : "20%"}` }}>Día</th>
+                                    <th style={{ width: `${isMobile ? "80%" : "60%"}` }}>Horarios</th>
+                                </tr>
+                            </thead>
+                            {prof?.timeAvailabilities && Object.keys(prof?.timeAvailabilities)?.map((day, index) => (
+                                <tr key={day}>
+                                    <td style={{ width: "10%", textAlign: "center" }}>
+                                        <input checked={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active ?? false} onChange={(e) => {
+                                            setProf(prev => (
+                                                {
+                                                    ...prev,
+                                                    timeAvailabilities: {
+                                                        ...prev.timeAvailabilities,
+                                                        [day]: {
+                                                            ...prev.timeAvailabilities[day as keyof typeof prev.timeAvailabilities],
+                                                            active: !prev.timeAvailabilities[day as keyof typeof prev.timeAvailabilities].active
+                                                        }
+                                                    }
+                                                }
+                                            ))
+                                        }} type='checkbox' />
+                                    </td>
+                                    <td style={{ width: "10%", textAlign: "center" }}>
+                                        {diasSemana[index].slice(0, isMobile ? 3 : diasSemana[index].length)}
+                                    </td>
+                                    <td style={{ width: "80%", textAlign: "center" }}>
+                                        <div className="inputSchedule">
+                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].initialHour} onChange={(e) => changeAvailability(e.target.value, day, "initialHour")} />
+                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].finalHour} onChange={(e) => changeAvailability(e.target.value, day, "finalHour")} />
+                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondInitialHour} onChange={(e) => changeAvailability(e.target.value, day, "secondInitialHour")} />
+                                            <input type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondFinalHour} onChange={(e) => changeAvailability(e.target.value, day, "secondFinalHour")} />
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </table>
                     </div>
 
                     <div className='dragContainer'>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { useMediaQuery } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
 import DeleteModal from "../Buttons/DeleteModal";
 
 let data = [
@@ -120,6 +121,9 @@ const Appointments = () => {
                     </div>
                     <div className="AdminCalendarContainer">
                         {renderizarCalendario(actualMonth + 1, selected, setSelected, setDate)}
+                        <button className="newProfButton">
+                            <AddIcon />
+                        </button>
                     </div>
                 </div>
             </div>
@@ -127,8 +131,8 @@ const Appointments = () => {
             {selected !== 0 &&
                 <>
                     <span className="proxApo">
-                        {diasSemana[date.getDay() - 1]} - {date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })
-                    }
+                        {diasSemana[(date.getDay() === 0 ? 7 : date.getDay()) - 1]} - {date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })
+                        }
                     </span>
                     <div className="apoCards">
                         {data.map((apo) => (
