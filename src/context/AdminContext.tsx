@@ -25,7 +25,7 @@ interface ConfigContextProps {
     fetchServices: () => void;
     editService: any;
     cancelAppointment: any;
-    dbUrl:string;
+    dbUrl: string;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -72,6 +72,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
     }
 
     const fetchProfessionals = async () => {
+        setProfessionals([])
         const dbData = await axios(`${dbUrl}/professionals`).then((res) => res.data)
         if (dbData) {
             setProfessionals(dbData)
@@ -83,6 +84,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
     }
 
     const fetchServices = async () => {
+        setServices([])
         const dbData = await axios(`${dbUrl}/typesOfServices`).then((res) => res.data)
         if (dbData) {
             setServices(dbData)

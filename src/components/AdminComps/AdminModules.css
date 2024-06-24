@@ -287,6 +287,7 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .calendarDay {
@@ -382,12 +383,37 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all .3s ease;
+}
+
+.newProfButton:hover {
+    transform: scale(1.1);
 }
 
 .newProfButton svg {
     color: white;
     height: 2rem;
     width: 2rem;
+}
+
+.AdminCalendarContainer .newProfButton {
+    position: absolute;
+    right: -3rem;
+    bottom: -3rem;
+}
+
+.blackLayLoading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30vh;
+}
+
+
+@media (max-width:1300px) {
+    .calendarDay .info {
+        display: none;
+    }
 }
 
 @media (max-width:1024px) {
@@ -483,10 +509,6 @@
         aspect-ratio: 1;
     }
 
-    .calendarDay .info {
-        display: none;
-    }
-
     .monthsSelector {
         gap: .5rem;
         font-size: .875rem;
@@ -515,5 +537,11 @@
 
     .addSection {
         margin-top: 3rem;
+    }
+
+    .AdminCalendarContainer .newProfButton {
+        right: -2rem;
+        bottom: -3rem;
+        transform: scale(.5);
     }
 }
