@@ -37,7 +37,7 @@ const sampleDB = {
     "customization": {
         "background": {
             "backgroundImage": "https://s3-alpha-sig.figma.com/img/fb29/aa9b/f34c0aec12775a858d51e72a1e715812?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=N5JSRPNDpH8k-s-wuoiCD3qpXTEvx7tAdGG9OGh57Z6-hurWtnchtszgY4DMquqWv9Hhe3rmCboG1ktg6qHh9T3sSuEMRkckbNYJzi1Uok50LZ5IZmm0-oCYAMBsyLqPy6XNnis66RzQWMjeRUra5vMEB1tIT4-4KdSKXpSO9fwPLJk3DUPPz3WubHRffdnxTa~TENK5ovVUT-ut-npsfRw3yQWoUL4rDyMrWQHa59Sw8eyYLbdqHY5evFX9NJV9tSxEySfpb1Y~nwV5AdPTr7Oy4QiI4AhSowSsaokpogUgOfGxDfnzLPaAz1aBC2wYtEPsFrRa8SjKESpc1gzuCg__",
-            "backgroundTurno": "https://s3-alpha-sig.figma.com/img/462e/0fed/f6d7e314bc34f5d0e3d1597355bd9246?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=ATstjRQm3B~tuzH3kZ~wQUFcUwNbRZjoChxMGS5bPAP-Y6PbOUIgNuAP3tSOoIF6wqALH0gLXeDm5JevxIbWY8fXdy90to9NONwOkSVWc7Ta-sthKuIXAZ5a4TysWchKOpXkbhU94SfoH-00n5xYvISw7J7-RxTP0ZidvzrSm6dgatAeP4vK~DyWnWPTSjhag7BUJ5wtNq6LuJJRl~NAw-d7-LaBwrqJu-anw1quwnMLZptRzPVYT29nRVueJDKRiv5--XBTuuXCCIzQoDxEKcbnZgR1QVm1dfIc4~3pR4cLjEYKdB9wNjE9UyDbjohAlfwtgvCim3Mg5xyNkWClPA__",
+            "backgroundTurno": "https://s3-alpha-sig.figma.com/img/462e/0fed/f6d7e314bc34f5d0e3d1597355bd9246?Expires=1720396800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=lSH8e9zcw7Jv~PAyedEn0WA0IuQ3584FOrZxhhwfIhm9LBdfYHtRrC1l7cTlYx0E70dgrJLVCMniQ3KivsV0LN5rL7yX1ae9E~myQOpEbfDKlI8BbNB1B7XKGPAQWPeLBd2dDRszBsPbWz5yW0ytfSze72Y5eB4rrMGKfHl-PNX6-NRDsOsWd5takflfvMv9je0u51199ZhlzBUGJGSEx0f4dxtM2bvb8hhmSnZLvMyeEBbGp8f15PhQf9LIS2OIaq0fSCaT1AOg6AkqtndwUVALCooel-jJ0pyAcT0tWXwFUs4tWysRw0bBLnJmCx6aAQDB2KIRU9tzJcB0kEPpPQ__",
         },
         "primary": {
             "color": "#694D2C",
