@@ -14,7 +14,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 
 export default function MenuDrawer() {
     const [state, setState] = useState({ right: false, turnosOpen: false });
-    const [inverted, setInverted] = useState(false)
+    const [inverted, setInverted] = useState((localStorage?.getItem("inverted") ?? false))
     const { config, invertColors } = useConfig()
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -25,6 +25,11 @@ export default function MenuDrawer() {
     };
 
     useEffect(() => {
+        if (localStorage.getItem("inverted")) {
+            localStorage.removeItem("inverted")
+        } else {
+            localStorage.setItem("inverted", "true")
+        }
         invertColors()
         //eslint-disable-next-line
     }, [inverted])
