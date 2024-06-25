@@ -65,7 +65,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
     };
 
     React.useEffect(() => {
-        setDisabled(Object.values(prof).length < 3 || Object.values(prof).some((e) => e === ""))
+        setDisabled(Object.values(prof).length < 6 || Object.values(prof).some((e) => e === ""))
         prof?.timeAvailabilities && Object.keys(prof.timeAvailabilities).forEach(day => {
             const thisDay = prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities]
             const inicioM = hourToNumber(thisDay.initialHour)
@@ -86,6 +86,13 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     [day]: true
                 }))
                 setErrorMessage(`El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios vayan de menor a mayor`)
+            }
+            if (inicioM >= 2400 || finM >= 2400 || inicioT >= 2400 || finT >= 2400) {
+                setError((prev: any) => ({
+                    ...prev,
+                    [day]: true
+                }))
+                setErrorMessage(`El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios sean válidos`)
             }
         })
     }, [prof])
@@ -229,7 +236,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
                     <div className="textInModal">
                         <span>Turnos cada (min): </span>
-                        <input type='text' value={prof.timeWindow} onChange={(e) => setProf((prev) => ({ ...prev, timeWindow: Number(e.target.value) || e.target.value === "" ? Number(e.target.value) : prev.timeWindow }))} />
+                        <input type='text' value={prof.timeWindow} onChange={(e) => setProf((prev) => ({ ...prev, timeWindow: Number(e.target.value) || e.target.value === "" ? e.target.value : prev.timeWindow }))} />
                     </div>
 
                     <div className="textInModal">

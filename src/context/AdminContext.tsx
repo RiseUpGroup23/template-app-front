@@ -65,6 +65,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
             setConfig(dbData)
             setNewConfig(dbData)
         }
+        return dbData
     }
 
     const updateConfigToDB = async (newData: ConfigFile) => {
@@ -149,7 +150,11 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchConfigFromDB()
+        fetchConfigFromDB().then((res) => {
+            if (res.customization.twoColors && localStorage.getItem("inverted")) {
+                invertColors()
+            }
+        })
     }, [])
 
     useEffect(() => {
