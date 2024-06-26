@@ -60,7 +60,11 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
     }
 
     const fetchConfigFromDB = async () => {
-        const dbData = await axios(dbUrl).then((res) => res.data)
+        const dbData = await axios(dbUrl).then((res) => res.data).catch(() => {
+            if (window.location.pathname !== "/error") {
+                window.location.pathname = "/error"
+            }
+        })
         if (dbData) {
             setConfig(dbData)
             setNewConfig(dbData)
@@ -151,7 +155,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
 
     useEffect(() => {
         fetchConfigFromDB().then((res) => {
-            if (res.customization.twoColors && localStorage.getItem("inverted")) {
+            if (res?.customization?.twoColors && localStorage.getItem("inverted")) {
                 invertColors()
             }
         })

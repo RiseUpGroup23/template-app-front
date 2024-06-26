@@ -44,7 +44,7 @@ const Header = () => {
                                 }
                                 invertColors()
                                 setInverted((prev) => !prev)
-                            }} style={{ visibility: `${config.customization.twoColors ? "visible" : "hidden"}`, color: `${config.customization.primary.text}` }} className={`botonHeader inverter`}>
+                            }} style={{ padding: `${config.customization.twoColors ? "" : "0"}`, visibility: `${config.customization.twoColors ? "visible" : "hidden"}`, color: `${config.customization.primary.text}` }} className={`botonHeader inverter`}>
                                 {inverted ? <LightModeIcon /> : <LightModeOutlinedIcon />}
                             </button>
                         </>

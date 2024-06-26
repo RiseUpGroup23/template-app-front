@@ -1,0 +1,37 @@
+.errorContainer {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5rem;
+    padding: 0 10rem;
+}
+
+.titleError {
+    font-size: 5rem;
+}
+
+.contentError {
+    font-size: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+}
+
+@media (max-width:1100px) {
+    .errorContainer {
+        padding: 0 1rem;
+        gap: 3rem;
+    }
+
+    .titleError {
+        font-size: 4rem;
+    }
+
+    .contentError {
+        font-size: 2rem;
+        gap: 1rem;
+    }
+}

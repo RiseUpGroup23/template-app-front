@@ -79,3 +79,13 @@
 .drawerButtonClose button {
     padding: 1rem 1rem 0 0;
 }
+
+@media (max-width:1024px) {
+    .headerContainer {
+        padding-left: 0;
+    }
+
+    .logoHeader img {
+        max-width: 150px;
+    }
+}

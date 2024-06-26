@@ -4,6 +4,7 @@
     width: 100vw;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(4px);
 }
 
 .adminLoginBox {
@@ -16,7 +17,7 @@
     border-radius: 2.5rem;
     gap: 1rem;
     padding: 2rem 0;
-    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
 
 .adminLoginBox img {
