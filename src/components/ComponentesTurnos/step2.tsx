@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect } from 'react';
 import { useConfig } from '../../context/AdminContext';
-import { useForm } from '../../context/FormContext';
+import { useAppointment } from '../../context/ApContext';
 import hexToRgb from '../../modules/hexToRgb';
 
 interface Step2Props {
@@ -8,22 +8,32 @@ interface Step2Props {
 }
 
 const Step2: React.FC<Step2Props> = ({ setIsFormComplete }) => {
-    const { formData, setFormData } = useForm();
-    const { nombre, celular } = formData;
+    const { form, setForm } = useAppointment();
+    const { customer: { name, phoneNumber } } = form;
 
     const handleNombreChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setFormData(prevData => ({ ...prevData, nombre: value }));
+        setForm((prevData: any) => ({
+            ...prevData, customer: {
+                ...prevData.customer,
+                name: value
+            }
+        }));
     };
 
     const handleCelularChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setFormData(prevData => ({ ...prevData, celular: value }));
+        setForm((prevData: any) => ({
+            ...prevData, customer: {
+                ...prevData.customer,
+                phoneNumber: value
+            }
+        }));
     };
 
     useEffect(() => {
-        setIsFormComplete(!!nombre && !!celular);
-    }, [nombre, celular, setIsFormComplete]);
+        setIsFormComplete(name !== "" && phoneNumber!=="");
+    }, [name, phoneNumber, setIsFormComplete]);
 
     const { config } = useConfig();
     if (!config) return <></>;
@@ -44,10 +54,10 @@ const Step2: React.FC<Step2Props> = ({ setIsFormComplete }) => {
                         `}
                     </style>
 
-                    <input type="text" name='name' className='input' placeholder='Nombre y apellido' value={nombre} onChange={handleNombreChange} style={{ color: `${config.customization.primary.text}` }}/>
-                    <input type="number" name='cel' className='input' placeholder='Número de teléfono' value={celular} onChange={handleCelularChange} style={{ color: `${config.customization.primary.text}`}} />
+                    <input type="text" name='name' className='input' placeholder='Nombre y apellido' value={name} onChange={handleNombreChange} style={{ color: `${config.customization.primary.text}` }} />
+                    <input type="number" name='cel' className='input' placeholder='Número de teléfono' value={phoneNumber} onChange={handleCelularChange} style={{ color: `${config.customization.primary.text}` }} />
 
-                    <span className='oblig' style={{ color: `${config.customization.primary.text}`}}>Estos datos son obligatorios</span>
+                    <span className='oblig' style={{ color: `${config.customization.primary.text}` }}>Estos datos son obligatorios</span>
                 </div>
             </div>
         </div>

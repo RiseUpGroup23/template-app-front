@@ -1,11 +1,15 @@
-import React from "react"
+import React, { useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
-import { renderImageRow, renderTextRow } from "../Rows/rows"
+import { RenderImageRow, RenderTextRow } from "../Rows/rows"
 import EditColorModal from "../Buttons/ColorModal"
 import ImageEditModal from "../Buttons/ImageEditModal"
+import Switch from '@mui/material/Switch';
+import { Stack } from "@mui/material"
 
 const Customization = () => {
-    const { newConfig } = useConfig()
+    const { newConfig, editProp } = useConfig()
+    const [oneColorMode, setOneColorMode] = useState(!newConfig?.customization.twoColors)
+
     if (!newConfig) return (<></>)
 
     return (
@@ -21,9 +25,8 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
 
-                {renderTextRow("Nombre de tienda", newConfig.customization.shopName, "customization.shopName")}
-                {renderTextRow("Titulo 1", newConfig.presentationTitle, "presentationTitle")}
-                {renderTextRow("Texto de presentación", newConfig.presentationText, "presentationText")}
+                {RenderTextRow("Titulo 1", newConfig.presentationTitle, "presentationTitle")}
+                {RenderTextRow("Texto de presentación", newConfig.presentationText, "presentationText")}
 
             </div>
             <span className="proxApo">
@@ -35,12 +38,42 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
-                {renderImageRow("Fondo del inicio", newConfig.customization.background.backgroundImage, "customization.background.backgroundImage")}
-                {renderImageRow("Fondo para turnos", newConfig.customization.background.backgroundTurno, "customization.background.backgroundTurno")}
-                {renderImageRow("Imagen de presentación", newConfig.imagePresentation, "imagePresentation")}
+                {RenderImageRow("Fondo del inicio", newConfig.customization.background.backgroundImage, "customization.background.backgroundImage")}
+                {RenderImageRow("Fondo para turnos", newConfig.customization.background.backgroundTurno, "customization.background.backgroundTurno")}
+                {RenderImageRow("Imagen de presentación", newConfig.imagePresentation, "imagePresentation")}
             </div>
             <span className="proxApo">
-                Paleta de colores
+                Información del negocio
+            </span>
+            <div className="blackLayout">
+                <div className="proxApoHeader rowContainer">
+                    <div className="rowItem" style={{ width: "35%" }}><span>Textos</span></div>
+                    <div className="rowItem" style={{ width: "45%" }}><span>Vista Previa</span></div>
+                    <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
+                </div>
+
+                {RenderTextRow("Nombre", newConfig.customization.shopName, "customization.shopName", true)}
+                {RenderTextRow("Dirección", newConfig.contact.address, "contact.address", true)}
+                {RenderTextRow("Ciudad", newConfig.contact.city, "contact.city", true)}
+                {RenderTextRow("Provincia", newConfig.contact.state, "contact.state", true)}
+                {RenderTextRow("Número de contacto", newConfig.contact.phone, "contact.phone", true)}
+                {RenderTextRow("Correo", newConfig.contact.email, "contact.email", true)}
+                {RenderTextRow("Facebook", newConfig.contact.facebook, "contact.facebook", true)}
+                {RenderTextRow("Instagram", newConfig.contact.instagram, "contact.instagram", true)}
+
+            </div>
+            <span className="proxApo">
+                <div className="switchColorMode">
+                    <span>Paleta de colores</span>
+                    <Stack className="switchOptions" direction="row" spacing={1} alignItems="center">
+                        <span>Simple</span>
+                        <Switch checked={!oneColorMode} onChange={() => {
+                            editProp("customization.twoColors", oneColorMode)
+                            setOneColorMode((prev) => !prev)
+                        }} />
+                        <span>Doble</span>
+                    </Stack>
+                </div>
                 <div className="blackLayout">
                     <div className="colorsContainer">
                         <span className="colorGroupName">Paleta principal</span>
@@ -48,12 +81,12 @@ const Customization = () => {
                         <EditColorModal initialColor={newConfig.customization.primary.text} prop={"customization.primary.text"} />
                         <ImageEditModal initialImg={newConfig.customization.logo.primary} prop="customization.logo.primary" customTrigger={<img src={newConfig.customization.logo.primary} className="colorDemo" alt="logoPrimary" />} />
                     </div>
-                    <div className="colorsContainer">
+                    {!oneColorMode && <div className="colorsContainer">
                         <span className="colorGroupName">Paleta secundaria</span>
                         <EditColorModal initialColor={newConfig.customization.secondary.color} prop={"customization.secondary.color"} />
                         <EditColorModal initialColor={newConfig.customization.secondary.text} prop={"customization.secondary.text"} />
                         <ImageEditModal initialImg={newConfig.customization.logo.secondary} prop="customization.logo.secondary" customTrigger={<img src={newConfig.customization.logo.secondary} className="colorDemo" alt="logoSecondary" />} />
-                    </div>
+                    </div>}
                 </div>
             </span>
         </div>

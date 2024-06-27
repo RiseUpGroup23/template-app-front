@@ -12,6 +12,7 @@ import { useConfig } from '../../../context/AdminContext';
 interface Props {
     initialTitle: string;
     prop: string;
+    noMD?: boolean;
 }
 
 export const style = {
@@ -19,7 +20,7 @@ export const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: "80vw",
+    width: "75vw",
     maxWidth: "600px",
     bgcolor: '#2E2E2E;',
     color: "#fff",
@@ -29,10 +30,13 @@ export const style = {
     flexDirection: "column",
     gap: "2rem",
     alignItems: "center",
-    borderRadius: "1rem"
+    borderRadius: "1rem",
+    maxHeight: "75vh",
+    overflowY: "auto",
+    overflowX:"hidden"
 };
 
-const EditTextModal = ({ initialTitle, prop }: Props) => {
+const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
     const [value, setValue] = React.useState(initialTitle);
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
@@ -78,7 +82,7 @@ const EditTextModal = ({ initialTitle, prop }: Props) => {
                             height={200}
                             value={value}
                             onChange={(text) => setValue(text ?? "")}
-                            commands={[commands.bold, commands.italic, commands.strikethrough]}
+                            commands={noMD ? [] : [commands.bold, commands.italic, commands.strikethrough]}
                             extraCommands={[]}
                         />
                     </div>

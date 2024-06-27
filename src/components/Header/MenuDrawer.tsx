@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -9,10 +9,13 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import { useConfig } from '../../context/AdminContext';
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import LightModeIcon from '@mui/icons-material/LightMode';
 
 export default function MenuDrawer() {
     const [state, setState] = useState({ right: false, turnosOpen: false });
-    const { config } = useConfig()
+    const [inverted, setInverted] = useState((localStorage?.getItem("inverted") ?? false))
+    const { config, invertColors } = useConfig()
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
@@ -20,6 +23,16 @@ export default function MenuDrawer() {
         }
         setState({ ...state, right: open });
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("inverted")) {
+            localStorage.removeItem("inverted")
+        } else {
+            localStorage.setItem("inverted", "true")
+        }
+        invertColors()
+        //eslint-disable-next-line
+    }, [inverted])
 
     const list = (
         <Box
@@ -49,6 +62,12 @@ export default function MenuDrawer() {
                             </ListItemButton>
                         </ListItem>
                     </Link>
+                    {config?.customization.twoColors && <ListItem onClick={() => setInverted(prev => !prev)} key="modo" disablePadding>
+                        <ListItemButton>
+                            <ListItemText primary={inverted ? "Modo claro" : "Modo oscuro"} />
+                            {inverted ? <LightModeIcon /> : <LightModeOutlinedIcon />}
+                        </ListItemButton>
+                    </ListItem>}
                 </>
             </List>
         </Box>

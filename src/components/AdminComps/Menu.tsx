@@ -2,7 +2,10 @@ import { Box, Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuer
 import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import "./AdminModules.css"
+import DeleteModal from "./Buttons/DeleteModal";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const items = [
     {
@@ -16,6 +19,14 @@ const items = [
     {
         title: "Turnos",
         url: "/admin/turnos"
+    },
+    {
+        title: "Profesionales",
+        url: "/admin/profesionales"
+    },
+    {
+        title: "Servicios",
+        url: "/admin/servicios"
     }
 ]
 
@@ -24,6 +35,7 @@ const Menu = () => {
     const [selected, setSelected] = useState(items.findIndex(item => item.url.includes(window.location.pathname)))
     const location = useLocation();
     const [open, setOpen] = React.useState(false);
+    const { logout } = useAuth0()
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
@@ -37,21 +49,33 @@ const Menu = () => {
         !isMobile ?
             <div className="menuContainer">
                 {items.map((item, index) =>
-                    <Link to={item.url}>
+                    <Link to={item.url} key={index}>
                         <div className={`menuItem ${selected === index ? "itemSelected" : ""}`}>
                             {item.title}
                         </div>
                     </Link>
                 )}
-            </div>
+                <DeleteModal
+                    customTrigger={
+                        <div className="logoutButton">
+
+                            <span className="logoutText">
+                                Cerrar sesión
+                            </span>
+                            <LogoutIcon />
+                        </div>}
+                    message="¿Desea cerrar la sesión?"
+                    action={logout}
+                />
+            </div >
             :
             <div className="drawerButton">
                 <button onClick={toggleDrawer(true)}><MenuIcon /></button>
-                <Drawer open={open} onClose={toggleDrawer(false)}>
+                <Drawer className="adminDrawer" open={open} onClose={toggleDrawer(false)}>
                     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
                         <List>
                             {items.map(({ title, url }, index) => (
-                                <Link to={url}>
+                                <Link to={url} key={url}>
                                     <ListItem className={`menuItem ${selected === index ? "itemSelected" : ""}`} key={title} disablePadding>
                                         <ListItemButton>
                                             <ListItemText primary={title} />
@@ -60,6 +84,13 @@ const Menu = () => {
                                 </Link>
                             ))}
                         </List>
+
+                        <div className="logoutButton" onClick={() => logout()}>
+                            <span className="logoutText">
+                                Cerrar sesión
+                            </span>
+                            <LogoutIcon />
+                        </div>
                     </Box>
                 </Drawer>
             </div>

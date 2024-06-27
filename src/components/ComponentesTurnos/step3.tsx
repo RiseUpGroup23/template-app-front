@@ -11,6 +11,7 @@ import { config } from "../../config";
 import axios from "axios";
 import './styleTurnos.css'
 import hexToRgb from "../../modules/hexToRgb";
+import { FormData } from "../../typings/FormData";
 
 const { backendEndpoint } = config;
 
@@ -23,7 +24,7 @@ interface Schedules {
 
 const Step3 = () => {
     const [availability, setAvailability] = useState<any>(null)
-    const { date, setDate, setAppointment, step } = useAppointment()
+    const { date, setDate, setForm } = useAppointment()
     const thisMonth = dayjs().month() + 1;
     const nextTwoMonths = thisMonth + 2;
     const [schedules, setSchedules] = useState<Schedules | null>()
@@ -48,9 +49,11 @@ const Step3 = () => {
             const longest = clockL.length >= clockR.length ? clockL.length : clockR.length;
             setGridDimension(longest <= 12 ? 4 : 4 + Math.ceil((longest - 12) / 3));
         });
-        setAppointment((prev) => ({
+        setForm((prev: FormData) => ({
             ...prev,
-            date: formattedDate,
+            date: {
+                $date: new Date(`${formattedDate.split("/")[1]}/${formattedDate.split("/")[0]}/${formattedDate.split("/")[2]}`)
+            }
         }));
         setDate(newValue);
         setLoading(false);
@@ -62,10 +65,6 @@ const Step3 = () => {
         axios(`${backendEndpoint}/availability/`).then((res) => setAvailability(res.data));
         const today = dayjs();
         handleDate(today);
-        setAppointment((prev) => ({
-            ...prev,
-            hour: "",
-        }));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -77,10 +76,15 @@ const Step3 = () => {
             element.classList.remove("clockHourSelected");
         }
         e.currentTarget.classList.add("clockHourSelected");
-        setAppointment((prev) => ({
-            ...prev,
-            hour: selectedHour,
-        }));
+        setForm((prev: FormData) => {
+            const newHour = new Date(prev.date.$date.setHours(Number(selectedHour.split(":")[0]), Number(selectedHour.split(":")[1])))
+            return ({
+                ...prev,
+                date: {
+                    $date: newHour
+                },
+            })
+        });
     };
 
     const { config } = useConfig()

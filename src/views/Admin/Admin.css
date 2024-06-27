@@ -4,6 +4,7 @@
     width: 100vw;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(4px);
 }
 
 .adminLoginBox {
@@ -12,10 +13,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: max(350px, 40%);
+    width: max(350px, 35%);
     border-radius: 2.5rem;
     gap: 1rem;
     padding: 2rem 0;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
 
 .adminLoginBox img {
@@ -33,4 +35,17 @@
     border-radius: 2rem;
     color: white;
     border: 1px solid white;
+    transition: ease .3s;
+}
+
+.actionbutton:hover {
+    transform: scale(1.1);
+}
+
+.backToHome {
+    color: white;
+}
+
+.backToHome:hover {
+    text-decoration: underline;
 }

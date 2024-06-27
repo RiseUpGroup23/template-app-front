@@ -46,5 +46,6 @@ export interface ConfigFile {
             secondary: string;
         }
         shopName: string;
+        twoColors: boolean;
     }
 }

@@ -1,3 +1,15 @@
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .adminModule {
     font-family: "Inter", sans-serif;
     display: flex;
@@ -30,6 +42,18 @@
     background-color: #232323;
     padding: 4vw 1vw;
     position: fixed;
+}
+
+.logoutButton {
+    color: white;
+    position: fixed;
+    bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .menuItem {
@@ -96,6 +120,10 @@
     display: flex;
 }
 
+.blackLayout .rowContainer:last-child {
+    padding-bottom: 1rem;
+}
+
 .rowContainer .rowItem {
     color: white;
     display: flex;
@@ -112,10 +140,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-align: center;
+    max-width: 800px;
 }
 
 .rowContainer .rowItem img {
-    width: 75px;
+    max-height: 100%;
     object-fit: contain;
 }
 
@@ -196,6 +225,19 @@
 
 .actionsContainer {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.switchColorMode {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.switchOptions {
+    font-size: .75rem;
 }
 
 .colorsContainer {
@@ -211,6 +253,7 @@
     border-radius: 100%;
     object-fit: contain;
     cursor: pointer;
+    max-width: 4rem;
 }
 
 .colorGroupName {
@@ -222,6 +265,14 @@
     display: flex;
     gap: 2rem;
     align-items: center;
+}
+
+.monthsSelector {
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
 }
 
 .apoTitle button {
@@ -248,6 +299,7 @@
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     margin-bottom: 1rem;
+    position: relative;
 }
 
 .calendarDay {
@@ -258,6 +310,17 @@
     color: white;
 }
 
+.calendarDay .info {
+    color: #FFFFFF80;
+    font-size: .75rem;
+    margin: 0;
+    margin-top: .25rem;
+}
+
+.calendarDay.selected .info {
+    color: #000;
+}
+
 .calendarDay span {
     height: 100%;
     aspect-ratio: 1;
@@ -265,6 +328,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    flex-direction: column;
 }
 
 .notThisMonth {
@@ -275,6 +339,93 @@
     background: #fff;
     border-radius: 100%;
     color: #000;
+}
+
+.apoCards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    width: 100%;
+    gap: 2rem;
+    column-gap: 2rem;
+    margin-top: 2rem;
+}
+
+.apoCard {
+    display: flex;
+    align-items: center;
+    border-radius: 0.3125rem;
+    background: rgba(0, 0, 0, 0.37);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.28);
+    padding: 1rem 1.5rem;
+    color: white;
+    width: 90%;
+    justify-content: space-between;
+}
+
+.apoCardInfo {
+    display: flex;
+    gap: .25rem;
+}
+
+.apoCardEdit svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.rowButtonAction {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addSection {
+    margin-top: 5rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.newProfButton {
+    background-color: #000;
+    border-radius: 100%;
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s ease;
+}
+
+.newProfButton:hover {
+    transform: scale(1.1);
+}
+
+.newProfButton svg {
+    color: white;
+    height: 2rem;
+    width: 2rem;
+}
+
+.AdminCalendarContainer .newProfButton {
+    position: absolute;
+    right: -3rem;
+    bottom: -3rem;
+}
+
+.blackLayLoading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30vh;
+}
+
+
+@media (max-width:1300px) {
+    .calendarDay .info {
+        display: none;
+    }
 }
 
 @media (max-width:1024px) {
@@ -307,15 +458,21 @@
         display: none;
     }
 
-    .MuiDrawer-paper,
-    .MuiList-padding {
+    .adminDrawer .MuiDrawer-paper,
+    .adminDrawer .MuiList-padding {
         width: 70vw !important;
         background-color: #232323 !important;
     }
 
-    .MuiList-padding {
+    .adminDrawer .MuiList-padding {
         width: 68vw !important;
         margin-left: 1vw !important;
+    }
+
+    .logoutButton {
+        font-size: 1.5rem;
+        left: 1rem;
+        align-items: flex-end;
     }
 
     .menuItem {
@@ -340,6 +497,10 @@
         font-size: 1rem !important;
     }
 
+    .rowContainer .rowItem span {
+        max-width: 100px;
+    }
+
     .rowButtonAction svg {
         width: 1.75rem;
         height: 1.75rem;
@@ -348,5 +509,51 @@
     .colorDemo {
         width: 3rem;
         height: 3rem;
+        max-width: 3rem;
+    }
+
+    .calendarBox .rowItem {
+        font-size: .875rem !important;
+        border-width: 0 0 1px 0 !important;
+    }
+
+    .calendarDay {
+        aspect-ratio: 1;
+    }
+
+    .monthsSelector {
+        gap: .5rem;
+        font-size: .875rem;
+    }
+
+    .monthsSelector button {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    .apoTitle {
+        font-size: 1rem;
+    }
+
+    .apoCards {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .apoCard {
+        width: 85%;
+    }
+
+    .actionsContainer {
+        gap: .5rem;
+    }
+
+    .addSection {
+        margin-top: 3rem;
+    }
+
+    .AdminCalendarContainer .newProfButton {
+        right: -2rem;
+        bottom: -3rem;
+        transform: scale(.5);
     }
 }

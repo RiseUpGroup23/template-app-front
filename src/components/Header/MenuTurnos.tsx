@@ -22,13 +22,13 @@ const MenuTurnos = () => {
         <div className="containerHeaderButton">
             <style>{`
                 .botonHeader:hover {
-                    border: 3px solid ${hexToRgb(config.customization.secondary.color)};
+                    border: 3px solid ${hexToRgb(config.customization.primary.color, 1, -2)};
                     border-width: 0 0 3px 0;
                     transition: border-color 0.5s ease;
                 } 
 
                 .botonHeader.active {
-                    border-bottom: 3px solid ${hexToRgb(config.customization.secondary.color)};
+                    border-bottom: 3px solid ${hexToRgb(config.customization.primary.color, 1, -2)};
                 }
 
                 .listHeader .botonHeader:hover {

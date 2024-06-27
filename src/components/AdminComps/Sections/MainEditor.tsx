@@ -1,15 +1,14 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { Link } from "react-router-dom";
-import EditTextModal from "../Buttons/EditTextModal";
 import DeleteModal from "../Buttons/DeleteModal";
 import { useMediaQuery } from "@mui/material";
 
 let data = [
-    { name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
-    { name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
-    { name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
-    { name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
+    { _id: "sa239", name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
+    { _id: "sa239", name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
+    { _id: "sa239", name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
+    { _id: "sa239", name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
 ];
 
 data = data.concat(data).concat(data).concat(data).slice(0, 9)
@@ -23,7 +22,7 @@ export const arrowIco = (inverted = 0) => {
 }
 
 const MainEditor = () => {
-    const { config } = useConfig()
+    const { config, cancelAppointment } = useConfig()
     const pageStep = 4
     const [visibleItems, setVisibleItems] = useState(pageStep);
     const totalItems = data.length;
@@ -50,17 +49,18 @@ const MainEditor = () => {
                 </div>
                 {data.slice(0, visibleItems).map((item, index) => (
                     <div className="rowContainer" key={index}>
-                        {Object.values(item).map((value, index) => (
-                            <div className="rowItem" key={index} style={{ width: index === 0 ? (isMobile ? '30%' : '50%') : `calc(${isMobile ? "70" : "50"}% / 3)` }}>
-                                {value !== "Editar" ? (
-                                    <span>{value}</span>
-                                ) : (
-                                    <div className="actionsContainer">
-                                        <DeleteModal />
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                        <div className="rowItem" key={index} style={{ width: (isMobile ? '30%' : '50%') }}>
+                            <span>{item.name}</span>
+                        </div>
+                        <div className="rowItem" key={index} style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}>
+                            <span>{item.date}</span>
+                        </div>
+                        <div className="rowItem" key={index} style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}>
+                            <span>{item.time}</span>
+                        </div>
+                        <div className="actionsContainer" style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}>
+                            <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(item._id)} />
+                        </div>
                     </div>
                 ))}
             </div>

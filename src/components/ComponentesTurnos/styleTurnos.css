@@ -197,13 +197,15 @@
     transform: scale(1.1);
 }
 
-.imgPeluquero {
+/* .imgPeluquero {
     width: 80%;
     border-radius: 50%;
-}
+} */
 
-.imgServicio {
-    width: 60%;
+.imgServicio, .imgPeluquero {
+    width: 80%;
+    border-radius: 50%;
+    object-fit: contain;
 }
 
 .nombrePeluquero {

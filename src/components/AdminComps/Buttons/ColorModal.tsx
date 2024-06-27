@@ -22,6 +22,7 @@ const EditColorModal = ({ initialColor, prop }: Props) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const { editProp } = useConfig()
+    const hexRegex = /^#[A-Fa-f0-9]{0,6}$/;
 
     const handleSave = () => {
         setLoading(true)
@@ -47,6 +48,10 @@ const EditColorModal = ({ initialColor, prop }: Props) => {
                         Editar color
                     </Typography>
                     <HexColorPicker color={value} onChange={setValue} />
+                    <div className="textInModal">
+                        <span>HEX: </span>
+                        <input type='text' value={value} onChange={(e) => hexRegex.test(e.target.value) && setValue(e.target.value)} />
+                    </div>
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
                         <button className="confirmModal" onClick={handleSave}>

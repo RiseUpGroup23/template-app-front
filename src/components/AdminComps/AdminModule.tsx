@@ -1,12 +1,14 @@
 import React from "react"
 import Menu from "./Menu"
 import "./AdminModules.css"
-import { Route, Router, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import MainEditor from "./Sections/MainEditor"
 import { useConfig } from "../../context/AdminContext"
 import Customization from "./Sections/Customization"
 import Appointments from "./Sections/Appointments"
 import Alert from '@mui/material/Alert';
+import Professionals from "./Sections/Professionals"
+import Services from "./Sections/Services"
 
 
 const AdminModule = () => {
@@ -23,6 +25,8 @@ const AdminModule = () => {
                     <Route path="/" element={<MainEditor />} />
                     <Route path="/personalizacion" element={<Customization />} />
                     <Route path="/turnos" element={<Appointments />} />
+                    <Route path="/profesionales" element={<Professionals />} />
+                    <Route path="/servicios" element={<Services />} />
                 </Routes>
             </div>
             {alert && alert.type !== "hidden" && <Alert className="alertBox" severity={alert.type}>

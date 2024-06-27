@@ -13,7 +13,7 @@ const Header = () => {
     const { config, invertColors } = useConfig()
     const isMobile = useMediaQuery('(max-width:1024px)');
     const location = useLocation()
-    const [inverted, setInverted] = useState(false)
+    const [inverted, setInverted] = useState(localStorage?.getItem("inverted") ?? false)
     if (!config) return <></>
 
     return (
@@ -37,9 +37,14 @@ const Header = () => {
                             </Link>
                             <MenuTurnos />
                             <button onClick={() => {
+                                if (localStorage.getItem("inverted")) {
+                                    localStorage.removeItem("inverted")
+                                } else {
+                                    localStorage.setItem("inverted", "true")
+                                }
                                 invertColors()
                                 setInverted((prev) => !prev)
-                            }} style={{ color: `${config.customization.primary.text}` }} className={`botonHeader inverter`}>
+                            }} style={{ padding: `${config.customization.twoColors ? "" : "0"}`, visibility: `${config.customization.twoColors ? "visible" : "hidden"}`, color: `${config.customization.primary.text}` }} className={`botonHeader inverter`}>
                                 {inverted ? <LightModeIcon /> : <LightModeOutlinedIcon />}
                             </button>
                         </>
