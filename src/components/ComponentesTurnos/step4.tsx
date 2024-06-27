@@ -2,11 +2,18 @@ import { useConfig } from '../../context/AdminContext';
 import './styleTurnos.css';
 import hexToRgb from "../../modules/hexToRgb";
 import { useAppointment } from '../../context/ApContext';
+import { useEffect } from 'react';
 
 
 const Step4 = () => {
     const { config } = useConfig()
     const { form } = useAppointment()
+
+    useEffect(() => {
+        console.log(form);
+        console.log(form.date.toJSON());
+
+    }, [])
     if (!config) return <></>
 
     return (
@@ -16,14 +23,14 @@ const Step4 = () => {
                 <div className="resumeText">
                     <div style={{ color: `${config.customization.primary.text}` }}>
                         Fecha: <span style={{ fontWeight: "bold" }}>
-                            {new Date(form.date.$date).getDate().toString().padStart(2, '0') + '-' +
-                                (new Date(form.date.$date).getMonth() + 1).toString().padStart(2, '0') + '-' +
-                                new Date(form.date.$date).getFullYear()}
+                            {new Date(form.date).getDate().toString().padStart(2, '0') + '-' +
+                                (new Date(form.date).getMonth() + 1).toString().padStart(2, '0') + '-' +
+                                new Date(form.date).getFullYear()}
                         </span>
                     </div>
 
                     <div style={{ color: `${config.customization.primary.text}`, marginTop: "15%" }}>
-                        Hora: <span style={{ fontWeight: "bold" }}>{new Date(form.date.$date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
+                        Hora: <span style={{ fontWeight: "bold" }}>{new Date(form.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
                     </div>
                 </div>
                 <div className="resumeInfo" style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, 1)}`, marginBottom: '-120px' }}>

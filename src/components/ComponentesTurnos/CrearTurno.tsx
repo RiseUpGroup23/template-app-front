@@ -6,9 +6,11 @@ import { AppointmentProvider } from '../../context/ApContext';
 
 const CrearTurno = () => {
     return (
-        <StepProvider>
-            <CreandoTurnos />
-        </StepProvider>
+        <AppointmentProvider>
+            <StepProvider>
+                <CreandoTurnos />
+            </StepProvider>
+        </AppointmentProvider>
     );
 };
 
@@ -17,7 +19,7 @@ const CreandoTurnos = () => {
     const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
 
     const buttonTexts = [
-        { prev: 'Inicio'},
+        { prev: 'Inicio' },
         { prev: 'Anterior' },
         { prev: 'Anterior', next: 'Continuar' },
         { prev: 'Anterior', next: 'Continuar' },
@@ -28,17 +30,15 @@ const CreandoTurnos = () => {
     return (
         <div>
             <div className="containerStep">
-                <AppointmentProvider>
-                    {currentStep === 0 && <Step0 />}
-                    {currentStep === 1 && <Step1 />}
-                    {currentStep === 2 && <Step2 setIsFormComplete={setIsFormComplete} />}
-                    {currentStep === 3 && (
+                {currentStep === 0 && <Step0 />}
+                {currentStep === 1 && <Step1 />}
+                {currentStep === 2 && <Step2 setIsFormComplete={setIsFormComplete} />}
+                {currentStep === 3 && (
 
-                        <Step3 />
-                    )}
-                    {currentStep === 4 && <Step4 />}
-                    {currentStep === 5 && <Step5 />}
-                </AppointmentProvider>
+                    <Step3 />
+                )}
+                {currentStep === 4 && <Step4 />}
+                {currentStep === 5 && <Step5 />}
             </div>
             <StepButtons
                 prevButtonText={buttonTexts[currentStep].prev}

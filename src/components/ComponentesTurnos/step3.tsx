@@ -49,11 +49,11 @@ const Step3 = () => {
             const longest = clockL.length >= clockR.length ? clockL.length : clockR.length;
             setGridDimension(longest <= 12 ? 4 : 4 + Math.ceil((longest - 12) / 3));
         });
+        let parts = formattedDate.split("/");
+        let date = new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
         setForm((prev: FormData) => ({
             ...prev,
-            date: {
-                $date: new Date(`${formattedDate.split("/")[1]}/${formattedDate.split("/")[0]}/${formattedDate.split("/")[2]}`)
-            }
+            date: date
         }));
         setDate(newValue);
         setLoading(false);
@@ -77,12 +77,10 @@ const Step3 = () => {
         }
         e.currentTarget.classList.add("clockHourSelected");
         setForm((prev: FormData) => {
-            const newHour = new Date(prev.date.$date.setHours(Number(selectedHour.split(":")[0]), Number(selectedHour.split(":")[1])))
+            const newHour = new Date(prev.date.setHours(Number(selectedHour.split(":")[0]), Number(selectedHour.split(":")[1])))
             return ({
                 ...prev,
-                date: {
-                    $date: newHour
-                },
+                date: newHour
             })
         });
     };

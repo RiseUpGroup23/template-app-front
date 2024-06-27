@@ -11,32 +11,30 @@ interface TarjetaPeluqueroProps {
 const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
 
     const { config } = useConfig()
-    const {nextStep} = useStepContext()
-    const {setForm} = useAppointment()
+    const { nextStep } = useStepContext()
+    const { setForm } = useAppointment()
     if (!config) return <></>
 
     const handleClick = () => {
         nextStep();
-        setForm(prev=>({
+        setForm(prev => ({
             ...prev,
-            professional:{
-                $oid:prof._id
-            }
+            professional: prof._id
         }))
     }
 
     return (
         <div className="tarjeta" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
-                <img
-                    src={prof.image}
-                    className="imgPeluquero"
-                />
-                <div className="nombrePeluquero" style={{ color: `${config.customization.primary.text}` }}>
-                    {prof.name}
-                </div>
-                <div className="tipoPeluquero" style={{ color: `${config.customization.primary.text}` }}>
-                    {prof.name}
-                </div>
+            <img
+                src={prof.image}
+                className="imgPeluquero"
+            />
+            <div className="nombrePeluquero" style={{ color: `${config.customization.primary.text}` }}>
+                {prof.name}
+            </div>
+            <div className="tipoPeluquero" style={{ color: `${config.customization.primary.text}` }}>
+                {prof.profession}
+            </div>
         </div>
     )
 }

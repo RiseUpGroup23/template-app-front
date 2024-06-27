@@ -21,26 +21,14 @@ export const AppointmentProvider: React.FC<AppointmentProviderProps> = ({ childr
     const [step, setStep] = useState(0)
     const [date, setDate] = useState<Dayjs | null>(dayjs(new Date().toJSON()));
     const [form, setForm] = useState<FormData>({
-        date: {
-            $date: new Date(),
-        },
-        startTime: {
-            $date: new Date(),
-        },
-        endTime: {
-            $date: new Date(),
-        },
-        professional: {
-            $oid: "",
-        },
-        typeOfService: {
-            $oid: "",
-        },
+        date:  new Date(),
+        professional:  "",
+        typeOfService:  "",
         customer: {
             name: "",
-            lastname: "",
+            lastname: "asdsadsad",
             phoneNumber: "",
-            email: "",
+            email: "nico@gmail.com",
         },
     })
 

@@ -1,4 +1,7 @@
+import axios from 'axios';
 import React, { createContext, useState, useContext, FC } from 'react';
+import { useConfig } from './AdminContext';
+import { useAppointment } from './ApContext';
 
 interface StepContextType {
     currentStep: number;
@@ -14,9 +17,19 @@ interface StepProviderProps {
 
 export const StepProvider: FC<StepProviderProps> = ({ children }) => {
     const [currentStep, setCurrentStep] = useState<number>(0);
+    const { form } = useAppointment()
+    const { dbUrl } = useConfig()
 
     const nextStep = () => {
-        setCurrentStep(prevStep => prevStep + 1);
+        setCurrentStep(prevStep => {
+            let dateInUTCMinus3 = new Date(form.date.getTime() - (3 * 60 * 60 * 1000));
+            let jsonDateInUTCMinus3 = dateInUTCMinus3.toJSON();
+            console.log({ ...form, date: jsonDateInUTCMinus3 });
+            if (prevStep === 4) {
+                axios.post(`${dbUrl}/appointments`, { ...form, date: jsonDateInUTCMinus3 })
+            }
+            return prevStep + 1
+        });
     };
 
     const prevStep = () => {

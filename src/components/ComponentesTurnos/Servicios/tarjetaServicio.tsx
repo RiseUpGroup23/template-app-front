@@ -11,18 +11,16 @@ interface TarjetaServicioProps {
 const TarjetaServicio: React.FC<TarjetaServicioProps> = ({ servicio }) => {
 
     const { config } = useConfig()
-    const {nextStep} = useStepContext()
-    const {setForm} = useAppointment()
+    const { nextStep } = useStepContext()
+    const { setForm } = useAppointment()
 
     if (!config) return <></>
 
     const handleClick = () => {
         nextStep();
-        setForm(prev=>({
+        setForm(prev => ({
             ...prev,
-            typeOfService:{
-                $oid:servicio._id
-            }
+            typeOfService: servicio._id
         }))
     }
 
