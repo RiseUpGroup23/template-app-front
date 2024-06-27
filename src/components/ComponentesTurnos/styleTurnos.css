@@ -289,8 +289,6 @@
     .formulario {
         width: 90%;
         height: 250px;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
     }
 
     .oblig {
@@ -435,5 +433,32 @@
 
     .resumeContainer.errorPage {
         flex-direction: column-reverse;
+    }
+
+    .tarjetaServicio, .tarjeta {
+        width: 120px;
+        height: 150px;
+    }
+
+    .imgServicio, .imgPeluquero {
+        width: 55%;
+    }
+
+    .nombreServicio, .nombrePeluquero {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+
+    .tipoPeluquero {
+        font-size: 0.7rem;
+    }
+
+    .containerPeluqueros {
+        gap: 2rem;
+    }
+
+    .formulario {
+        margin-top: 2.6rem;
+        margin-bottom: 2.6rem;
     }
 }
