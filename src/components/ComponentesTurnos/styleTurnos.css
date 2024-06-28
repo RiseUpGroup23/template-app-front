@@ -129,6 +129,10 @@
     border-radius: 3rem;
 }
 
+.clockContainer {
+    justify-content: flex-start;
+}
+
 .pickersContainer {
     display: flex;
     gap: 5rem;
@@ -137,7 +141,7 @@
 }
 
 .clockTitle {
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-bottom: .5rem;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 500;
@@ -149,6 +153,11 @@
 .clockContainer {
     flex-direction: column;
     gap: 1.25rem;
+}
+
+.clockDivisor {
+    display: flex;
+    gap: 1rem;
 }
 
 .clockLeft,
@@ -174,12 +183,13 @@
 }
 
 .clockDisabled {
-    color: lightgrey;
+    color: gray;
     cursor: default;
     pointer-events: none;
 }
 
-.tarjeta, .tarjetaServicio {
+.tarjeta,
+.tarjetaServicio {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -192,7 +202,7 @@
     height: 350px;
 }
 
-.tarjeta:hover, 
+.tarjeta:hover,
 .tarjetaServicio:hover {
     transform: scale(1.1);
 }
@@ -202,7 +212,8 @@
     border-radius: 50%;
 } */
 
-.imgServicio, .imgPeluquero {
+.imgServicio,
+.imgPeluquero {
     width: 80%;
     border-radius: 50%;
     object-fit: contain;
@@ -251,9 +262,15 @@
 .circularProg {
     display: flex;
     justify-content: center;
+    height: 100%;
+    align-items: center;
 }
 
-.containerForm{
+.MuiPickersCalendarHeader-label {
+    text-transform: capitalize;
+}
+
+.containerForm {
     display: flex;
     justify-content: center;
 }
@@ -437,16 +454,19 @@
         flex-direction: column-reverse;
     }
 
-    .tarjetaServicio, .tarjeta {
+    .tarjetaServicio,
+    .tarjeta {
         width: 120px;
         height: 150px;
     }
 
-    .imgServicio, .imgPeluquero {
+    .imgServicio,
+    .imgPeluquero {
         width: 55%;
     }
 
-    .nombreServicio, .nombrePeluquero {
+    .nombreServicio,
+    .nombrePeluquero {
         font-size: 1.2rem;
         margin-top: 1rem;
     }

@@ -5,21 +5,43 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { CircularProgress } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import Divider from '@mui/material/Divider';
-import dayjs from 'dayjs';
 import { useAppointment } from "../../context/ApContext";
-import { config } from "../../config";
 import axios from "axios";
 import './styleTurnos.css'
 import hexToRgb from "../../modules/hexToRgb";
 import { FormData } from "../../typings/FormData";
-
-const { backendEndpoint } = config;
+import { Availability } from "../../typings/Professional";
+import dayjs from 'dayjs';
+import 'dayjs/locale/es'; // Importar el idioma español para dayjs
 
 dayjs.locale('es');
 
 interface Schedules {
     unavailableSchedules: string[];
     allSchedules: string[];
+}
+
+function generateHoursArray(start: string, end: string, interval: number) {
+    const result = [];
+    let current = new Date(`2000-01-01T${start}`);
+    const endDateTime = new Date(`2000-01-01T${end}`);
+
+    while (current <= endDateTime) {
+        const hourMinute = `${current.getHours().toString().padStart(2, '0')}:${current.getMinutes().toString().padStart(2, '0')}`;
+        result.push(hourMinute);
+        current.setMinutes(current.getMinutes() + interval);
+    }
+
+    return result;
+}
+
+function concatenateHours(schedule: Availability, interval: number) {
+    const { initialHour, finalHour, secondInitialHour, secondFinalHour } = schedule;
+
+    const firstRange = generateHoursArray(initialHour, finalHour, interval);
+    const secondRange = generateHoursArray(secondInitialHour, secondFinalHour, interval);
+
+    return [...firstRange, ...secondRange];
 }
 
 const Step3 = () => {
@@ -30,41 +52,73 @@ const Step3 = () => {
     const [schedules, setSchedules] = useState<Schedules | null>()
     const [clockLeft, setClockLeft] = useState<string[]>([])
     const [clockRight, setClockRight] = useState<string[]>([])
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState({
+        days: true,
+        hours: true
+    })
     const [gridDimension, setGridDimension] = useState(0)
+    const [noWorkDays, setNoWorkDays] = useState([])
+    const { dbUrl } = useConfig()
+    const { form } = useAppointment()
 
-    const handleDate = async (newValue: any) => {
-        setLoading(true);
-        let formattedDate = newValue.format("DD-MM-YYYY").split("-").join("/");
-        await axios(`${backendEndpoint}/availability/${formattedDate.split("/").join("")}`).then((res) => {
-            setSchedules(res.data);
+    const handleDate = async (newValue: any, firstCharge?: boolean) => {
+        setLoading({
+            days: firstCharge || false,
+            hours: true
+        });
+        let formattedDate = newValue.locale('en').format("DD-MM-YYYY").split("-").join("/");
+        const day = newValue.locale('en').format('dddd').toLowerCase()
+        const unavailableS = await axios(`${dbUrl}/appointments/day/${newValue.format("YYYY-MM-DD")}`).then(res => res.data.filter((e: any) => e.professional._id === form.professional).map((e: any) => e.date.split("T")[1].slice(0, 5)))
+        await axios(`${dbUrl}/professionals/${form.professional}`).then((res) => {
+            const formattedAva: any = {}
+            Object.keys(res.data.timeAvailabilities).forEach((e) => {
+                formattedAva[e] = concatenateHours(res.data.timeAvailabilities[e], res.data.appointmentInterval)
+            })
+            setSchedules({ allSchedules: formattedAva[day], unavailableSchedules: unavailableS });
             const isMorning = (hour: string) => {
                 const hours = Number(hour.split(":")[0]);
                 return hours < 12;
             };
-            const clockL = res?.data?.allSchedules?.filter((sch: string) => isMorning(sch));
-            const clockR = res?.data?.allSchedules?.filter((sch: string) => !isMorning(sch));
+            const clockL = formattedAva[day]?.filter((sch: string) => isMorning(sch));
+            const clockR = formattedAva[day]?.filter((sch: string) => !isMorning(sch));
             setClockLeft(clockL);
             setClockRight(clockR);
             const longest = clockL.length >= clockR.length ? clockL.length : clockR.length;
             setGridDimension(longest <= 12 ? 4 : 4 + Math.ceil((longest - 12) / 3));
+
+            let parts = formattedDate.split("/");
+            let date = new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
+            setForm((prev: FormData) => ({
+                ...prev,
+                date: date
+            }));
+            setDate(newValue);
+            setLoading({
+                days: false,
+                hours: false
+            });
         });
-        let parts = formattedDate.split("/");
-        let date = new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
-        setForm((prev: FormData) => ({
-            ...prev,
-            date: date
-        }));
-        setDate(newValue);
-        setLoading(false);
     };
 
     useEffect(() => {
-        setLoading(true);
-
-        axios(`${backendEndpoint}/availability/`).then((res) => setAvailability(res.data));
-        const today = dayjs();
-        handleDate(today);
+        setLoading({
+            days: true,
+            hours: true
+        });
+        axios(`${dbUrl}/professionals/${form.professional}`).then((res) => {
+            const noWD: any = []
+            const formattedAva: any = {}
+            Object.keys(res.data.timeAvailabilities).forEach((e) => {
+                if (!res.data.timeAvailabilities[e].active) {
+                    noWD.push(e)
+                }
+                formattedAva[e] = concatenateHours(res.data.timeAvailabilities[e], res.data.appointmentInterval)
+            })
+            setAvailability(formattedAva)
+            setNoWorkDays(noWD)
+            const today = dayjs();
+            handleDate(today, true);
+        });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -96,7 +150,7 @@ const Step3 = () => {
                 .MuiTypography-root,
                 .MuiPickersDay-root,
                 .MuiPickersCalendarHeader-label,
-                .clockHour
+                .clockHour:not(.clockDisabled):not(.clockHourSelected)
                     {
                         color: ${config.customization.primary.text} !important; 
                     }
@@ -118,36 +172,39 @@ const Step3 = () => {
     }
 
     return (
-        availability && (
-            <div className="pickersBox">
-                {style()}
-                <div className="appointTitle2" style={{ color: `${config.customization.primary.text}` }}>
-                    Seleccione la <span>fecha</span> y la <span>hora</span>
+        <div className="pickersBox">
+            {style()}
+            <div className="appointTitle2" style={{ color: `${config.customization.primary.text}` }}>
+                Seleccione la <span>fecha</span> y la <span>hora</span>
+            </div>
+            <div className="pickersContainer" style={{ color: 'white' }}>
+                <div className="calendarContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
+                    {!loading.days ? <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateCalendar
+                            disablePast
+                            value={date}
+                            onChange={(newValue) => {
+                                handleDate(newValue);
+                            }}
+                            minDate={dayjs().date(1)}
+                            maxDate={dayjs().date(1).add(nextTwoMonths, 'month').subtract(1, 'day')}
+                            views={["day"]}
+                            dayOfWeekFormatter={(date) => {
+                                return dayjs(date).subtract(1, "day").locale("es").format('ddd').toUpperCase().slice(0, -1);
+                            }}
+                            shouldDisableDate={(day) => {
+                                const dayOfWeek = day.locale('en').format('dddd').toLowerCase();
+                                const isBannedDay = availability?.bans?.includes(day.format('DD/MM/YYYY'));
+                                return noWorkDays.some(e => e === dayOfWeek) || isBannedDay;
+                            }}
+                        />
+                    </LocalizationProvider>
+                        :
+                        <div className="circularProg">{<CircularProgress size={50} sx={{ color: `${config.customization.primary.text}` }} />}</div>
+                    }
                 </div>
-                <div className="pickersContainer" style={{ color: 'white' }}>
-                    <div className="calendarContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DateCalendar
-                                disablePast
-                                value={date}
-                                onChange={(newValue) => {
-                                    !loading && handleDate(newValue);
-                                }}
-                                minDate={dayjs().date(1)}
-                                maxDate={dayjs().date(1).add(nextTwoMonths, 'month').subtract(1, 'day')}
-                                views={["day"]}
-                                dayOfWeekFormatter={(date) => {
-                                    return dayjs(date).subtract(1, "day").locale("es").format('ddd').toUpperCase().slice(0, -1);
-                                }}
-                                shouldDisableDate={(day) => {
-                                    const dayOfWeek = day.locale('en').format('dddd').toLowerCase();
-                                    const isBannedDay = availability.bans.includes(day.format('DD/MM/YYYY'));
-                                    return !availability[dayOfWeek].length || isBannedDay;
-                                }}
-                            />
-                        </LocalizationProvider>
-                    </div>
-                    <div className="clockContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
+                <div className="clockContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
+                    {!loading.hours ? <>
                         <div className="clockTitle" style={{ color: `${config.customization.primary.text}` }}>Horarios disponibles</div>
                         <div className="clockDivisor">
                             {clockLeft?.length ? (
@@ -174,10 +231,13 @@ const Step3 = () => {
                                 <></>
                             )}
                         </div>
-                    </div>
+                    </>
+                        :
+                        <div className="circularProg">{<CircularProgress size={50} sx={{ color: `${config.customization.primary.text}` }} />}</div>
+                    }
                 </div>
             </div>
-        )
+        </div>
     );
 }
 

@@ -2,18 +2,12 @@ import { useConfig } from '../../context/AdminContext';
 import './styleTurnos.css';
 import hexToRgb from "../../modules/hexToRgb";
 import { useAppointment } from '../../context/ApContext';
-import { useEffect } from 'react';
 
 
 const Step4 = () => {
     const { config } = useConfig()
     const { form } = useAppointment()
 
-    useEffect(() => {
-        console.log(form);
-        console.log(form.date.toJSON());
-
-    }, [])
     if (!config) return <></>
 
     return (

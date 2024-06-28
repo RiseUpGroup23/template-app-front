@@ -8,7 +8,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
 import { useConfig } from '../../../context/AdminContext';
 import { style } from "./EditTextModal"
-import { Availability, Professional } from '../../../typings/Professional';
+import { Professional } from '../../../typings/Professional';
 import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
 import { Alert, useMediaQuery } from '@mui/material';
@@ -236,7 +236,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
                     <div className="textInModal">
                         <span>Turnos cada (min): </span>
-                        <input type='text' value={prof.timeWindow} onChange={(e) => setProf((prev) => ({ ...prev, timeWindow: Number(e.target.value) || e.target.value === "" ? e.target.value : prev.timeWindow }))} />
+                        <input type='text' value={prof.appointmentInterval} onChange={(e) => setProf((prev) => ({ ...prev, appointmentInterval: Number(e.target.value) || e.target.value === "" ? e.target.value : prev.appointmentInterval }))} />
                     </div>
 
                     <div className="textInModal">
@@ -252,12 +252,18 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     </div>
 
                     <div className="availabilityEditor">
+                        <div className="title">Horario laborable (Formato 24 hs)</div>
                         <table>
                             <thead>
                                 <tr>
                                     <th style={{ width: `${isMobile ? "10%" : "20%"}` }}>Laborable</th>
                                     <th style={{ width: `${isMobile ? "10%" : "20%"}` }}>Día</th>
-                                    <th style={{ width: `${isMobile ? "80%" : "60%"}` }}>Horarios</th>
+                                    <th style={{ width: `${isMobile ? "80%" : "60%"}` }}>
+                                        <div className='tableHeader'>
+                                            <span>Mañana</span>
+                                            <span>Tarde</span>
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             {prof?.timeAvailabilities && Object.keys(prof?.timeAvailabilities)?.map((day, index) => (
@@ -283,10 +289,14 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                                     </td>
                                     <td style={{ width: "80%", textAlign: "center" }}>
                                         <div className="inputSchedule">
-                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].initialHour} onChange={(e) => changeAvailability(e.target.value, day, "initialHour")} />
-                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].finalHour} onChange={(e) => changeAvailability(e.target.value, day, "finalHour")} />
-                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondInitialHour} onChange={(e) => changeAvailability(e.target.value, day, "secondInitialHour")} />
-                                            <input className={error[day] === true ? "availabilityError" : ""} type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondFinalHour} onChange={(e) => changeAvailability(e.target.value, day, "secondFinalHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                                type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].initialHour} onChange={(e) => changeAvailability(e.target.value, day, "initialHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                                type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].finalHour} onChange={(e) => changeAvailability(e.target.value, day, "finalHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                                type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondInitialHour} onChange={(e) => changeAvailability(e.target.value, day, "secondInitialHour")} />
+                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                                type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondFinalHour} onChange={(e) => changeAvailability(e.target.value, day, "secondFinalHour")} />
                                         </div>
                                     </td>
                                 </tr>

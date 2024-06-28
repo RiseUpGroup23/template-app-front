@@ -216,6 +216,24 @@ input[type=file]::file-selector-button:hover {
     margin-top: 1rem;
 }
 
+.availabilityEditor .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.tableHeader {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.dayDisabled {
+    opacity: .4;
+    pointer-events: none;
+}
+
 @media (max-width:1024px) {
     .textInModal {
         width: 100%;
