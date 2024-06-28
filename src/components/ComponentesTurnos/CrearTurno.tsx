@@ -16,7 +16,7 @@ const CrearTurno = () => {
 
 const CreandoTurnos = () => {
     const { currentStep } = useStepContext();
-    const [isFormComplete, setIsFormComplete] = useState<boolean>(false);
+    const [nextButtonEnabled, setNextButtonEnabled] = useState<boolean>(false);
 
     const buttonTexts = [
         { prev: 'Inicio' },
@@ -32,10 +32,10 @@ const CreandoTurnos = () => {
             <div className="containerStep">
                 {currentStep === 0 && <Step0 />}
                 {currentStep === 1 && <Step1 />}
-                {currentStep === 2 && <Step2 setIsFormComplete={setIsFormComplete} />}
+                {currentStep === 2 && <Step2 setIsFormComplete={setNextButtonEnabled} />}
                 {currentStep === 3 && (
 
-                    <Step3 />
+                    <Step3 setNextButtonEnabled={setNextButtonEnabled} />
                 )}
                 {currentStep === 4 && <Step4 />}
                 {currentStep === 5 && <Step5 />}
@@ -43,7 +43,7 @@ const CreandoTurnos = () => {
             <StepButtons
                 prevButtonText={buttonTexts[currentStep].prev}
                 nextButtonText={buttonTexts[currentStep].next}
-                isNextButtonEnabled={currentStep !== 2 || isFormComplete}
+                isNextButtonEnabled={nextButtonEnabled}
             />
         </div>
     );

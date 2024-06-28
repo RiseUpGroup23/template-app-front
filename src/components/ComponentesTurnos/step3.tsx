@@ -16,6 +16,10 @@ import 'dayjs/locale/es'; // Importar el idioma español para dayjs
 
 dayjs.locale('es');
 
+interface Props {
+    setNextButtonEnabled: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 interface Schedules {
     unavailableSchedules: string[];
     allSchedules: string[];
@@ -44,7 +48,7 @@ function concatenateHours(schedule: Availability, interval: number) {
     return [...firstRange, ...secondRange];
 }
 
-const Step3 = () => {
+const Step3 = ({ setNextButtonEnabled }: Props) => {
     const [availability, setAvailability] = useState<any>(null)
     const { date, setDate, setForm } = useAppointment()
     const thisMonth = dayjs().month() + 1;
@@ -62,6 +66,7 @@ const Step3 = () => {
     const { form } = useAppointment()
 
     const handleDate = async (newValue: any, firstCharge?: boolean) => {
+        setNextButtonEnabled(false)
         setLoading({
             days: firstCharge || false,
             hours: true
@@ -137,6 +142,7 @@ const Step3 = () => {
                 date: newHour
             })
         });
+        setNextButtonEnabled(true)
     };
 
     const { config } = useConfig()
