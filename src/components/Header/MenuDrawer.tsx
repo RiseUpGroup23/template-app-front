@@ -25,16 +25,6 @@ export default function MenuDrawer() {
         setState({ ...state, right: open });
     };
 
-    useEffect(() => {
-        if (localStorage.getItem("inverted")) {
-            localStorage.removeItem("inverted")
-        } else {
-            localStorage.setItem("inverted", "true")
-        }
-        invertColors()
-        //eslint-disable-next-line
-    }, [inverted])
-
     const list = (
         <Box
             sx={{ width: 250 }}
@@ -70,7 +60,15 @@ export default function MenuDrawer() {
                             </ListItemButton>
                         </ListItem>
                     </Link>
-                    {config?.customization.twoColors && <ListItem onClick={() => setInverted(prev => !prev)} key="modo" disablePadding>
+                    {config?.customization.twoColors && <ListItem onClick={() => {
+                        if (localStorage.getItem("inverted")) {
+                            localStorage.removeItem("inverted")
+                        } else {
+                            localStorage.setItem("inverted", "true")
+                        }
+                        invertColors()
+                        setInverted(prev => !prev)
+                    }} key="modo" disablePadding>
                         <ListItemButton>
                             <ListItemText primary={inverted ? "Modo claro" : "Modo oscuro"} />
                             {inverted ? <LightModeIcon /> : <LightModeOutlinedIcon />}
@@ -111,7 +109,7 @@ export default function MenuDrawer() {
                 anchor="right"
                 open={state.right}
                 onClose={toggleDrawer(false)}
-                sx={{background:`${hexToRgb(config!.customization?.primary.text, .5, .35)}`}}
+                sx={{ background: `${hexToRgb(config!.customization?.primary.text, .5, .35)}` }}
             >
                 {list}
             </Drawer>
