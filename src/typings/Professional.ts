@@ -16,7 +16,8 @@ export interface Professional {
     email: string;
     phoneNumber: string;
     image: string;
-    timeWindow: string;
+    profession: string;
+    appointmentInterval: string;
     timeAvailabilities: {
         monday: Availability;
         tuesday: Availability;

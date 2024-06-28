@@ -1,14 +1,14 @@
-import dayjs, {Dayjs} from 'dayjs';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Appointment } from '../typings/Appoiment';
+import dayjs, { Dayjs } from 'dayjs';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { FormData } from '../typings/FormData';
 
 interface AppointmentContextProps {
     step: number;
     setStep: React.Dispatch<React.SetStateAction<number>>;
     date: Dayjs | null;
     setDate: React.Dispatch<React.SetStateAction<Dayjs | null>>;
-    appointment: Appointment;
-    setAppointment: React.Dispatch<React.SetStateAction<Appointment>>;
+    form: FormData;
+    setForm: React.Dispatch<React.SetStateAction<FormData>>;
 }
 
 const AppointmentContext = createContext<AppointmentContextProps | undefined>(undefined);
@@ -20,20 +20,16 @@ interface AppointmentProviderProps {
 export const AppointmentProvider: React.FC<AppointmentProviderProps> = ({ children }) => {
     const [step, setStep] = useState(0)
     const [date, setDate] = useState<Dayjs | null>(dayjs(new Date().toJSON()));
-    const [appointment, setAppointment] = useState<Appointment>({
-        patientType: "",
-        type: "",
-        name: "",
-        lastName: "",
-        age: "",
-        dni: "",
-        reasonForConsultation: "",
-        socialWork: "",
-        contactPhone: "",
-        contactEmail: "",
-        date: "",
-        hour: "",
-        canceled: false
+    const [form, setForm] = useState<FormData>({
+        date:  new Date(),
+        professional:  "",
+        typeOfService:  "",
+        customer: {
+            name: "",
+            lastname: "asdsadsad",
+            phoneNumber: "",
+            email: "nico@gmail.com",
+        },
     })
 
     const contextValue: AppointmentContextProps = {
@@ -41,8 +37,8 @@ export const AppointmentProvider: React.FC<AppointmentProviderProps> = ({ childr
         setStep,
         date,
         setDate,
-        appointment,
-        setAppointment
+        form,
+        setForm
     };
 
     return (

@@ -49,9 +49,16 @@
 }
 
 .next {
-    background:rgba(128, 66, 0, 1);
+    background: rgba(128, 66, 0, 1);
     color: white;
     margin-left: auto;
+}
+
+.next.disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 
 .resumeContainer {
@@ -99,6 +106,18 @@
     font-weight: 500;
 }
 
+.appointTitle2 {
+    font-family: "Roboto";
+    font-size: 3rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+}
+
+.appointTitle2 span {
+    font-weight: 500;
+}
+
 .calendarContainer,
 .clockContainer {
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.8);
@@ -110,6 +129,10 @@
     border-radius: 3rem;
 }
 
+.clockContainer {
+    justify-content: flex-start;
+}
+
 .pickersContainer {
     display: flex;
     gap: 5rem;
@@ -118,7 +141,7 @@
 }
 
 .clockTitle {
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-bottom: .5rem;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 500;
@@ -130,6 +153,11 @@
 .clockContainer {
     flex-direction: column;
     gap: 1.25rem;
+}
+
+.clockDivisor {
+    display: flex;
+    gap: 1rem;
 }
 
 .clockLeft,
@@ -155,40 +183,72 @@
 }
 
 .clockDisabled {
-    color: lightgrey;
+    color: gray;
     cursor: default;
     pointer-events: none;
 }
 
-.tarjeta {
+.tarjeta,
+.tarjetaServicio {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     border-radius: 16px;
     cursor: pointer;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.8);
+    transition: 0.5s;
+    width: 280px;
+    height: 350px;
 }
 
-.tarjet {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    align-items: center;
-    padding: 24px 16px; 
+.tarjeta:hover,
+.tarjetaServicio:hover {
+    transform: scale(1.1);
 }
 
-.tarjet img {
-    width: 100%;
+/* .imgPeluquero {
+    width: 80%;
     border-radius: 50%;
+} */
+
+.imgServicio,
+.imgPeluquero {
+    width: 80%;
+    border-radius: 50%;
+    object-fit: contain;
 }
 
 .nombrePeluquero {
     display: flex;
     justify-content: center;
-    color: white;
     text-align: center;
     font-family: Barlow Condensed;
-    font-size: 1.25rem; /* text-xl */
-    font-weight: 300; /* font-light */
+    font-size: 1.8rem;
+    font-weight: bold;
     align-self: stretch;
-    margin-top: 16px; /* mt-4 */
+    margin-top: 16px;
+}
+
+.nombreServicio {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-family: Barlow Condensed;
+    font-size: 1.8rem;
+    font-weight: bold;
+    align-self: stretch;
+    margin-top: 45px;
+}
+
+.tipoPeluquero {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-family: Barlow Condensed;
+    font-size: 1rem;
+    align-self: stretch;
+    margin-top: 0.1rem;
 }
 
 .containerPeluqueros {
@@ -196,10 +256,64 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 6rem;
-    margin-top: 3rem; /* mt-5 (5 * 4px = 20px) */
+    margin-top: 3rem;
+}
+
+.circularProg {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
+.MuiPickersCalendarHeader-label {
+    text-transform: capitalize;
+}
+
+.containerForm {
+    display: flex;
+    justify-content: center;
+}
+
+.formulario {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 40%;
+    height: 280px;
+    border-radius: 1rem;
+    margin-top: 3.5rem;
+    margin-bottom: 3.5rem;
+}
+
+.input {
+    width: 80%;
+    height: 2.5rem;
+    background-color: transparent;
+    padding: 0.5rem 0rem 0.5rem 1rem;
+    margin-top: 3rem;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+.oblig {
+    margin-bottom: 20px;
+    text-align: center;
+    width: 80%;
+    font-size: 1.5rem;
+    margin-top: 1rem;
 }
 
 @media (max-width:1300px) {
+    .formulario {
+        width: 90%;
+        height: 250px;
+    }
+
+    .oblig {
+        font-size: 1rem;
+    }
+
     .containerStep {
         display: flex;
         justify-content: center;
@@ -208,6 +322,14 @@
     }
 
     .appointTitle {
+        font-size: 1.7rem;
+        text-align: center;
+        width: 350px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .appointTitle2 {
         font-size: 1.7rem;
         text-align: center;
         width: 350px;
@@ -330,5 +452,35 @@
 
     .resumeContainer.errorPage {
         flex-direction: column-reverse;
+    }
+
+    .tarjetaServicio,
+    .tarjeta {
+        width: 120px;
+        height: 150px;
+    }
+
+    .imgServicio,
+    .imgPeluquero {
+        width: 55%;
+    }
+
+    .nombreServicio,
+    .nombrePeluquero {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+
+    .tipoPeluquero {
+        font-size: 0.7rem;
+    }
+
+    .containerPeluqueros {
+        gap: 2rem;
+    }
+
+    .formulario {
+        margin-top: 2.6rem;
+        margin-bottom: 2.6rem;
     }
 }

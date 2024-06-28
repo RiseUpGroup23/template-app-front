@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import { ConfigProvider } from './context/AdminContext';
 import { Auth0Provider } from '@auth0/auth0-react';
+import { AppointmentProvider } from './context/ApContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,7 +20,9 @@ root.render(
       }}
     >
       <ConfigProvider>
-        <App />
+        <AppointmentProvider>
+          <App />
+        </AppointmentProvider>
       </ConfigProvider>
     </Auth0Provider>
   </React.StrictMode>

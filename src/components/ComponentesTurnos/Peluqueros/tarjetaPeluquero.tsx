@@ -1,25 +1,40 @@
 import { useConfig } from "../../../context/AdminContext";
 import hexToRgb from "../../../modules/hexToRgb";
-
+import { useStepContext } from "../../../context/StepContext";
+import { useAppointment } from "../../../context/ApContext";
+import { Professional } from "../../../typings/Professional";
 
 interface TarjetaPeluqueroProps {
-    nombre: string;
-    imagen: string;
+    prof: Professional
 }
 
-const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ nombre, imagen }) => {
-    const { config, invertColors } = useConfig()
+const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
+
+    const { config } = useConfig()
+    const { nextStep } = useStepContext()
+    const { setForm } = useAppointment()
     if (!config) return <></>
+
+    const handleClick = () => {
+        nextStep();
+        setForm(prev => ({
+            ...prev,
+            professional: prof._id
+        }))
+    }
+
     return (
-        <div className="tarjeta" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
-            <span className="tarjet">
-                <img
-                    src={imagen}
-                />
-                <div className="nombrePeluquero">
-                    {nombre}
-                </div>
-            </span>
+        <div className="tarjeta" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
+            <img
+                src={prof.image}
+                className="imgPeluquero"
+            />
+            <div className="nombrePeluquero" style={{ color: `${config.customization.primary.text}` }}>
+                {prof.name}
+            </div>
+            <div className="tipoPeluquero" style={{ color: `${config.customization.primary.text}` }}>
+                {prof.profession}
+            </div>
         </div>
     )
 }
