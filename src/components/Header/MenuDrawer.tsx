@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { useConfig } from '../../context/AdminContext';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import hexToRgb from '../../modules/hexToRgb';
 
 export default function MenuDrawer() {
     const [state, setState] = useState({ right: false, turnosOpen: false });
@@ -43,20 +44,27 @@ export default function MenuDrawer() {
         >
             <div className='drawerButtonClose'>
                 <button>
-                    <CloseIcon />
+                    <CloseIcon sx={{ color: `${config?.customization.primary.text}` }} />
                 </button>
             </div>
             <List>
                 <>
                     <Link to={"/"}>
-                        <ListItem key="home" disablePadding>
+                        <ListItem key="home" disablePadding className={`${window.location.pathname === "/" ? "drawerSelected" : ""}`}>
                             <ListItemButton>
                                 <ListItemText primary="Inicio" />
                             </ListItemButton>
                         </ListItem>
                     </Link>
+                    <Link to={"/reservar"}>
+                        <ListItem key="novedades" disablePadding className={`${window.location.pathname === "/reservar" ? "drawerSelected" : ""}`}>
+                            <ListItemButton>
+                                <ListItemText primary="Solicitar turno" />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
                     <Link to={"/reprogramar"}>
-                        <ListItem key="novedades" disablePadding>
+                        <ListItem key="novedades" disablePadding className={`${window.location.pathname === "/reprogramar" ? "drawerSelected" : ""}`}>
                             <ListItemButton>
                                 <ListItemText primary="Cambiar turno" />
                             </ListItemButton>
@@ -76,13 +84,37 @@ export default function MenuDrawer() {
     return (
         <div>
             <button onClick={toggleDrawer(true)}><MenuIcon sx={{ color: `${config?.customization.primary.text}` }} /></button>
+            <style>
+                {`
+                    .MuiDrawer-paper{
+                        background:${config?.customization.primary.color};
+                        padding:0 1rem;
+                        border-radius: 1.5625rem 0rem 0rem 1.5625rem;
+                    }
+                    .MuiListItemText-primary{
+                        font-family:"Barlow Condensed";
+                        font-size:1.5rem;
+                        color:${config?.customization.primary.text};
+                    }
+
+                    .MuiListItem-root .MuiSvgIcon-root{
+                        color:${config?.customization.primary.text};
+                    }
+
+                    .drawerSelected{
+                        background:linear-gradient(90deg, ${hexToRgb(config!.customization?.primary.color, 1, .35)} 0%, ${hexToRgb(config!.customization.primary.color, 1, .5)} 100%);
+                        border-radius: 0.3125rem;
+                    }
+                `}
+            </style>
             <Drawer
                 anchor="right"
                 open={state.right}
                 onClose={toggleDrawer(false)}
+                sx={{background:`${hexToRgb(config!.customization?.primary.text, .5, .35)}`}}
             >
                 {list}
             </Drawer>
-        </div>
+        </div >
     );
 }

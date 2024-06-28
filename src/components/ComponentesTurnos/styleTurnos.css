@@ -3,6 +3,13 @@
     min-height: 305px;
 }
 
+.cardsLoading {
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .appointBoxButtons {
     display: flex;
     justify-content: space-between;
@@ -183,9 +190,11 @@
 }
 
 .clockDisabled {
-    color: gray;
+    color: rgba(0, 0, 0, 0.40);
     cursor: default;
     pointer-events: none;
+    text-decoration: line-through;
+    text-decoration-thickness: from-font;
 }
 
 .tarjeta,
