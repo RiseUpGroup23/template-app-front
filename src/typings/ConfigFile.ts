@@ -15,11 +15,19 @@ export interface Contact {
     instagram: string;
 }
 
+export interface BannedDay {
+    title: string;
+    date: Date;
+}
+
 export interface ConfigFile {
     imgsCarrousel: Img[];
     presentationText: string;
     imagePresentation: string;
     presentationTitle: string;
+    appointment: {
+        bannedDays: BannedDay[]
+    }
     banners: {
         imageAppointment: string;
         imageAboutUs: string;
