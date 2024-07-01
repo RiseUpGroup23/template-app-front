@@ -10,9 +10,9 @@ const Step5 = () => {
 
     return (
         <div>
-            <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}>Turno <span>Confirmado</span></div>
+            <div className="appointTitle3" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}>Turno <span>Confirmado</span></div>
             <div className="resumeContainer">
-                <div className="resumeText">
+                <div className="resumeText2">
                     <div style={{ color: `${config.customization.primary.text}` }}>
                         Fecha: <span style={{ fontWeight: "bold" }}>
                             {new Date(form.date).getDate().toString().padStart(2, '0') + '-' +
@@ -21,7 +21,7 @@ const Step5 = () => {
                         </span>
                     </div>
 
-                    <div style={{ color: `${config.customization.primary.text}`, marginTop: "15%" }}>
+                    <div style={{ color: `${config.customization.primary.text}`}} className='hora'>
                         Hora: <span style={{ fontWeight: "bold" }}>{new Date(form.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
                     </div>
                 </div>
