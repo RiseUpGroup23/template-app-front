@@ -31,6 +31,12 @@
     width: calc(100% - 7.5rem);
 }
 
+.formulario .input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+
 .prev,
 .next {
     display: flex;
@@ -216,16 +222,13 @@
     transform: scale(1.1);
 }
 
-/* .imgPeluquero {
-    width: 80%;
+.imgCard {
+    width: 14.375rem;
+    aspect-ratio: 1;
     border-radius: 50%;
-} */
-
-.imgServicio,
-.imgPeluquero {
-    width: 80%;
-    border-radius: 50%;
-    object-fit: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nombrePeluquero {
@@ -247,7 +250,7 @@
     font-size: 1.8rem;
     font-weight: bold;
     align-self: stretch;
-    margin-top: 45px;
+    margin-top: 30px;
 }
 
 .tipoPeluquero {
@@ -298,7 +301,7 @@
 .input {
     width: 80%;
     height: 2.5rem;
-    background-color: transparent;
+    background-color: transparent !important;
     padding: 0.5rem 0rem 0.5rem 1rem;
     margin-top: 3rem;
     font-weight: 300;
@@ -467,11 +470,6 @@
     .tarjeta {
         width: 120px;
         height: 150px;
-    }
-
-    .imgServicio,
-    .imgPeluquero {
-        width: 55%;
     }
 
     .nombreServicio,

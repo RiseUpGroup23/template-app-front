@@ -2,16 +2,15 @@ import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { Link } from "react-router-dom";
 import DeleteModal from "../Buttons/DeleteModal";
-import { useMediaQuery } from "@mui/material";
+import { CircularProgress, useMediaQuery } from "@mui/material";
+import axios from "axios";
 
-let data = [
-    { _id: "sa239", name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
-    { _id: "sa239", name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
-    { _id: "sa239", name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
-    { _id: "sa239", name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
-];
-
-data = data.concat(data).concat(data).concat(data).slice(0, 9)
+// let data = [
+//     { _id: "sa239", name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
+//     { _id: "sa239", name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
+//     { _id: "sa239", name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
+//     { _id: "sa239", name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
+// ];
 
 export const arrowIco = (inverted = 0) => {
     return (
@@ -22,15 +21,22 @@ export const arrowIco = (inverted = 0) => {
 }
 
 const MainEditor = () => {
-    const { config, cancelAppointment } = useConfig()
+    const { config, cancelAppointment, dbUrl } = useConfig()
     const pageStep = 4
     const [visibleItems, setVisibleItems] = useState(pageStep);
+    const [data, setData] = useState<any[]>([])
     const totalItems = data.length;
     const isMobile = useMediaQuery('(max-width:1024px)');
 
     const handleSeeMore = () => {
         setVisibleItems(prevVisibleItems => prevVisibleItems + pageStep);
     };
+
+    useEffect(() => {
+        axios(`${dbUrl}/appointments`).then((res) => {
+            setData(res.data)
+        })
+    }, [dbUrl])
 
     if (!config) return (<></>)
 
@@ -42,27 +48,40 @@ const MainEditor = () => {
             </span>
             <div className="blackLayout">
                 <div className="proxApoHeader rowContainer">
-                    <div className="rowItem" style={{ width: (isMobile ? '30%' : '50%') }}><span>Cliente</span></div>
-                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}><span>Día</span></div>
-                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}><span>Hora</span></div>
-                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}><span>Editar</span></div>
+                    <div className="rowItem" style={{ width: (isMobile ? '30%' : '40%') }}><span>Cliente</span></div>
+                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Día</span></div>
+                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Hora</span></div>
+                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Editar</span></div>
                 </div>
-                {data.slice(0, visibleItems).map((item, index) => (
-                    <div className="rowContainer" key={index}>
-                        <div className="rowItem" key={index} style={{ width: (isMobile ? '30%' : '50%') }}>
-                            <span>{item.name}</span>
+                {data.length ? data.slice(0, visibleItems).map((item) => (
+                    <div className="rowContainer" key={item._id}>
+                        <div className="rowItem" style={{ width: (isMobile ? '30%' : '40%') }}>
+                            <span>{item.customer.name + " " + (item?.customer?.lastname ?? "")}</span>
                         </div>
-                        <div className="rowItem" key={index} style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}>
-                            <span>{item.date}</span>
+                        <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
+                            <span>{new Intl.DateTimeFormat('es', {
+                                year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit'
+                            }).format(new Date(item.date)).slice(0, isMobile ? 5 : undefined)}</span>
                         </div>
-                        <div className="rowItem" key={index} style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}>
-                            <span>{item.time}</span>
+                        <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
+                            <span>{(() => {
+                                const date = new Date(item.date);
+                                const hours = date.getUTCHours().toString().padStart(2, '0');
+                                const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+                                return `${hours}:${minutes}`;
+                            })()}</span>
                         </div>
-                        <div className="actionsContainer" style={{ width: `calc(${isMobile ? "70" : "50"}% / 3)` }}>
+                        <div className="actionsContainer" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
                             <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(item._id)} />
                         </div>
                     </div>
-                ))}
+                )) :
+                    <div className="blackLayLoading">
+                        <CircularProgress size={50} sx={{ color: "white" }} />
+                    </div>
+                }
             </div>
 
             <div className="seeAllApo">

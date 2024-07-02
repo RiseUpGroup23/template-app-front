@@ -25,10 +25,8 @@ const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
 
     return (
         <div className="tarjeta" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
-            <img
-                src={prof.image}
-                className="imgPeluquero"
-            />
+            <div className="imgCard" style={{ background: `url(${prof.image}) center/cover no-repeat` }}>
+            </div>
             <div className="nombrePeluquero" style={{ color: `${config.customization.primary.text}` }}>
                 {prof.name}
             </div>

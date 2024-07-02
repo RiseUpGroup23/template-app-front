@@ -26,10 +26,8 @@ const TarjetaServicio: React.FC<TarjetaServicioProps> = ({ servicio }) => {
 
     return (
         <div className="tarjetaServicio" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
-            <img
-                src={servicio.image}
-                className="imgServicio"
-            />
+            <div className="imgCard" style={{ background: `url(${servicio.image}) center/cover no-repeat` }}>
+            </div>
             <div className="nombreServicio" style={{ color: `${config.customization.primary.text}` }}>
                 {servicio.name}
             </div>

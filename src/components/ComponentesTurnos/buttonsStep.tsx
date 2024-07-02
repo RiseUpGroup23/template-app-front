@@ -24,7 +24,16 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
     const crearTurno = async () => {
         let dateInUTCMinus3 = new Date(form.date.getTime() - (3 * 60 * 60 * 1000));
         let jsonDateInUTCMinus3 = dateInUTCMinus3.toJSON();
-        await axios.post(`${dbUrl}/appointments`, { ...form, date: jsonDateInUTCMinus3 })
+
+        await axios.post(`${dbUrl}/appointments`, {
+            ...form,
+            date: jsonDateInUTCMinus3,
+            customer: {
+                ...form.customer,
+                name: form.customer.name.split(" ")[0],
+                lastname: form.customer.name.split(" ")[1] ?? ""
+            }
+        })
     }
 
     const handleNext = async () => {

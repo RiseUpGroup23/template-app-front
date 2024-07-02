@@ -43,6 +43,7 @@ const Menu = () => {
 
     useEffect(() => {
         setSelected(items.findIndex(item => item.url.includes(window.location.pathname)))
+        window.scrollTo(0, 0)
     }, [location])
 
     return (
