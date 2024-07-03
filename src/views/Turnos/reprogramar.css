@@ -1,0 +1,22 @@
+.containerRepro {
+    margin: 3rem 7.5rem;
+    min-height: 305px;
+    display: flex;
+    flex-direction: column;
+}
+
+.inputRepro {
+    padding-left: 1rem;
+    font-size: 2.5rem;
+}
+
+@media (max-width:1024px) {
+    .containerRepro {
+        margin: 3rem 0;
+    }
+    .inputRepro {
+        padding-left: .5rem;
+        font-size: 1rem;
+        margin: 0 1rem;
+    }
+}
