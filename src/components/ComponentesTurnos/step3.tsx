@@ -72,20 +72,17 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
             hours: true
         });
         let formattedDate = newValue.locale('en').format("DD-MM-YYYY").split("-").join("/");
-        const day = newValue.locale('en').format('dddd').toLowerCase()
-        const unavailableS = await axios(`${dbUrl}/appointments/day/${newValue.format("YYYY-MM-DD")}`).then(res => res.data.filter((e: any) => e.professional._id === form.professional).map((e: any) => e.date.split("T")[1].slice(0, 5)))
-        await axios(`${dbUrl}/professionals/${form.professional}`).then((res) => {
-            const formattedAva: any = {}
-            Object.keys(res.data.timeAvailabilities).forEach((e) => {
-                formattedAva[e] = concatenateHours(res.data.timeAvailabilities[e], res.data.appointmentInterval)
-            })
-            setSchedules({ allSchedules: formattedAva[day], unavailableSchedules: unavailableS });
+        await axios(`${dbUrl}/professionalsAndTimeAvailable/${form.professional}/${newValue.locale('en').format("MM-DD-YYYY")}`).then((res) => {
+            console.log("reeeee", res);
+
+            const formattedAva = res.data.allSchedules
+            setSchedules({ allSchedules: formattedAva, unavailableSchedules: res.data.unavailableSchedules });
             const isMorning = (hour: string) => {
                 const hours = Number(hour.split(":")[0]);
                 return hours < 12;
             };
-            const clockL = formattedAva[day]?.filter((sch: string) => isMorning(sch));
-            const clockR = formattedAva[day]?.filter((sch: string) => !isMorning(sch));
+            const clockL = formattedAva?.filter((sch: string) => isMorning(sch));
+            const clockR = formattedAva?.filter((sch: string) => !isMorning(sch));
             setClockLeft(clockL);
             setClockRight(clockR);
             const longest = clockL.length >= clockR.length ? clockL.length : clockR.length;
@@ -200,7 +197,14 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                             }}
                             shouldDisableDate={(day) => {
                                 const dayOfWeek = day.locale('en').format('dddd').toLowerCase();
-                                const isBannedDay = availability?.bans?.includes(day.format('DD/MM/YYYY'));
+                                const isBannedDay = config?.appointment?.bannedDays?.some((ban) => {
+                                    const banDate = new Date(ban.date)
+                                    return (
+                                        banDate.getDate() === day.date() &&
+                                        banDate.getMonth() === day.month() &&
+                                        banDate.getFullYear() === day.year()
+                                    );
+                                }) ?? false
                                 return noWorkDays.some(e => e === dayOfWeek) || isBannedDay;
                             }}
                         />
