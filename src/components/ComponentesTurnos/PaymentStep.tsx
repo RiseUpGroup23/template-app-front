@@ -11,7 +11,7 @@ interface Props {
 
 const PaymentStep = ({ setPaymentReady }: Props) => {
   const { config, dbUrl } = useConfig();
-  const {form}=useAppointment()
+  const { form } = useAppointment()
 
   useEffect(() => {
     setPaymentReady(false)
@@ -30,6 +30,8 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
   initMercadoPago(TOKEN, { locale: "es-AR" });
 
   const createPreference = async () => {
+    let dateInUTCMinus3 = new Date(form.date.getTime() - (3 * 60 * 60 * 1000));
+    let jsonDateInUTCMinus3 = dateInUTCMinus3.toJSON();
     try {
       const response = await axios.post(
         `${dbUrl}/mercadopago/crear-preferencia`,
@@ -37,7 +39,15 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
           title: "Reserva",
           quantity: 1,
           price: price,
-          appointment:form
+          appointment: {
+            ...form,
+            date: jsonDateInUTCMinus3,
+            customer: {
+              ...form.customer,
+              name: form.customer.name.split(" ")[0],
+              lastname: form.customer.name.split(" ")[1] ?? ""
+            }
+          }
         }
       );
       const { id } = response.data;
