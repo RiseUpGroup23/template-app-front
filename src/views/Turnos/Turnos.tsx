@@ -2,7 +2,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import hexToRgb from '../../modules/hexToRgb';
 import { useConfig } from "../../context/AdminContext";
-import CrearTurno from '../../components/ComponentesTurnos/CrearTurno';
+import CreateAppointment from '../../components/ComponentesTurnos/CreateAppointment';
 
 const Turnos = () => {
     const { config } = useConfig()
@@ -20,7 +20,7 @@ const Turnos = () => {
             }}
         >
             <Header />
-            <CrearTurno />
+            <CreateAppointment />
             <Footer />
         </div>
     )

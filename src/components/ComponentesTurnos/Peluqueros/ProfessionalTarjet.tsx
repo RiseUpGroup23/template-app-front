@@ -1,14 +1,14 @@
-import { useConfig } from "../../../context/AdminContext";
 import hexToRgb from "../../../modules/hexToRgb";
-import { useStepContext } from "../../../context/StepContext";
+import { useConfig } from "../../../context/AdminContext";
 import { useAppointment } from "../../../context/ApContext";
 import { Professional } from "../../../typings/Professional";
+import { useStepContext } from "../../../context/StepContext";
 
-interface TarjetaPeluqueroProps {
+interface ProfessionalTarjetProps {
     prof: Professional
 }
 
-const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
+const ProfessionalTarjet: React.FC<ProfessionalTarjetProps> = ({ prof }) => {
 
     const { config } = useConfig()
     const { nextStep } = useStepContext()
@@ -37,4 +37,4 @@ const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
     )
 }
 
-export default TarjetaPeluquero;
+export default ProfessionalTarjet;

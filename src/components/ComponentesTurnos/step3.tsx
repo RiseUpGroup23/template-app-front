@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react";
-import { useConfig } from "../../context/AdminContext";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { CircularProgress } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import Divider from '@mui/material/Divider';
-import { useAppointment } from "../../context/ApContext";
 import axios from "axios";
-import './styleTurnos.css'
+import './styleTurnos.css';
+
+import dayjs from 'dayjs';
 import hexToRgb from "../../modules/hexToRgb";
 import { FormData } from "../../typings/FormData";
+import { useConfig } from "../../context/AdminContext";
+import { useAppointment } from "../../context/ApContext";
 import { Availability } from "../../typings/Professional";
-import dayjs from 'dayjs';
+
+import Divider from '@mui/material/Divider';
+import { CircularProgress } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+
 import 'dayjs/locale/es'; // Importar el idioma español para dayjs
 
 dayjs.locale('es');
@@ -252,9 +255,3 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
 }
 
 export default Step3;
-
-
-// {loading ? (
-//     <div className="circularProg">{<CircularProgress size={50} sx={{ color: "black", marginTop: "50px" }} />}</div>
-// ) : (
-// )}

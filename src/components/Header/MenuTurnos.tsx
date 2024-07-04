@@ -1,8 +1,8 @@
 import React from "react";
 import "./header.css"
+import hexToRgb from "../../modules/hexToRgb";
 import { Link, useLocation } from "react-router-dom";
 import { useConfig } from "../../context/AdminContext";
-import hexToRgb from "../../modules/hexToRgb";
 
 const MenuTurnos = () => {
     const [open, setOpen] = React.useState<boolean>(false);

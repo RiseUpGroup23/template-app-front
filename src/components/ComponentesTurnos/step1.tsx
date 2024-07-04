@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import { useConfig } from '../../context/AdminContext';
-import TarjetaPeluquero from './Peluqueros/tarjetaPeluquero';
 import { CircularProgress } from '@mui/material';
+import { useConfig } from '../../context/AdminContext';
+import ProfessionalTarjet from './Peluqueros/ProfessionalTarjet';
 
 const Step1 = () => {
     const { config, professionals, fetchProfessionals } = useConfig()
@@ -19,7 +19,7 @@ const Step1 = () => {
             <div className="containerPeluqueros">
                 {professionals?.length ?
                     professionals.map((prof, index) => (
-                        <TarjetaPeluquero key={index} prof={prof} />
+                        <ProfessionalTarjet key={index} prof={prof} />
                     ))
                     :
                     <div className="cardsLoading">

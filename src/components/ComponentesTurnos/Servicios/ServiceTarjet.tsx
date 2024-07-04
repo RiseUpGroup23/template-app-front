@@ -1,14 +1,14 @@
-import { useConfig } from "../../../context/AdminContext";
 import hexToRgb from "../../../modules/hexToRgb";
-import { useStepContext } from "../../../context/StepContext";
+import { useConfig } from "../../../context/AdminContext";
 import { useAppointment } from "../../../context/ApContext";
+import { useStepContext } from "../../../context/StepContext";
 import { TypeOfService } from "../../../typings/TypeOfServices";
 
-interface TarjetaServicioProps {
+interface ServiceTarjetProps {
     servicio: TypeOfService;
 }
 
-const TarjetaServicio: React.FC<TarjetaServicioProps> = ({ servicio }) => {
+const ServiceTarjet: React.FC<ServiceTarjetProps> = ({ servicio }) => {
 
     const { config } = useConfig()
     const { nextStep } = useStepContext()
@@ -35,4 +35,4 @@ const TarjetaServicio: React.FC<TarjetaServicioProps> = ({ servicio }) => {
     )
 }
 
-export default TarjetaServicio;
+export default ServiceTarjet;

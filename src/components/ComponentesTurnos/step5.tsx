@@ -1,6 +1,6 @@
-import { useConfig } from '../../context/AdminContext';
 import './styleTurnos.css';
 import hexToRgb from "../../modules/hexToRgb";
+import { useConfig } from '../../context/AdminContext';
 import { useAppointment } from '../../context/ApContext';
 
 const Step5 = () => {
@@ -12,7 +12,7 @@ const Step5 = () => {
         <div>
             <div className="appointTitle3" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}>Turno <span>Confirmado</span></div>
             <div className="resumeContainer">
-                <div className="resumeText2">
+                <div className="title">
                     <div style={{ color: `${config.customization.primary.text}` }}>
                         Fecha: <span style={{ fontWeight: "bold" }}>
                             {new Date(form.date).getDate().toString().padStart(2, '0') + '-' +

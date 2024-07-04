@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
+import ServiceTarjet from './Servicios/ServiceTarjet';
 import { useConfig } from '../../context/AdminContext';
-import TarjetaServicio from './Servicios/tarjetaServicio';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Step0 = () => {
@@ -19,7 +19,7 @@ const Step0 = () => {
             <div className="containerPeluqueros">
                 {services?.length?
                     services.map((service, index) => (
-                        <TarjetaServicio key={index} servicio={service} />
+                        <ServiceTarjet key={index} servicio={service} />
                     ))
                     :
                     <div className="cardsLoading">
