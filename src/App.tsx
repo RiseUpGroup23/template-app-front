@@ -5,6 +5,7 @@ import Turnos from './views/Turnos/Turnos';
 import Admin from './views/Admin/Admin';
 import Error from './views/Error/Error';
 import Reprogramar from './views/Turnos/Reprogramar';
+import ReproDet from './views/Turnos/ReproDet';
 
 function App() {
   return (
@@ -12,7 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/reservar' element={<Turnos />} />
-        <Route path='/reprogramar' element={<Reprogramar />} />
+        <Route path='/reprogramar/' element={<Reprogramar />} />
+        <Route path='/reprogramar/:id' element={<ReproDet />} />
         <Route path='/admin/*' element={<Admin />} />
         <Route path='/error' element={<Error />} />
       </Routes>
