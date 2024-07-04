@@ -5,14 +5,12 @@ import { useConfig } from "../../context/AdminContext";
 import { config } from "../../config";
 import { useAppointment } from "../../context/ApContext";
 
-const { backendEndpoint } = config;
-
 interface Props {
   setPaymentReady: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const PaymentStep = ({ setPaymentReady }: Props) => {
-  const { config } = useConfig();
+  const { config, dbUrl } = useConfig();
   const {form}=useAppointment()
 
   useEffect(() => {
@@ -34,7 +32,7 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
   const createPreference = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:4000/mercadopago/crear-preferencia`,
+        `${dbUrl}/mercadopago/crear-preferencia`,
         {
           title: "Reserva",
           quantity: 1,
