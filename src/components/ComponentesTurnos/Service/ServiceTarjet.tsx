@@ -25,10 +25,10 @@ const ServiceTarjet: React.FC<ServiceTarjetProps> = ({ servicio }) => {
     }
 
     return (
-        <div className="tarjetaServicio" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
+        <div className="tarjet" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
             <div className="imgCard" style={{ background: `url(${servicio.image}) center/cover no-repeat` }}>
             </div>
-            <div className="nombreServicio" style={{ color: `${config.customization.primary.text}` }}>
+            <div className="names_Professionals_Service" style={{ color: `${config.customization.primary.text}` }}>
                 {servicio.name}
             </div>
         </div>

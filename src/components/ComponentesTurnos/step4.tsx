@@ -23,7 +23,7 @@ const Step4 = () => {
                         </span>
                     </div>
 
-                    <div style={{ color: `${config.customization.primary.text}` }} className='hora'>
+                    <div style={{ color: `${config.customization.primary.text}` }} className='hour'>
                         Hora: <span style={{ fontWeight: "bold" }}>{new Date(form.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
                     </div>
                 </div>

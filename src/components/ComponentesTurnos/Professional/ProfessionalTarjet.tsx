@@ -24,10 +24,10 @@ const ProfessionalTarjet: React.FC<ProfessionalTarjetProps> = ({ prof }) => {
     }
 
     return (
-        <div className="tarjeta" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
+        <div className="tarjet" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
             <div className="imgCard" style={{ background: `url(${prof.image}) center/cover no-repeat` }}>
             </div>
-            <div className="nombrePeluquero" style={{ color: `${config.customization.primary.text}` }}>
+            <div className="names_Professionals_Service" style={{ color: `${config.customization.primary.text}` }}>
                 {prof.name}
             </div>
             <div className="tipoPeluquero" style={{ color: `${config.customization.primary.text}` }}>

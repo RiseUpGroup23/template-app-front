@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useConfig } from '../../context/AdminContext';
-import ProfessionalTarjet from './Peluqueros/ProfessionalTarjet';
+import ProfessionalTarjet from './Professional/ProfessionalTarjet';
 
 const Step1 = () => {
     const { config, professionals, fetchProfessionals } = useConfig()
@@ -16,7 +16,7 @@ const Step1 = () => {
             <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>
                 Elegí a tu <span>peluquero/a</span>
             </div>
-            <div className="containerPeluqueros">
+            <div className="container_Professional_Service">
                 {professionals?.length ?
                     professionals.map((prof, index) => (
                         <ProfessionalTarjet key={index} prof={prof} />

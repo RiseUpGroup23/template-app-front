@@ -48,7 +48,7 @@ const Step2: React.FC<Step2Props> = ({ setIsFormComplete }) => {
                 Llena el <span>formulario</span> con <span>tus datos</span>
             </div>
             <div className='containerForm'>
-                <div className='formulario' style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
+                <div className='form' style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
                     <style>
                         {`
                             .input::placeholder {

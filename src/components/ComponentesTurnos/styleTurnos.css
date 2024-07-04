@@ -31,11 +31,6 @@
     width: calc(100% - 7.5rem);
 }
 
-.formulario .input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    appearance: none;
-}
-
 .prev,
 .next {
     gap: 0.5rem;
@@ -50,20 +45,11 @@
     border-radius: 1.5rem;
     background: #FAFAFA;
     font-family: "Roboto";
-    /* z-index: 3; */
-    /* right: 1rem; */
-    /* border: none; */
-    /* max-width: 300px; */
-    /* font-style: normal; */
-    /* line-height: normal; */
-    /* justify-content: center; */
-    /* box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25); */
 }
 
 .next {
     background: rgba(128, 66, 0, 1);
     color: white;
-    /* margin-left: auto; */
 }
 
 .next.disabled {
@@ -106,18 +92,8 @@
     margin-top: 3%;
 }
 
-.appointTitle {
-    font-family: "Roboto";
-    font-size: 3rem;
-    font-style: normal;
-    font-weight: 300;
-    line-height: normal;
-}
-
-.appointTitle span {
-    font-weight: 500;
-}
-
+.appointTitle,
+.appointTitle2,
 .appointTitle3 {
     font-family: "Roboto";
     font-size: 3rem;
@@ -126,19 +102,9 @@
     line-height: normal;
 }
 
+.appointTitle span,
+.appointTitle2 span,
 .appointTitle3 span {
-    font-weight: 500;
-}
-
-.appointTitle2 {
-    font-family: "Roboto";
-    font-size: 3rem;
-    font-style: normal;
-    font-weight: 300;
-    line-height: normal;
-}
-
-.appointTitle2 span {
     font-weight: 500;
 }
 
@@ -202,8 +168,6 @@
 
 .clockHourSelected {
     border-radius: 0.5rem;
-    background: rgba(128, 66, 0, 1);
-    color: white;
 }
 
 .clockDisabled {
@@ -214,8 +178,7 @@
     text-decoration-thickness: from-font;
 }
 
-.tarjeta,
-.tarjetaServicio {
+.tarjet {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -228,8 +191,7 @@
     height: 350px;
 }
 
-.tarjeta:hover,
-.tarjetaServicio:hover {
+.tarjet:hover {
     transform: scale(1.1);
 }
 
@@ -242,18 +204,7 @@
     align-items: center;
 }
 
-.nombrePeluquero {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-family: Barlow Condensed;
-    font-size: 1.8rem;
-    font-weight: bold;
-    align-self: stretch;
-    margin-top: 16px;
-}
-
-.nombreServicio {
+.names_Professionals_Service {
     display: flex;
     justify-content: center;
     text-align: center;
@@ -265,16 +216,11 @@
 }
 
 .tipoPeluquero {
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-family: Barlow Condensed;
     font-size: 1rem;
-    align-self: stretch;
     margin-top: 0.1rem;
 }
 
-.containerPeluqueros {
+.container_Professional_Service {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -298,7 +244,7 @@
     justify-content: center;
 }
 
-.formulario {
+.form {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -307,6 +253,11 @@
     border-radius: 1rem;
     margin-top: 3.5rem;
     margin-bottom: 3.5rem;
+}
+
+.form .input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .input {
@@ -337,9 +288,11 @@
 
 
 @media (max-width:1300px) {
-    .formulario {
+    .form {
         width: 90%;
         height: 250px;
+        margin-top: 0px;
+        margin-bottom: 0px;
     }
 
     .oblig {
@@ -351,10 +304,13 @@
         justify-content: center;
         align-items: center;
         margin-top: 0px;
+        margin-bottom: 70px;
     }
 
-    .appointTitle {
-        font-size: 1.7rem;
+    .appointTitle,
+    .appointTitle2,
+    .appointTitle3 {
+        font-size: 2rem;
         text-align: center;
         width: 350px;
         margin-top: 15px;
@@ -362,19 +318,11 @@
     }
 
     .appointTitle2 {
-        font-size: 1.7rem;
-        text-align: center;
-        width: 350px;
-        margin-top: 15px;
-        margin-bottom: 15px;
         margin-left: 25px;
     }
 
     .appointTitle3 {
-        font-size: 2rem;
-        width: 350px;
-        margin-top: 3rem;
-        margin-bottom: 15px;
+        text-align: start;
     }
 
     .pickersContainer,
@@ -393,7 +341,7 @@
         margin-left: -5.5rem;
     }
 
-    .hora {
+    .hour {
         margin-top: 2px;
     }
 
@@ -414,91 +362,15 @@
         padding: 2.5rem;
     }
 
-    .appointBoxContainer {
-        margin: 3rem auto;
-    }
-
     .formContainer form {
         flex-direction: column;
-    }
-
-    .appointImgText {
-        padding: 0;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        flex-direction: column;
-    }
-
-    .step0Container .buttonContainer {
-        flex-direction: column;
-        align-items: center;
-        gap: 4rem;
-    }
-
-    .step0Container .title {
-        text-align: center;
-    }
-
-    .appointContainer {
-        margin-bottom: 0;
-    }
-
-    .appointBoxContainer {
-        margin: 1.5rem 0 5rem 0;
-    }
-
-    .step0Container .question {
-        margin: 2rem 0;
-    }
-
-    .step1 .question {
-        margin: 1rem 0 2rem !important;
-    }
-
-    .step0Container .question,
-    .step0Container .title {
-        font-size: 1.25rem;
-    }
-
-    .buttonContainer button {
-        transform: scale(0.85);
-    }
-
-    .step0Container .buttonContainer {
-        gap: 1rem;
-    }
-
-    .dniContainer {
-        margin: 0 1rem;
     }
 
     .pickersBox {
         height: 40rem;
     }
 
-    .success-page .appointBoxContainer {
-        margin-bottom: 0;
-    }
-
-    .success-page .appointBoxButtons {
-        flex-direction: column-reverse;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .appointBoxContainer.errorPage {
-        margin-bottom: 0;
-        height: 0;
-    }
-
-    .resumeContainer.errorPage {
-        flex-direction: column-reverse;
-    }
-
-    .tarjetaServicio,
-    .tarjeta {
+    .tarjet {
         width: 120px;
         height: 150px;
     }
@@ -507,8 +379,7 @@
         width: 4.25rem;
     }
 
-    .nombreServicio,
-    .nombrePeluquero {
+    .names_Professionals_Service {
         font-size: 1.2rem;
         margin-top: 1rem;
     }
@@ -517,12 +388,7 @@
         font-size: 0.7rem;
     }
 
-    .containerPeluqueros {
+    .container_Professional_Service {
         gap: 2rem;
-    }
-
-    .formulario {
-        margin-top: 2.6rem;
-        margin-bottom: 2.6rem;
     }
 }

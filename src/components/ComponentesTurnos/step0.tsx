@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import ServiceTarjet from './Servicios/ServiceTarjet';
+import ServiceTarjet from './Service/ServiceTarjet';
 import { useConfig } from '../../context/AdminContext';
 import CircularProgress from '@mui/material/CircularProgress';
 
@@ -16,7 +16,7 @@ const Step0 = () => {
             <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>
                 Elegí que <span>servicio necesitas</span>
             </div>
-            <div className="containerPeluqueros">
+            <div className="container_Professional_Service">
                 {services?.length?
                     services.map((service, index) => (
                         <ServiceTarjet key={index} servicio={service} />
