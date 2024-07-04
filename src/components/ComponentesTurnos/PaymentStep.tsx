@@ -2,7 +2,6 @@ import React, { SetStateAction, useEffect, useState } from "react";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
 import { useConfig } from "../../context/AdminContext";
-import { config } from "../../config";
 import { useAppointment } from "../../context/ApContext";
 
 interface Props {
