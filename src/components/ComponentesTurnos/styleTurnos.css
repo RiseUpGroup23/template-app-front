@@ -316,6 +316,10 @@
     margin-top: 1rem;
 }
 
+.mpContainer{
+    display: none;
+}
+
 @media (max-width:1300px) {
     .formulario {
         width: 90%;

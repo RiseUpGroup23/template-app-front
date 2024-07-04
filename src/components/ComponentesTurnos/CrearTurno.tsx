@@ -3,6 +3,7 @@ import { StepProvider, useStepContext } from '../../context/StepContext';
 import { Step0, Step1, Step2, Step3, Step4, Step5 } from '../ComponentesTurnos/indexTurnos';
 import StepButtons from './buttonsStep';
 import { AppointmentProvider } from '../../context/ApContext';
+import { useConfig } from '../../context/AdminContext';
 
 const CrearTurno = () => {
     return (
@@ -17,13 +18,14 @@ const CrearTurno = () => {
 const CreandoTurnos = () => {
     const { currentStep } = useStepContext();
     const [nextButtonEnabled, setNextButtonEnabled] = useState<boolean>(false);
+    const {config}=useConfig()
 
     const buttonTexts = [
         { prev: 'Inicio' },
         { prev: 'Anterior' },
         { prev: 'Anterior', next: 'Continuar' },
         { prev: 'Anterior', next: 'Continuar' },
-        { prev: 'Anterior', next: 'Ir a Pagar' },
+        { prev: 'Anterior', next: config?.appointment.mercadoPago?'Ir a Pagar':"Confirmar" },
         { prev: '', next: 'Ir a Inicio' }
     ];
 
@@ -45,6 +47,7 @@ const CreandoTurnos = () => {
                 nextButtonText={buttonTexts[currentStep].next}
                 isNextButtonEnabled={nextButtonEnabled}
             />
+            
         </div>
     );
 };
