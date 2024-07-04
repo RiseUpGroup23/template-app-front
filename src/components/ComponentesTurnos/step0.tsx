@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useConfig } from '../../context/AdminContext';
 import TarjetaServicio from './Servicios/tarjetaServicio';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Step0 = () => {
     const { config, services, fetchServices } = useConfig()
     useEffect(() => {
         fetchServices()
-
+        //eslint-disable-next-line
     }, [])
     if (!config) return <></>
 
@@ -16,9 +17,15 @@ const Step0 = () => {
                 Elegí que <span>servicio necesitas</span>
             </div>
             <div className="containerPeluqueros">
-                {services?.map((service, index) => (
-                    <TarjetaServicio key={index} servicio={service} />
-                ))}
+                {services?.length?
+                    services.map((service, index) => (
+                        <TarjetaServicio key={index} servicio={service} />
+                    ))
+                    :
+                    <div className="cardsLoading">
+                        <CircularProgress size={50} style={{ color: `${config.customization.primary.text}` }} />
+                    </div>
+                }
             </div>
         </div>
     )

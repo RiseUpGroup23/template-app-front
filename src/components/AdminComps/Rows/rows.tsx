@@ -8,6 +8,8 @@ import { Professional } from "../../../typings/Professional";
 import DeleteModal from "../Buttons/DeleteModal";
 import { useConfig } from "../../../context/AdminContext";
 import axios from "axios";
+import { BannedDay } from "../../../typings/ConfigFile";
+import BansModal from "../Buttons/BansModal";
 
 export function RenderTextRow(label: string, valor: string, prop: string, noMD?: boolean): JSX.Element {
     return (
@@ -105,6 +107,24 @@ export function RenderProfessionalRow(professional: Professional): JSX.Element {
                         })
                     }} />
                     <ProfessionalModal professional={professional} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export function RenderBanRow(ban: BannedDay, index: number): JSX.Element {
+    return (
+        <div className="rowContainer" key={ban.title}>
+            <div className="rowItem" style={{ width: '35%' }}>
+                <span>{new Date(ban.date).toLocaleDateString()}</span>
+            </div>
+            <div className="rowItem" style={{ width: '40%' }}>
+                <span>{ban.title}</span>
+            </div>
+            <div className="rowItem" style={{ width: '25%' }}>
+                <div className="actionsContainer">
+                    <BansModal ban={ban} index={index} />
                 </div>
             </div>
         </div>

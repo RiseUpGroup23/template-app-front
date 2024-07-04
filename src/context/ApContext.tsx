@@ -26,9 +26,8 @@ export const AppointmentProvider: React.FC<AppointmentProviderProps> = ({ childr
         typeOfService:  "",
         customer: {
             name: "",
-            lastname: "asdsadsad",
-            phoneNumber: "",
-            email: "nico@gmail.com",
+            lastname: "",
+            phoneNumber: ""
         },
     })
 

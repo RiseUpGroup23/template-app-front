@@ -21,7 +21,7 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
     const [loading, setLoading] = useState(false)
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [src, setSrc] = useState(initialImg)
-    const { editProp, setAlert } = useConfig()
+    const { editProp } = useConfig()
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => {

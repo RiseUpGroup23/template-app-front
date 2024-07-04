@@ -11,6 +11,7 @@ import { style } from "./EditTextModal"
 import { TypeOfService } from '../../../typings/TypeOfServices';
 import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
+import { duration } from '@mui/material';
 
 interface Props {
     service: TypeOfService;
@@ -36,6 +37,7 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
     const handleSave = async () => {
         setLoading(true)
         const newData = { ...srvc, image: selectedImage ? await uploadImage(selectedImage).catch(() => srvc.image) : (srvc.image || src) }
+        
         if (!customTrigger) {
             editService(service._id, newData).then(() => {
                 setLoading(false)

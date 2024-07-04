@@ -3,6 +3,13 @@
     min-height: 305px;
 }
 
+.cardsLoading {
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .appointBoxButtons {
     display: flex;
     justify-content: space-between;
@@ -23,6 +30,12 @@
     gap: 0.5rem;
     width: calc(100% - 7.5rem);
 }
+
+.formulario .input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 
 .prev,
 .next {
@@ -150,6 +163,10 @@
     border-radius: 3rem;
 }
 
+.clockContainer {
+    justify-content: flex-start;
+}
+
 .pickersContainer {
     display: flex;
     gap: 5rem;
@@ -158,7 +175,7 @@
 }
 
 .clockTitle {
-    margin-top: 1rem;
+    margin-top: 2rem;
     margin-bottom: .5rem;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-weight: 500;
@@ -170,6 +187,11 @@
 .clockContainer {
     flex-direction: column;
     gap: 1.25rem;
+}
+
+.clockDivisor {
+    display: flex;
+    gap: 1rem;
 }
 
 .clockLeft,
@@ -195,12 +217,15 @@
 }
 
 .clockDisabled {
-    color: lightgrey;
+    color: rgba(0, 0, 0, 0.40);
     cursor: default;
     pointer-events: none;
+    text-decoration: line-through;
+    text-decoration-thickness: from-font;
 }
 
-.tarjeta, .tarjetaServicio {
+.tarjeta,
+.tarjetaServicio {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -213,20 +238,18 @@
     height: 350px;
 }
 
-.tarjeta:hover, 
+.tarjeta:hover,
 .tarjetaServicio:hover {
     transform: scale(1.1);
 }
 
-/* .imgPeluquero {
-    width: 80%;
+.imgCard {
+    width: 14.375rem;
+    aspect-ratio: 1;
     border-radius: 50%;
-} */
-
-.imgServicio, .imgPeluquero {
-    width: 80%;
-    border-radius: 50%;
-    object-fit: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nombrePeluquero {
@@ -248,7 +271,7 @@
     font-size: 1.8rem;
     font-weight: bold;
     align-self: stretch;
-    margin-top: 45px;
+    margin-top: 30px;
 }
 
 .tipoPeluquero {
@@ -272,9 +295,15 @@
 .circularProg {
     display: flex;
     justify-content: center;
+    height: 100%;
+    align-items: center;
 }
 
-.containerForm{
+.MuiPickersCalendarHeader-label {
+    text-transform: capitalize;
+}
+
+.containerForm {
     display: flex;
     justify-content: center;
 }
@@ -293,7 +322,7 @@
 .input {
     width: 80%;
     height: 2.5rem;
-    background-color: transparent;
+    background-color: transparent !important;
     padding: 0.5rem 0rem 0.5rem 1rem;
     margin-top: 3rem;
     font-weight: 300;
@@ -478,16 +507,18 @@
         flex-direction: column-reverse;
     }
 
-    .tarjetaServicio, .tarjeta {
+    .tarjetaServicio,
+    .tarjeta {
         width: 120px;
         height: 150px;
     }
 
-    .imgServicio, .imgPeluquero {
-        width: 55%;
+    .imgCard {
+        width: 4.25rem;
     }
 
-    .nombreServicio, .nombrePeluquero {
+    .nombreServicio,
+    .nombrePeluquero {
         font-size: 1.2rem;
         margin-top: 1rem;
     }

@@ -3,13 +3,7 @@ import { useConfig } from "../../../context/AdminContext"
 import { useMediaQuery } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteModal from "../Buttons/DeleteModal";
-
-let data = [
-    { _id: "sa239", name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
-    { _id: "sa239", name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
-    { _id: "sa239", name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
-    { _id: "sa239", name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
-];
+import axios from "axios";
 
 const meses = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -18,66 +12,18 @@ const meses = [
 
 const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-function renderizarCalendario(mes: number, diaSeleccionado: number | null, onDiaClick: (dia: number) => void, setDate: (date: Date) => void): JSX.Element[] {
-    let año = new Date().getFullYear();
-    if (mes > 12) {
-        año += Math.floor((mes - 1) / 12); // Sumar años completos
-        mes = (mes - 1) % 12 + 1; // Obtener el mes dentro del rango 1-12
-    }
 
-    const fechaInicio = new Date(año, mes - 1, 1);
-    const primerDiaSemana = fechaInicio.getDay() === 0 ? 6 : fechaInicio.getDay() - 1;
-    const diasMesAnterior = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 0).getDate();
-    const diasMes = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth() + 1, 0).getDate();
-
-    const calendarDays: JSX.Element[] = [];
-
-    // Días del mes anterior
-    for (let i = primerDiaSemana - 1; i >= 0; i--) {
-        calendarDays.push(
-            <div className="calendarDay notThisMonth" key={`prev-${i}`}>
-                <span>{diasMesAnterior - i}</span>
-            </div>
-        );
-    }
-
-    // Días del mes actual
-    for (let i = 1; i <= diasMes; i++) {
-        const isSelected = diaSeleccionado === i;
-
-        calendarDays.push(
-            <div className={`calendarDay ${isSelected ? "selected" : ""}`} key={`current-${i}`} onClick={() => {
-                onDiaClick(i);
-                const selectedDate = new Date(año, mes - 1, i);
-                setDate(selectedDate);
-            }}>
-                <span>{i} <p className="info">99 turnos</p></span>
-            </div>
-        );
-    }
-
-    // Completar los días restantes hasta llegar a 35 elementos
-    const totalDias = primerDiaSemana + diasMes;
-    const diasRestantes = 35 - totalDias;
-    for (let i = 1; i <= diasRestantes; i++) {
-        calendarDays.push(
-            <div className="calendarDay notThisMonth" key={`next-${i}`}>
-                <span>{i}</span>
-            </div>
-        );
-    }
-
-    return calendarDays;
-}
 
 
 
 
 const Appointments = () => {
-    const { newConfig, cancelAppointment } = useConfig()
+    const { newConfig, cancelAppointment, dbUrl } = useConfig()
     const [actualMonth, setActualMonth] = useState(new Date().getMonth())
     const [selected, setSelected] = useState(new Date().getDate())
     const [date, setDate] = useState(new Date())
+    const [dayAppos, setDayAppos] = useState<any[]>([])
+    const [monthAppos, setMonthAppos] = useState<any>({})
     const isMobile = useMediaQuery('(max-width:1400px)');
 
     useEffect(() => {
@@ -87,7 +33,81 @@ const Appointments = () => {
             setSelected(new Date().getDate())
             setDate(new Date())
         }
-    }, [actualMonth])
+    }, [actualMonth, dbUrl])
+
+    useEffect(() => {
+        axios(`${dbUrl}/appointments/month/${new Date().getFullYear() + Math.floor((actualMonth) / 12)}/${(actualMonth + 1).toString().padStart(2, '0')}`).then(res => {
+            const obj: any = {}
+            res.data.forEach((apo: any) => {
+                const dayNumber = new Date(apo.date).getDate()
+                obj[dayNumber] = (obj[dayNumber] ?? 0) + 1
+            })
+            setMonthAppos(obj)
+        })
+    }, [actualMonth, dbUrl])
+
+    useEffect(() => {
+        axios(`${dbUrl}/appointments/day/${date}`).then(res => {
+            setDayAppos(res.data)
+        })
+    }, [date, dbUrl])
+
+    function renderizarCalendario(mes: number, diaSeleccionado: number | null, onDiaClick: (dia: number) => void, setDate: (date: Date) => void): JSX.Element[] {
+        let año = new Date().getFullYear();
+        if (mes > 12) {
+            año += Math.floor((mes - 1) / 12); // Sumar años completos
+            mes = (mes - 1) % 12 + 1; // Obtener el mes dentro del rango 1-12
+        }
+
+        const fechaInicio = new Date(año, mes - 1, 1);
+        const primerDiaSemana = fechaInicio.getDay() === 0 ? 6 : fechaInicio.getDay() - 1;
+        const diasMesAnterior = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth(), 0).getDate();
+        const diasMes = new Date(fechaInicio.getFullYear(), fechaInicio.getMonth() + 1, 0).getDate();
+
+        const calendarDays: JSX.Element[] = [];
+
+        // Días del mes anterior
+        for (let i = primerDiaSemana - 1; i >= 0; i--) {
+            calendarDays.push(
+                <div className="calendarDay notThisMonth" key={`prev-${i}`}>
+                    <span>{diasMesAnterior - i}</span>
+                </div>
+            );
+        }
+
+        // Días del mes actual
+        for (let i = 1; i <= diasMes; i++) {
+            const isSelected = diaSeleccionado === i;
+
+            calendarDays.push(
+                <div className={`calendarDay ${isSelected ? "selected" : ""}`} key={`current-${i}`} onClick={() => {
+                    onDiaClick(i);
+                    const selectedDate = new Date(año, mes - 1, i);
+                    setDate(selectedDate);
+                }}>
+                    <span>
+                        {i}
+                        <p className="info">
+                            {monthAppos[i] ?? 0} turnos
+                        </p>
+                    </span>
+                </div>
+            );
+        }
+
+        // Completar los días restantes hasta llegar a 35 elementos
+        const totalDias = primerDiaSemana + diasMes;
+        const diasRestantes = 35 - totalDias;
+        for (let i = 1; i <= diasRestantes; i++) {
+            calendarDays.push(
+                <div className="calendarDay notThisMonth" key={`next-${i}`}>
+                    <span>{i}</span>
+                </div>
+            );
+        }
+
+        return calendarDays;
+    }
 
     if (!newConfig) return (<></>)
     return (
@@ -135,14 +155,19 @@ const Appointments = () => {
                         }
                     </span>
                     <div className="apoCards">
-                        {data.map((apo) => (
+                        {dayAppos?.map((apo) => (
                             <div className="apoCard">
                                 <div className="apoCardInfo">
                                     <span className="apoCardName">
-                                        {apo.name} -
+                                        {apo.customer.name + " " + (apo?.customer?.lastname ?? "")} -
                                     </span>
                                     <span className="apoCardName">
-                                        {apo.time}
+                                        {(() => {
+                                            const date = new Date(apo.date);
+                                            const hours = date.getUTCHours().toString().padStart(2, '0');
+                                            const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+                                            return `${hours}:${minutes}`;
+                                        })()}
                                     </span>
                                 </div>
                                 <div className="apoCardEdit">
