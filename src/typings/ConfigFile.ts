@@ -27,6 +27,7 @@ export interface ConfigFile {
     presentationTitle: string;
     appointment: {
         bannedDays: BannedDay[]
+        mercadoPago:boolean;
     }
     banners: {
         imageAppointment: string;

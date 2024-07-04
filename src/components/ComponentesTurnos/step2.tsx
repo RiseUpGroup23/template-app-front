@@ -58,24 +58,8 @@ const Step2: React.FC<Step2Props> = ({ setIsFormComplete }) => {
                         `}
                     </style>
 
-                    <input
-                        type="text"
-                        name='name'
-                        className='input'
-                        placeholder='Nombre y apellido'
-                        value={name}
-                        onChange={handleNameChange}
-                        style={{ color: `${config.customization.primary.text}` }}
-                    />
-                    <input
-                        type="text"
-                        name='cel'
-                        className='input'
-                        placeholder='Número de teléfono'
-                        value={phoneNumber}
-                        onChange={handlePhoneChange}
-                        style={{ color: `${config.customization.primary.text}` }}
-                    />
+                    <input autoComplete="off" type="text" name='name' className='input' placeholder='Nombre y apellido' value={name} onChange={handleNameChange} style={{ color: `${config.customization.primary.text}` }} />
+                    <input type="number" name='cel' className='input' placeholder='Número de teléfono' value={phoneNumber} onChange={handlePhoneChange} style={{ color: `${config.customization.primary.text}` }} />
 
                     <span className='oblig' style={{ color: `${config.customization.primary.text}` }}>Estos datos son obligatorios</span>
                 </div>
