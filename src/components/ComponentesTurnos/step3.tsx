@@ -171,15 +171,15 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
     }
 
     const clickNextAvailable = (retries = 0) => {
-        if (retries > 3) return
-        const nextAvailableDay = document.querySelector(".MuiPickersDay-root:not(.Mui-disabled)") as HTMLButtonElement
-        if (nextAvailableDay) {
-            nextAvailableDay.click()
-        } else {
-            setTimeout(() => {
-                clickNextAvailable(retries + 1)
-            }, 500)
-        }
+        // if (retries > 3) return
+        // const nextAvailableDay = document.querySelector(".MuiPickersDay-root:not(.Mui-disabled)") as HTMLButtonElement
+        // if (nextAvailableDay) {
+        //     nextAvailableDay.click()
+        // } else {
+        //     setTimeout(() => {
+        //         clickNextAvailable(retries + 1)
+        //     }, 500)
+        // }
     }
 
     return (
