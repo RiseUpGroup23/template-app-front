@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
-import { useMediaQuery } from "@mui/material";
+import { Chip, CircularProgress, useMediaQuery } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteModal from "../Buttons/DeleteModal";
 import axios from "axios";
+import EditAppointment from "../Buttons/EditAppointment";
 
 const meses = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -24,6 +25,7 @@ const Appointments = () => {
     const [date, setDate] = useState(new Date())
     const [dayAppos, setDayAppos] = useState<any[]>([])
     const [monthAppos, setMonthAppos] = useState<any>({})
+    const [loading, setLoading] = useState(true)
     const isMobile = useMediaQuery('(max-width:1400px)');
 
     useEffect(() => {
@@ -47,8 +49,10 @@ const Appointments = () => {
     }, [actualMonth, dbUrl])
 
     useEffect(() => {
+        setLoading(true)
         axios(`${dbUrl}/appointments/day/${date}`).then(res => {
             setDayAppos(res.data)
+            setLoading(false)
         })
     }, [date, dbUrl])
 
@@ -114,7 +118,7 @@ const Appointments = () => {
         <div className="mainContainer">
             <span className="initialTitle">¡Hola, <strong>{newConfig.customization.shopName}!</strong></span>
             <span className="proxApo">
-                <div className="apoTitle">
+                <div className="apoTitle" style={{ whiteSpace: "nowrap" }}>
                     Todos los turnos
                     <div className="monthsSelector">
                         {new Date().getMonth() < actualMonth && <button onClick={() => setActualMonth(prev => prev - 1)}>
@@ -122,7 +126,7 @@ const Appointments = () => {
                                 <path d="M16.4142 16.4142C15.6332 17.1953 14.3668 17.1953 13.5858 16.4142L0.857865 3.68629C0.076816 2.90524 0.0768161 1.63891 0.857865 0.857864C1.63891 0.076815 2.90524 0.0768151 3.68629 0.857864L15 12.1716L26.3137 0.857865C27.0948 0.0768161 28.3611 0.0768162 29.1421 0.857865C29.9232 1.63891 29.9232 2.90524 29.1421 3.68629L16.4142 16.4142ZM17 13L17 15L13 15L13 13L17 13Z" fill="white" fillOpacity="0.8" />
                             </svg>
                         </button>}
-                        <div><strong>{meses[actualMonth % 12]}</strong> ({new Date().getFullYear() + Math.floor((actualMonth) / 12)})</div>
+                        <div style={{ whiteSpace: "nowrap" }}><strong>{meses[actualMonth % 12]}</strong> ({new Date().getFullYear() + Math.floor((actualMonth) / 12)})</div>
                         <button onClick={() => setActualMonth(prev => prev + 1)}>
                             <svg style={{ transform: "rotate(270deg)" }} width="30" height="17" viewBox="0 0 30 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.4142 16.4142C15.6332 17.1953 14.3668 17.1953 13.5858 16.4142L0.857865 3.68629C0.076816 2.90524 0.0768161 1.63891 0.857865 0.857864C1.63891 0.076815 2.90524 0.0768151 3.68629 0.857864L15 12.1716L26.3137 0.857865C27.0948 0.0768161 28.3611 0.0768162 29.1421 0.857865C29.9232 1.63891 29.9232 2.90524 29.1421 3.68629L16.4142 16.4142ZM17 13L17 15L13 15L13 13L17 13Z" fill="white" fillOpacity="0.8" />
@@ -154,28 +158,47 @@ const Appointments = () => {
                         {diasSemana[(date.getDay() === 0 ? 7 : date.getDay()) - 1]} - {date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })
                         }
                     </span>
-                    <div className="apoCards">
-                        {dayAppos?.map((apo) => (
-                            <div className="apoCard">
-                                <div className="apoCardInfo">
-                                    <span className="apoCardName">
-                                        {apo.customer.name + " " + (apo?.customer?.lastname ?? "")} -
-                                    </span>
-                                    <span className="apoCardName">
-                                        {(() => {
-                                            const date = new Date(apo.date);
-                                            const hours = date.getUTCHours().toString().padStart(2, '0');
-                                            const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-                                            return `${hours}:${minutes}`;
-                                        })()}
-                                    </span>
+                    {!loading ? (dayAppos.length ?
+                        <div className="apoCards">
+                            {dayAppos.map((apo) => (
+                                <div className="apoCard">
+                                    <div className="apoCardInfo">
+                                        <span className="apoCardName">
+                                            {apo.customer.name + " " + (apo?.customer?.lastname ?? "")} -
+                                        </span>
+                                        <span className="apoCardName">
+                                            {(() => {
+                                                const date = new Date(apo.date);
+                                                const hours = date.getUTCHours().toString().padStart(2, '0');
+                                                const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+                                                return `${hours}:${minutes}`;
+                                            })()}
+                                        </span>
+                                    </div>
+                                    <div className="apoCardEdit">
+                                        {!apo.disabled ?
+                                            <>
+                                                <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(apo._id)} />
+                                                <EditAppointment id={apo._id} />
+                                            </>
+                                            :
+                                            <Chip label="Cancelado" color="error" />
+                                        }
+                                    </div>
                                 </div>
-                                <div className="apoCardEdit">
-                                    <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(apo._id)} />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                            ))
+                            }
+                        </div>
+                        :
+                        <div className="noData">
+                            No hay turnos próximos
+                        </div>
+                    )
+                        :
+                        <div className="blackLayLoading">
+                            <CircularProgress size={50} sx={{ color: "white" }} />
+                        </div>
+                    }
                 </>
             }
         </div>

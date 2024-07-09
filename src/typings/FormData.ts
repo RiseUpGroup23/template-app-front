@@ -1,4 +1,5 @@
 export interface FormData {
+  _id?: String;
   date: Date;
   professional: string;
   typeOfService: string;
@@ -7,4 +8,5 @@ export interface FormData {
     lastname: string;
     phoneNumber: string;
   };
+  disabled?: boolean
 }

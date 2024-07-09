@@ -49,7 +49,6 @@ function concatenateHours(schedule: Availability, interval: number) {
 }
 
 const Step3 = ({ setNextButtonEnabled }: Props) => {
-    const [availability, setAvailability] = useState<any>(null)
     const { date, setDate, setForm } = useAppointment()
     const thisMonth = dayjs().month() + 1;
     const nextTwoMonths = thisMonth + 2;
@@ -73,8 +72,6 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         });
         let formattedDate = newValue.locale('en').format("DD-MM-YYYY").split("-").join("/");
         await axios(`${dbUrl}/professionalsAndTimeAvailable/${form.professional}/${newValue.locale('en').format("MM-DD-YYYY")}`).then((res) => {
-            console.log("reeeee", res);
-
             const formattedAva = res.data.allSchedules
             setSchedules({ allSchedules: formattedAva, unavailableSchedules: res.data.unavailableSchedules });
             const isMorning = (hour: string) => {
@@ -116,7 +113,6 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                 }
                 formattedAva[e] = concatenateHours(res.data.timeAvailabilities[e], res.data.appointmentInterval)
             })
-            setAvailability(formattedAva)
             setNoWorkDays(noWD)
             const today = dayjs();
             handleDate(today, true);
@@ -174,6 +170,18 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         )
     }
 
+    const clickNextAvailable = (retries = 0) => {
+        if (retries > 3) return
+        const nextAvailableDay = document.querySelector(".MuiPickersDay-root:not(.Mui-disabled)") as HTMLButtonElement
+        if (nextAvailableDay) {
+            nextAvailableDay.click()
+        } else {
+            setTimeout(() => {
+                clickNextAvailable(retries + 1)
+            }, 500)
+        }
+    }
+
     return (
         <div className="pickersBox">
             {style()}
@@ -205,7 +213,11 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                                         banDate.getFullYear() === day.year()
                                     );
                                 }) ?? false
-                                return noWorkDays.some(e => e === dayOfWeek) || isBannedDay;
+                                const banResult = noWorkDays.some(e => e === dayOfWeek) || isBannedDay
+                                if (date === day) {
+                                    clickNextAvailable()
+                                }
+                                return banResult;
                             }}
                         />
                     </LocalizationProvider>
@@ -252,9 +264,3 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
 }
 
 export default Step3;
-
-
-// {loading ? (
-//     <div className="circularProg">{<CircularProgress size={50} sx={{ color: "black", marginTop: "50px" }} />}</div>
-// ) : (
-// )}
