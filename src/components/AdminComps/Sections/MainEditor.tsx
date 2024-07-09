@@ -2,15 +2,11 @@ import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { Link } from "react-router-dom";
 import DeleteModal from "../Buttons/DeleteModal";
-import { CircularProgress, useMediaQuery } from "@mui/material";
+import { Chip, CircularProgress, useMediaQuery } from "@mui/material";
 import axios from "axios";
-
-// let data = [
-//     { _id: "sa239", name: 'Nico Amico', date: '10/01', time: '13:00', action: 'Editar' },
-//     { _id: "sa239", name: 'Lio Messi', date: '18/12', time: '15:00', action: 'Editar' },
-//     { _id: "sa239", name: 'Kun Agüero', date: '18/12', time: '15:00', action: 'Editar' },
-//     { _id: "sa239", name: 'Diego Maradona', date: '10/10', time: '15:00', action: 'Editar' }
-// ];
+import sortByDate from "../utils/sortByDate";
+import EditAppointment from "../Buttons/EditAppointment";
+import AppoTable from "../Tables/AppoTable";
 
 export const arrowIco = (inverted = 0) => {
     return (
@@ -25,6 +21,7 @@ const MainEditor = () => {
     const pageStep = 4
     const [visibleItems, setVisibleItems] = useState(pageStep);
     const [data, setData] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
     const totalItems = data.length;
     const isMobile = useMediaQuery('(max-width:1024px)');
 
@@ -32,11 +29,16 @@ const MainEditor = () => {
         setVisibleItems(prevVisibleItems => prevVisibleItems + pageStep);
     };
 
-    useEffect(() => {
+    const fetchData = () => {
         axios(`${dbUrl}/appointments`).then((res) => {
-            setData(res.data)
+            setData(sortByDate(res.data))
+            setLoading(false)
         })
-    }, [dbUrl])
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     if (!config) return (<></>)
 
@@ -46,46 +48,68 @@ const MainEditor = () => {
             <span className="proxApo">
                 Próximos turnos
             </span>
-            <div className="blackLayout">
-                <div className="proxApoHeader rowContainer">
-                    <div className="rowItem" style={{ width: (isMobile ? '30%' : '40%') }}><span>Cliente</span></div>
-                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Día</span></div>
-                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Hora</span></div>
-                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Editar</span></div>
-                </div>
-                {data.length ? data.slice(0, visibleItems).map((item) => (
-                    <div className="rowContainer" key={item._id}>
-                        <div className="rowItem" style={{ width: (isMobile ? '30%' : '40%') }}>
-                            <span>{item.customer.name + " " + (item?.customer?.lastname ?? "")}</span>
-                        </div>
-                        <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
-                            <span>{new Intl.DateTimeFormat('es', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit'
-                            }).format(new Date(item.date)).slice(0, isMobile ? 5 : undefined)}</span>
-                        </div>
-                        <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
-                            <span>{(() => {
-                                const date = new Date(item.date);
-                                const hours = date.getUTCHours().toString().padStart(2, '0');
-                                const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-                                return `${hours}:${minutes}`;
-                            })()}</span>
-                        </div>
-                        <div className="actionsContainer" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
-                            <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(item._id)} />
-                        </div>
+            {!isMobile ?
+                <AppoTable />
+                :
+                <div className="blackLayout">
+                    <div className="proxApoHeader rowContainer">
+                        <div className="rowItem" style={{ width: (isMobile ? '30%' : '40%') }}><span>Cliente</span></div>
+                        <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Día</span></div>
+                        <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Hora</span></div>
+                        <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}><span>Editar</span></div>
                     </div>
-                )) :
-                    <div className="blackLayLoading">
-                        <CircularProgress size={50} sx={{ color: "white" }} />
-                    </div>
-                }
-            </div>
+                    {!loading ? (
+                        data.length ?
+                            data.slice(0, visibleItems).map((item) => (
+                                <div className="rowContainer" key={item._id}>
+                                    <div className="rowItem" style={{ width: (isMobile ? '30%' : '40%') }}>
+                                        <span>{item.customer.name + " " + (item?.customer?.lastname ?? "")}</span>
+                                    </div>
+                                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
+                                        <span>{new Intl.DateTimeFormat('es', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit'
+                                        }).format(new Date(item.date)).slice(0, isMobile ? 5 : undefined)}</span>
+                                    </div>
+                                    <div className="rowItem" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
+                                        <span>{(() => {
+                                            const date = new Date(item.date);
+                                            const hours = date.getUTCHours().toString().padStart(2, '0');
+                                            const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+                                            return `${hours}:${minutes}`;
+                                        })()}</span>
+                                    </div>
+                                    <div className="actionsContainer" style={{ width: `calc(${isMobile ? "70" : "60"}% / 3)` }}>
+                                        {!item.disabled ?
+                                            <>
+                                                <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(item._id).then(() => {
+                                                    fetchData()
+                                                })} />
+                                                <EditAppointment id={item._id} />
+                                            </>
+                                            :
+                                            <div className="chipContainer">
+                                                <Chip label="Cancelado" color="error" />
+                                            </div>
+                                        }
+                                    </div>
+                                </div>)
+                            )
+                            :
+                            <div className="noData">
+                                No hay turnos próximos
+                            </div>
 
+                    ) :
+                        <div className="blackLayLoading">
+                            <CircularProgress size={50} sx={{ color: "white" }} />
+                        </div>
+                    }
+                </div>
+            }
             <div className="seeAllApo">
-                {totalItems > visibleItems && (
+                {totalItems > visibleItems && isMobile && (
                     <button className="seeAllButton" onClick={handleSeeMore}>
                         Ver más
                         {arrowIco(0)}

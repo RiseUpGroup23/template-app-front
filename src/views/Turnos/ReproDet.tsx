@@ -7,9 +7,11 @@ import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import CloseIcon from '@mui/icons-material/Close';
 import CachedIcon from '@mui/icons-material/Cached';
+import DeleteModal from "../../components/AdminComps/Buttons/DeleteModal"
+import EditAppointment from "../../components/AdminComps/Buttons/EditAppointment"
 
 const ReproDet = () => {
-    const { config, dbUrl } = useConfig()
+    const { config, dbUrl, cancelAppointment } = useConfig()
     const { id } = useParams()
     const [apo, setApo] = useState<any>()
     const navigate = useNavigate()
@@ -25,7 +27,7 @@ const ReproDet = () => {
         <div className="appContainer" style={{ background: `linear-gradient(90deg, ${hexToRgb(config.customization.secondary.text, .5)} 31%, ${hexToRgb(config.customization.secondary.text, .0)} 100%), url(${config.customization.background.backgroundTurno}) lightgray 50% / cover no-repeat` }}>
             <Header />
             <div className="containerRepro">
-                <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}><span>Datos del turno</span></div>
+                <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}><span>{apo.disabled ? "Se canceló el turno" : "Datos del turno"}</span></div>
                 <div className="resumeContainer">
                     <div className="resumeText">
                         <div style={{ color: `${config.customization.primary.text}` }}>
@@ -40,12 +42,21 @@ const ReproDet = () => {
                             Hora: <span style={{ fontWeight: "bold" }}>{new Date(apo.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
                         </div>
                     </div>
-                    <div className="resumeInfo" style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, .7)}`, marginBottom: '-120px' }}>
-                        Recordá que solo podés cancelar o cambiar el turno 24 horas antes del mismo.
-                    </div>
+                    {!apo.disabled ?
+                        <div className="resumeInfo" style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, .7)}`, marginBottom: '-120px' }}>
+                            Recordá que solo podés cancelar o cambiar el turno 24 horas antes del mismo.
+                        </div>
+                        :
+                        <div className="canceledImage">
+                            <img src="/canceled.png" alt="cancelado" />
+                        </div>
+                    }
                 </div>
-                <div className="appointBoxButtons">
+                <div className={"appointBoxButtons" + (!apo.disabled ? " toDisable" : "")}>
                     <button className='prev' onClick={() => {
+                        if (apo.disabled) {
+                            return navigate("/")
+                        }
                         localStorage.setItem("searchedPhoneNumber", apo.customer.phoneNumber)
                         navigate("/reprogramar")
                     }}>
@@ -54,16 +65,26 @@ const ReproDet = () => {
                         </svg>
                         Volver
                     </button>
-                    <div className="reproButtons">
-                        <button className={`next`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }}>
-                            Cambiar turno
-                            <CachedIcon />
-                        </button>
-                        <button className={`next`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }}>
-                            Cancelar turno
-                            <CloseIcon />
-                        </button>
-                    </div>
+                    {!apo.disabled && <div className="reproButtons">
+                        <EditAppointment id={apo._id} customTrigger={
+                            <div className={`next`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }}>
+                                Cambiar turno
+                                <CachedIcon />
+                            </div>
+                        } />
+                        <DeleteModal
+                            message="¿Está seguro que desea cancelar el turno?"
+                            customTrigger={
+                                <button className={`next`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }}>
+                                    Cancelar turno
+                                    <CloseIcon />
+                                </button>
+                            }
+                            action={() => cancelAppointment(apo._id).then(() => {
+                                window.location.reload()
+                            })}
+                        />
+                    </div>}
                 </div>
             </div>
             <Footer />

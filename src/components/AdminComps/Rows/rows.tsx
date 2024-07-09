@@ -114,16 +114,24 @@ export function RenderProfessionalRow(professional: Professional): JSX.Element {
 }
 
 export function RenderBanRow(ban: BannedDay, index: number): JSX.Element {
+    const { editProp, config } = useConfig()
     return (
         <div className="rowContainer" key={ban.title}>
             <div className="rowItem" style={{ width: '35%' }}>
-                <span>{new Date(ban.date).toLocaleDateString()}</span>
+                <span>{new Intl.DateTimeFormat('es', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit'
+                }).format(new Date(ban.date))}</span>
             </div>
             <div className="rowItem" style={{ width: '40%' }}>
                 <span>{ban.title}</span>
             </div>
             <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
+                    <DeleteModal action={() => {
+                        editProp("appointment.bannedDays", config?.appointment.bannedDays.filter((day, i) => index !== i))
+                    }} message="¿Desea eliminar esta excepción?" />
                     <BansModal ban={ban} index={index} />
                 </div>
             </div>

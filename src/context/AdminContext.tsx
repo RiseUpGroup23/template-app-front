@@ -85,7 +85,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
     }
 
     const cancelAppointment = async (id: string) => {
-        console.log("cancelar turno");
+        return axios.patch(`${dbUrl}/appointments/delete/${id}`)
     }
 
     const fetchServices = async () => {

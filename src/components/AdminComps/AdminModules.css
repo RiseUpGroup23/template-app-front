@@ -143,6 +143,10 @@
     max-width: 800px;
 }
 
+.MuiChip-label {
+    font-size: .75rem !important;
+}
+
 .rowContainer .rowItem img {
     max-height: 100%;
     object-fit: contain;
@@ -366,6 +370,12 @@
 .apoCardInfo {
     display: flex;
     gap: .25rem;
+    align-items: center;
+}
+
+.apoCardEdit {
+    display: flex;
+    gap: .5rem;
 }
 
 .apoCardEdit svg {
@@ -380,11 +390,12 @@
 }
 
 .addSection {
-    margin-top: 5rem;
+    margin-top: 3rem;
     display: flex;
     align-items: center;
     width: 100%;
     justify-content: center;
+    gap: 3.5rem;
 }
 
 .newProfButton {
@@ -421,6 +432,50 @@
     height: 30vh;
 }
 
+.noData {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 3rem;
+    color: white;
+    font-size: 2rem;
+    padding: 4rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+.tableEdit {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.formFilters {
+    display: flex !important;
+    gap: 1rem;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: 2rem 2rem 1rem 2rem !important;
+}
+
+.formFilters .switchOptions {
+    color: white;
+}
+
+.searchFilters {
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    border-radius: .5rem;
+    width: max-content;
+}
+
+.canceledFilter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
 
 @media (max-width:1300px) {
     .calendarDay .info {
@@ -555,5 +610,21 @@
         right: -2rem;
         bottom: -3rem;
         transform: scale(.5);
+    }
+
+    .noData {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width:500px) {
+    .actionsContainer {
+        position: relative;
+    }
+
+    .chipContainer {
+        position: absolute;
+        left: 0;
+        transform: scale(.9);
     }
 }

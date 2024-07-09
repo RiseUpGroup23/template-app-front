@@ -17,13 +17,20 @@ const Reprogramar = () => {
     const [found, setFound] = useState<any[]>([])
     const isMobile = useMediaQuery('(max-width:1024px)');
 
+    const searchAppo = (forcedPhone?: string) => {
+        setLoading(true)
+        axios(`${dbUrl}/appointments/phoneNumber/${forcedPhone ?? phoneNumber}`).then((res) => {
+            setFound(res.data);
+            setLoading(false)
+        })
+    }
+
     useEffect(() => {
         if (localStorage.getItem("searchedPhoneNumber")) {
-            setPhoneNumber(Number(localStorage.getItem("searchedPhoneNumber")!))
+            searchAppo(localStorage.getItem("searchedPhoneNumber")!)
             localStorage.removeItem("searchedPhoneNumber")
-            searchAppo()
         }
-    }, [])
+    }, [dbUrl])
 
     useEffect(() => {
         setEnabled(typeof phoneNumber === "number" && phoneNumber > 10000000)
@@ -45,14 +52,6 @@ const Reprogramar = () => {
                 `}
             </style>
         )
-    }
-
-    const searchAppo = () => {
-        setLoading(true)
-        axios(`${dbUrl}/appointments/phoneNumber/${phoneNumber}`).then((res) => {
-            setFound(res.data);
-            setLoading(false)
-        })
     }
 
     return (
@@ -124,7 +123,7 @@ const Reprogramar = () => {
                         </svg>
                         Volver
                     </button>
-                    {!found?.length && <button className={`next ${!enabled ? 'disabled' : ''}`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }} onClick={searchAppo}>
+                    {!found?.length && <button className={`next ${!enabled ? 'disabled' : ''}`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }} onClick={() => searchAppo()}>
 
                         {!loading ?
                             <>

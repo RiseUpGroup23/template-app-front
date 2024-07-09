@@ -39,6 +39,19 @@
     gap: 5rem;
 }
 
+.canceledImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 20rem;
+}
+
+.canceledImage img {
+    width: 40%;
+    object-fit: contain;
+}
+
 @media (max-width:1024px) {
     .containerRepro {
         margin: 3rem 0;
@@ -58,7 +71,8 @@
         justify-content: center;
     }
 
-    .containerRepro .appointBoxButtons {
+    
+    .containerRepro .toDisable {
         display: flex;
         flex-direction: column;
         gap: 1rem;
@@ -83,5 +97,14 @@
     .containerRepro .prev svg {
         width: 1rem;
         height: 1rem;
+    }
+
+    .canceledImage {
+        height: 10rem;
+        margin-top: 2rem;
+    }
+
+    .canceledImage img {
+        width: 100%;
     }
 }
