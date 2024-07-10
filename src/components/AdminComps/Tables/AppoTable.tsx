@@ -137,6 +137,7 @@ export default function BasicTable() {
                         <Stack className="switchOptions" direction="row" spacing={1} alignItems="center">
                             <span>Ocultar</span>
                             <Switch checked={seeDisabled} onChange={() => {
+                                setPage(0)
                                 setSeeDisabled((prev) => !prev)
                             }} />
                             <span>Mostrar</span>
@@ -162,7 +163,7 @@ export default function BasicTable() {
                                         key={row._id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell align='center'>
+                                        <TableCell align='center' sx={{ minWidth: "150px" }}>
                                             {row.name}
                                         </TableCell>
                                         <TableCell align='center'>{row.date}</TableCell>

@@ -477,6 +477,11 @@
     color: white;
 }
 
+.tableEdit .rowButtonAction svg {
+    height: 2rem;
+    aspect-ratio: 1;
+}
+
 @media (max-width:1300px) {
     .calendarDay .info {
         display: none;
