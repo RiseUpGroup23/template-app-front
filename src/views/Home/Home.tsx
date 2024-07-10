@@ -24,7 +24,7 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="blackInfo">
-                    <div className="blackInfoItem">
+                    <a className="blackInfoItem" href={`https://www.google.com/maps?q=${config.contact.address}, ${config.contact.city}, ${config.contact.state}`} target="_blank" rel='noreferrer'>
                         <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                             <rect width="58" height="58" fill="url(#pattern0_27_93)" />
                             <defs>
@@ -35,8 +35,8 @@ const Home = () => {
                             </defs>
                         </svg>
                         <p>{config.contact.address}</p>
-                    </div>
-                    <div className="blackInfoItem">
+                    </a>
+                    <a className="blackInfoItem" href={`https://wa.me/${config.contact.phone.includes("+") ? config.contact.phone : `+54${config.contact.phone}`}?text=Hola ${config.customization.shopName}`} target="_blank" rel='noreferrer'>
                         <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                             <rect width="58" height="58" fill="url(#pattern0_27_95)" />
                             <defs>
@@ -47,11 +47,11 @@ const Home = () => {
                             </defs>
                         </svg>
                         <p>{config.contact.phone}</p>
-                    </div>
+                    </a>
                 </div>
             </div>
             <Footer />
-        </div>
+        </div >
     )
 }
 

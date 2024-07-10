@@ -41,7 +41,6 @@
 }
 
 .firstColumn,
-.secondColumn,
 .thirdColumn {
     display: flex;
     flex-direction: column;
@@ -90,7 +89,6 @@
     }
 
     .firstColumn,
-    .secondColumn,
     .thirdColumn {
         width: 100%;
         align-items: center;
