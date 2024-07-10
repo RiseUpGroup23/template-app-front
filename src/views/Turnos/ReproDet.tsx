@@ -9,6 +9,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CachedIcon from '@mui/icons-material/Cached';
 import DeleteModal from "../../components/AdminComps/Buttons/DeleteModal"
 import EditAppointment from "../../components/AdminComps/Buttons/EditAppointment"
+import Overlay from "./Overlay"
 
 const ReproDet = () => {
     const { config, dbUrl, cancelAppointment } = useConfig()
@@ -24,13 +25,7 @@ const ReproDet = () => {
 
     if (!config || !apo) return (<></>)
     return (
-        <div className="appContainer" style={{
-            background: `
-                linear-gradient(90deg, ${hexToRgb(config.customization.secondary.text, .5)} 31%, ${hexToRgb(config.customization.secondary.text, .0)} 100%),
-                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url(${config.customization.background.backgroundTurno}) lightgray 50% / cover no-repeat
-            `
-        }}>
+        <Overlay image={`${config.customization.background.backgroundTurno}`}>
             <Header />
             <div className="containerRepro">
                 <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}><span>{apo.disabled ? "Se canceló el turno" : "Datos del turno"}</span></div>
@@ -94,7 +89,7 @@ const ReproDet = () => {
                 </div>
             </div>
             <Footer />
-        </div >
+        </Overlay>
     )
 }
 
