@@ -36,7 +36,7 @@ const Home = () => {
                         </svg>
                         <p>{config.contact.address}</p>
                     </a>
-                    <a className="blackInfoItem" href={`https://wa.me/${config.contact.phone.includes("+") ? config.contact.phone : `+54${config.contact.phone}`}?text=Hola ${config.customization.shopName}`} target="_blank" rel='noreferrer'>
+                    <a className="blackInfoItem" href={`https://wa.me/${config.contact.phone.includes("+") ? config.contact.phone : `+54${config.contact.phone}`}?text=Hola ${config.customization.shopName}!`} target="_blank" rel='noreferrer'>
                         <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
                             <rect width="58" height="58" fill="url(#pattern0_27_95)" />
                             <defs>
