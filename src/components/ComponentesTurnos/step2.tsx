@@ -36,7 +36,7 @@ const Step2: React.FC<Step2Props> = ({ setIsFormComplete }) => {
     };
 
     useEffect(() => {
-        setIsFormComplete(name !== "" && phoneNumber.length === 10);
+        setIsFormComplete(name !== "" && phoneNumber.length > 8);
     }, [name, phoneNumber, setIsFormComplete]);
 
     const { config } = useConfig();
