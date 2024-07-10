@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect } from 'react';
+import hexToRgb from '../../modules/hexToRgb';
 import { useConfig } from '../../context/AdminContext';
 import { useAppointment } from '../../context/ApContext';
-import hexToRgb from '../../modules/hexToRgb';
 
 interface Step2Props {
     setIsFormComplete: (value: boolean) => void;
@@ -11,28 +11,32 @@ const Step2: React.FC<Step2Props> = ({ setIsFormComplete }) => {
     const { form, setForm } = useAppointment();
     const { customer: { name, phoneNumber } } = form;
 
-    const handleNombreChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setForm((prevData: any) => ({
-            ...prevData, customer: {
-                ...prevData.customer,
-                name: value
-            }
-        }));
+        if (/^[a-zA-Z\s]*$/.test(value)) {
+            setForm((prevData: any) => ({
+                ...prevData, customer: {
+                    ...prevData.customer,
+                    name: value
+                }
+            }));
+        }
     };
 
-    const handleCelularChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        setForm((prevData: any) => ({
-            ...prevData, customer: {
-                ...prevData.customer,
-                phoneNumber: value
-            }
-        }));
+        if (/^\d*$/.test(value)) {
+            setForm((prevData: any) => ({
+                ...prevData, customer: {
+                    ...prevData.customer,
+                    phoneNumber: value
+                }
+            }));
+        }
     };
 
     useEffect(() => {
-        setIsFormComplete(name !== "" && phoneNumber!=="");
+        setIsFormComplete(name !== "" && phoneNumber.length === 10);
     }, [name, phoneNumber, setIsFormComplete]);
 
     const { config } = useConfig();
@@ -44,18 +48,18 @@ const Step2: React.FC<Step2Props> = ({ setIsFormComplete }) => {
                 Llena el <span>formulario</span> con <span>tus datos</span>
             </div>
             <div className='containerForm'>
-                <div className='formulario' style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
+                <div className='form' style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>
                     <style>
                         {`
                             .input::placeholder {
-                                color: ${config.customization.primary.text} ;/* Cambia esto al color deseado */
+                                color: ${config.customization.primary.text}; /* Cambia esto al color deseado */
                                 opacity: 1;   /* Para asegurarte de que el color sea visible en todos los navegadores */
                             }
                         `}
                     </style>
 
-                    <input autoComplete="off" type="text" name='name' className='input' placeholder='Nombre y apellido' value={name} onChange={handleNombreChange} style={{ color: `${config.customization.primary.text}` }} />
-                    <input type="number" name='cel' className='input' placeholder='Número de teléfono' value={phoneNumber} onChange={handleCelularChange} style={{ color: `${config.customization.primary.text}` }} />
+                    <input autoComplete="off" type="text" name='name' className='input' placeholder='Nombre y apellido' value={name} onChange={handleNameChange} style={{ color: `${config.customization.primary.text}` }} />
+                    <input type="number" name='cel' className='input' placeholder='Número de teléfono' value={phoneNumber} onChange={handlePhoneChange} style={{ color: `${config.customization.primary.text}` }} />
 
                     <span className='oblig' style={{ color: `${config.customization.primary.text}` }}>Estos datos son obligatorios</span>
                 </div>

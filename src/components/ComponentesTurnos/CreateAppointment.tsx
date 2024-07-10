@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { StepProvider, useStepContext } from '../../context/StepContext';
-import { Step0, Step1, Step2, Step3, Step4, Step5 } from '../ComponentesTurnos/indexTurnos';
 import StepButtons from './buttonsStep';
 import { AppointmentProvider } from '../../context/ApContext';
+import { StepProvider, useStepContext } from '../../context/StepContext';
+import { Step0, Step1, Step2, Step3, Step4, Step5 } from './indexAppointments';
 import { useConfig } from '../../context/AdminContext';
 
-const CrearTurno = () => {
+const CreateAppointment = () => {
     return (
         <AppointmentProvider>
             <StepProvider>
@@ -52,4 +52,4 @@ const CreandoTurnos = () => {
     );
 };
 
-export default CrearTurno;
+export default CreateAppointment;

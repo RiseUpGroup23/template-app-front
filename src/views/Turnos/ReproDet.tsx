@@ -24,12 +24,18 @@ const ReproDet = () => {
 
     if (!config || !apo) return (<></>)
     return (
-        <div className="appContainer" style={{ background: `linear-gradient(90deg, ${hexToRgb(config.customization.secondary.text, .5)} 31%, ${hexToRgb(config.customization.secondary.text, .0)} 100%), url(${config.customization.background.backgroundTurno}) lightgray 50% / cover no-repeat` }}>
+        <div className="appContainer" style={{
+            background: `
+                linear-gradient(90deg, ${hexToRgb(config.customization.secondary.text, .5)} 31%, ${hexToRgb(config.customization.secondary.text, .0)} 100%),
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url(${config.customization.background.backgroundTurno}) lightgray 50% / cover no-repeat
+            `
+        }}>
             <Header />
             <div className="containerRepro">
                 <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}><span>{apo.disabled ? "Se canceló el turno" : "Datos del turno"}</span></div>
                 <div className="resumeContainer">
-                    <div className="resumeText">
+                    <div className="title">
                         <div style={{ color: `${config.customization.primary.text}` }}>
                             Fecha: <span style={{ fontWeight: "bold" }}>
                                 {new Date(apo.date).getDate().toString().padStart(2, '0') + '-' +

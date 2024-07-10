@@ -1,8 +1,8 @@
+import "./footer.css"
 import { useConfig } from "../../context/AdminContext"
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
-import "./footer.css"
 
 const Footer = () => {
     const { config } = useConfig()

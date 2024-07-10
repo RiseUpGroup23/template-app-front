@@ -1,14 +1,14 @@
-import { useConfig } from "../../../context/AdminContext";
 import hexToRgb from "../../../modules/hexToRgb";
-import { useStepContext } from "../../../context/StepContext";
+import { useConfig } from "../../../context/AdminContext";
 import { useAppointment } from "../../../context/ApContext";
+import { useStepContext } from "../../../context/StepContext";
 import { TypeOfService } from "../../../typings/TypeOfServices";
 
-interface TarjetaServicioProps {
+interface ServiceCardProps {
     servicio: TypeOfService;
 }
 
-const TarjetaServicio: React.FC<TarjetaServicioProps> = ({ servicio }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ servicio }) => {
 
     const { config } = useConfig()
     const { nextStep } = useStepContext()
@@ -25,14 +25,14 @@ const TarjetaServicio: React.FC<TarjetaServicioProps> = ({ servicio }) => {
     }
 
     return (
-        <div className="tarjetaServicio" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
+        <div className="tarjet" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
             <div className="imgCard" style={{ background: `url(${servicio.image}) center/cover no-repeat` }}>
             </div>
-            <div className="nombreServicio" style={{ color: `${config.customization.primary.text}` }}>
+            <div className="names_Professionals_Service" style={{ color: `${config.customization.primary.text}` }}>
                 {servicio.name}
             </div>
         </div>
     )
 }
 
-export default TarjetaServicio;
+export default ServiceCard;

@@ -1,14 +1,14 @@
-import { useConfig } from "../../../context/AdminContext";
 import hexToRgb from "../../../modules/hexToRgb";
-import { useStepContext } from "../../../context/StepContext";
+import { useConfig } from "../../../context/AdminContext";
 import { useAppointment } from "../../../context/ApContext";
 import { Professional } from "../../../typings/Professional";
+import { useStepContext } from "../../../context/StepContext";
 
-interface TarjetaPeluqueroProps {
+interface ProfessionalCardProps {
     prof: Professional
 }
 
-const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
+const ProfessionalCard: React.FC<ProfessionalCardProps> = ({ prof }) => {
 
     const { config } = useConfig()
     const { nextStep } = useStepContext()
@@ -24,10 +24,10 @@ const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
     }
 
     return (
-        <div className="tarjeta" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
+        <div className="tarjet" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }} onClick={handleClick}>
             <div className="imgCard" style={{ background: `url(${prof.image}) center/cover no-repeat` }}>
             </div>
-            <div className="nombrePeluquero" style={{ color: `${config.customization.primary.text}` }}>
+            <div className="names_Professionals_Service" style={{ color: `${config.customization.primary.text}` }}>
                 {prof.name}
             </div>
             <div className="tipoPeluquero" style={{ color: `${config.customization.primary.text}` }}>
@@ -37,4 +37,4 @@ const TarjetaPeluquero: React.FC<TarjetaPeluqueroProps> = ({ prof }) => {
     )
 }
 
-export default TarjetaPeluquero;
+export default ProfessionalCard;

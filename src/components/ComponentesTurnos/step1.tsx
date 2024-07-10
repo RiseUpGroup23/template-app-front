@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { useConfig } from '../../context/AdminContext';
-import TarjetaPeluquero from './Peluqueros/tarjetaPeluquero';
 import { CircularProgress } from '@mui/material';
 import { useAppointment } from '../../context/ApContext';
+import { useConfig } from '../../context/AdminContext';
+import ProfessionalCard from './Professional/ProfessionalCard';
 
 const Step1 = () => {
     const { config, professionals, fetchProfessionals } = useConfig()
@@ -18,10 +18,10 @@ const Step1 = () => {
             <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>
                 Elegí a tu <span>profesional</span>
             </div>
-            <div className="containerPeluqueros">
+            <div className="container_Professional_Service">
                 {professionals?.length ?
                     professionals.filter((e) => e.typesOfServices.some(ser => ser._id === form.typeOfService)).map((prof, index) => (
-                        <TarjetaPeluquero key={index} prof={prof} />
+                        <ProfessionalCard key={index} prof={prof} />
                     ))
                     :
                     <div className="cardsLoading">
