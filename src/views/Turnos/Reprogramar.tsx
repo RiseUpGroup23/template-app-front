@@ -134,7 +134,7 @@ const Reprogramar = () => {
                             </>
                             :
                             <div style={{ minWidth: "100px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                <CircularProgress size={20} sx={{ color: `${config.customization.primary.text}` }} />
+                                <CircularProgress size={20} sx={{ color: `${config.customization.primary.text}`, display: "flex", alignItems: "center", justifyContent: "center" }} />
                             </div>
                         }
                     </button>}

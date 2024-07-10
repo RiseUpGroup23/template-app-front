@@ -71,7 +71,7 @@
         justify-content: center;
     }
 
-    
+
     .containerRepro .toDisable {
         display: flex;
         flex-direction: column;
@@ -81,16 +81,18 @@
     }
 
     .reproButtons {
-        gap: 2rem;
+        gap: 1rem;
     }
 
     .containerRepro .next,
     .containerRepro .prev {
-        padding: .5rem 1rem;
+        padding: 1rem;
         font-size: .9rem;
         gap: .25rem;
         min-width: 40%;
         margin-top: 1rem;
+        white-space: nowrap;
+        height: auto;
     }
 
     .containerRepro .next svg,
