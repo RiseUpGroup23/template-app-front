@@ -30,14 +30,30 @@ function replaceValueAtIndex(array: BannedDay[], index: number, value: any) {
 const BansModal = ({ ban, index, customTrigger }: Props) => {
     const [value, setValue] = React.useState({
         ...ban,
-        date: ban.date ? new Date(ban.date).toLocaleDateString() : ""
+        date: ban.date ? new Intl.DateTimeFormat('es', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).format(new Date(ban.date)) : ""
     });
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const { editProp, config } = useConfig()
+
+
+    const handleOpen = () => {
+        setValue({
+            ...ban,
+            date: ban.date ? new Intl.DateTimeFormat('es', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).format(new Date(ban.date)) : ""
+        })
+        setOpen(true)
+    };
+    const handleClose = () => setOpen(false);
 
     const handleSave = () => {
         setLoading(true)
