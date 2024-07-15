@@ -1,11 +1,10 @@
 import React, { createContext, useState, useContext, FC } from 'react';
-import { useConfig } from './AdminContext';
-import { useAppointment } from './ApContext';
 
 interface StepContextType {
     currentStep: number;
-    nextStep: () => void;
-    prevStep: () => void;
+    previous: number;
+    nextStep: (forced?: number) => void;
+    prevStep: (forced?: number) => void;
 }
 
 const StepContext = createContext<StepContextType | undefined>(undefined);
@@ -16,21 +15,24 @@ interface StepProviderProps {
 
 export const StepProvider: FC<StepProviderProps> = ({ children }) => {
     const [currentStep, setCurrentStep] = useState<number>(0);
-    const { form } = useAppointment()
-    const { dbUrl } = useConfig()
+    const [previous, setPrevious] = useState<number>(0);
 
-    const nextStep = async () => {
+    const nextStep = async (forced?: number) => {
         setCurrentStep(prevStep => {
-            return prevStep + 1
+            setPrevious(prevStep)
+            return forced ?? prevStep + 1
         });
     };
 
-    const prevStep = () => {
-        setCurrentStep(prevStep => prevStep - 1);
+    const prevStep = (forced?: number) => {
+        setCurrentStep(prevStep => {
+            setPrevious(prevStep)
+            return forced ?? prevStep - 1
+        });
     };
 
     return (
-        <StepContext.Provider value={{ currentStep, nextStep, prevStep }}>
+        <StepContext.Provider value={{ currentStep, nextStep, prevStep, previous }}>
             {children}
         </StepContext.Provider>
     );
