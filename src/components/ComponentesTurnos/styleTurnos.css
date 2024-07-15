@@ -308,6 +308,7 @@
         text-align: center;
         width: 95vw;
         margin: 2rem auto;
+        min-height: 5rem;
     }
 
     .pickersContainer,
