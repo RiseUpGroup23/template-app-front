@@ -25,8 +25,9 @@ const Customization = () => {
                     <div className="rowItem" style={{ width: "20%" }}><span>Editar</span></div>
                 </div>
 
-                {RenderTextRow("Titulo 1", newConfig.presentationTitle, "presentationTitle")}
-                {RenderTextRow("Texto de presentación", newConfig.presentationText, "presentationText")}
+                {RenderTextRow("Título", newConfig.texts.presentationTitle, "texts.presentationTitle")}
+                {RenderTextRow("Texto de presentación", newConfig.texts.presentationText, "texts.presentationText")}
+                {RenderTextRow("Texto del Footer", newConfig.texts.footer, "texts.footer", true)}
 
             </div>
             <span className="proxApo">

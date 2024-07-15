@@ -21,12 +21,10 @@ export interface BannedDay {
 
 export interface ConfigFile {
     imgsCarrousel: Img[];
-    presentationText: string;
     imagePresentation: string;
-    presentationTitle: string;
     appointment: {
         bannedDays: BannedDay[]
-        mercadoPago:boolean;
+        mercadoPago: boolean;
     }
     banners: {
         imageAppointment: string;
@@ -34,6 +32,11 @@ export interface ConfigFile {
         imageNews: string;
         imageReservations: string;
     };
+    texts: {
+        presentationText: string;
+        presentationTitle: string;
+        footer: string;
+    }
     contact: Contact;
     reservationPrice: Number;
     customization: {
