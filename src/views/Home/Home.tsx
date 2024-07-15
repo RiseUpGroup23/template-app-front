@@ -14,12 +14,12 @@ const Home = () => {
         <div className="appContainer" style={{ background: `linear-gradient(90deg, ${hexToRgb(config.customization.secondary.text, .5)} 31%, ${hexToRgb(config.customization.secondary.text, .0)} 100%), url(${config.customization.background.backgroundImage}) lightgray 50% / cover no-repeat` }}>
             <Header />
             <div className="titleContainer" style={{ color: `${config.customization.primary.text}` }}>
-                <ReactMarkdown>{config?.presentationTitle}</ReactMarkdown>
+                <ReactMarkdown>{config?.texts.presentationTitle}</ReactMarkdown>
             </div>
             <div className="infoContainer">
                 <div className="circleContainer" style={{ background: `${config.customization.primary.color}` }}>
                     <div className="contenidoHome">
-                        <div className="textoHome" style={{ color: `${config.customization.primary.text}` }}><ReactMarkdown>{config.presentationText}</ReactMarkdown></div>
+                        <div className="textoHome" style={{ color: `${config.customization.primary.text}` }}><ReactMarkdown>{config.texts.presentationText}</ReactMarkdown></div>
                         <div className="imagenHome"><img src={config.imagePresentation} alt='imagePresentation' /></div>
                     </div>
                 </div>
