@@ -56,7 +56,7 @@
 }
 
 .imagenHome img {
-    width: 50vw;
+    width: 90%;
     object-fit: contain;
     max-width: 500px;
 }
@@ -73,10 +73,17 @@
 .blackInfoItem {
     display: flex;
     width: 50%;
+    height: 100%;
     gap: 2rem;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.3s ease;
 }
+
+.blackInfoItem:hover {
+    background-color: rgba(125, 125, 125, 0.5);
+}
+
 
 .blackInfoItem p {
     color: white;
@@ -108,7 +115,13 @@
 
 @media (max-width:767px) {
     .contenidoHome {
-        flex-direction: column-reverse;
+        flex-direction: column;
+        text-align: center;
+        gap: 2rem;
+    }
+
+    .circleContainer{
+        width: 300vw;
     }
 
     .contenidoHome>div {
@@ -116,10 +129,11 @@
     }
 
     .imagenHome img {
-        width: 100%;
+        width: 75%;
+        max-width: 300px;
     }
 
     .textoHome {
-        font-size: 5vw;
+        font-size: 1.5rem;
     }
 }

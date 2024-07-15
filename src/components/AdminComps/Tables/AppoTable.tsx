@@ -48,6 +48,16 @@ export default function BasicTable() {
         })
     }
 
+    const searchAppos = () => {
+        setLoading(true)
+        axios(`${dbUrl}/appointments/search/?term=${searchValue}`).then((res) => {
+            setRows(sortByDate(res.data).map((e: FormData) => createData(e)))
+        }).then(() => {
+            setPage(0)
+            setLoading(false)
+        })
+    }
+
     useEffect(() => {
         fetchData()
         //eslint-disable-next-line
@@ -117,7 +127,7 @@ export default function BasicTable() {
             {style()}
             <form onSubmit={(e) => {
                 e.preventDefault()
-                console.log("hola", searchValue);
+                searchAppos()
             }}>
                 <FormControl className='formFilters'>
                     <div className='searchFilters'>
@@ -212,7 +222,7 @@ export default function BasicTable() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 labelRowsPerPage="Filas por página:"
-                labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}
+                labelDisplayedRows={({ from, to, count }) => `${page + 1} de ${Math.ceil(count / rowsPerPage)}`}
             />
         </TableContainer >
     );

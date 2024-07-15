@@ -225,6 +225,11 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     </div>
 
                     <div className="textInModal">
+                        <span>Especialidad: </span>
+                        <input type='text' value={prof.profession} onChange={(e) => setProf((prev) => ({ ...prev, profession: e.target.value }))} />
+                    </div>
+
+                    <div className="textInModal">
                         <span>Teléfono: </span>
                         <input type='text' value={prof.phoneNumber} onChange={(e) => setProf((prev) => ({ ...prev, phoneNumber: Number(e.target.value) || e.target.value === "" ? e.target.value : prev.phoneNumber }))} />
                     </div>

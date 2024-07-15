@@ -63,7 +63,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         hours: true
     })
     const [gridDimension, setGridDimension] = useState(0)
-    const [noWorkDays, setNoWorkDays] = useState([])
+    const [noWorkDays, setNoWorkDays] = useState<any>([])
     const { dbUrl } = useConfig()
     const { form } = useAppointment()
 
@@ -103,6 +103,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
     };
 
     useEffect(() => {
+        setNextButtonEnabled(false)
         setLoading({
             days: true,
             hours: true
@@ -117,9 +118,13 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                 formattedAva[e] = concatenateHours(res.data.timeAvailabilities[e], res.data.appointmentInterval)
             })
             setNoWorkDays(noWD)
-            const today = dayjs();
-            handleDate(today, true);
-        });
+            const bannedDays = config?.appointment.bannedDays
+            let nextAvailable = dayjs();
+            while (bannedDays?.some(e => new Date(e.date).getUTCDate() === nextAvailable.date()) || noWD.some((e: any) => e === nextAvailable.locale("en").format('dddd').toLowerCase())) {
+                nextAvailable = nextAvailable.add(1, 'day');
+            }
+            handleDate(nextAvailable, true);
+        })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -173,18 +178,6 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         )
     }
 
-    const clickNextAvailable = (retries = 0) => {
-        // if (retries > 3) return
-        // const nextAvailableDay = document.querySelector(".MuiPickersDay-root:not(.Mui-disabled)") as HTMLButtonElement
-        // if (nextAvailableDay) {
-        //     nextAvailableDay.click()
-        // } else {
-        //     setTimeout(() => {
-        //         clickNextAvailable(retries + 1)
-        //     }, 500)
-        // }
-    }
-
     return (
         <div className="pickersBox">
             {style()}
@@ -216,10 +209,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                                         banDate.getFullYear() === day.year()
                                     );
                                 }) ?? false
-                                const banResult = noWorkDays.some(e => e === dayOfWeek) || isBannedDay
-                                if (date === day) {
-                                    clickNextAvailable()
-                                }
+                                const banResult = noWorkDays.some((e: any) => e === dayOfWeek) || isBannedDay
                                 return banResult;
                             }}
                         />

@@ -1,16 +1,40 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { CircularProgress } from '@mui/material';
 import { useAppointment } from '../../context/ApContext';
 import { useConfig } from '../../context/AdminContext';
 import ProfessionalCard from './Professional/ProfessionalCard';
+import { useStepContext } from '../../context/StepContext';
 
 const Step1 = () => {
     const { config, professionals, fetchProfessionals } = useConfig()
-    const { form } = useAppointment()
+    const { form, setForm } = useAppointment()
+    const { nextStep, previous, prevStep } = useStepContext()
+
+    const visibleCards = useMemo(() => {
+        return professionals?.filter((e) => e.typesOfServices.some(ser => ser._id === form.typeOfService)) ?? []
+        //eslint-disable-next-line
+    }, [professionals])
+
     useEffect(() => {
-        fetchProfessionals()
+        !professionals?.length && fetchProfessionals()
         //eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+        if (visibleCards?.length === 1) {
+            if (previous < 2) {
+                setForm(prev => ({
+                    ...prev,
+                    professional: visibleCards[0]._id
+                }))
+                nextStep(2)
+            } else {
+                prevStep(0)
+            }
+        }
+        //eslint-disable-next-line
+    }, [visibleCards])
+
     if (!config) return <></>
 
     return (
@@ -20,7 +44,7 @@ const Step1 = () => {
             </div>
             <div className="container_Professional_Service">
                 {professionals?.length ?
-                    professionals.filter((e) => e.typesOfServices.some(ser => ser._id === form.typeOfService)).map((prof, index) => (
+                    visibleCards?.map((prof, index) => (
                         <ProfessionalCard key={index} prof={prof} />
                     ))
                     :

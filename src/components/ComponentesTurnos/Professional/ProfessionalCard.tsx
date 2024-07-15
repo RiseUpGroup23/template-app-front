@@ -13,6 +13,7 @@ const ProfessionalCard: React.FC<ProfessionalCardProps> = ({ prof }) => {
     const { config } = useConfig()
     const { nextStep } = useStepContext()
     const { setForm } = useAppointment()
+
     if (!config) return <></>
 
     const handleClick = () => {
