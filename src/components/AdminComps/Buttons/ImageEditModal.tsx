@@ -53,7 +53,7 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
             await editProp(prop, imageUrl)
             handleClose()
         } catch (error) {
-            console.log("Error al guardar imagen", error);
+            console.error("Error al guardar imagen", error);
             handleClose()
         }
     };

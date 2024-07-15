@@ -103,6 +103,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
     };
 
     useEffect(() => {
+        setNextButtonEnabled(false)
         setLoading({
             days: true,
             hours: true
