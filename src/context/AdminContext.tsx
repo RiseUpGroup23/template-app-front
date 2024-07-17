@@ -4,7 +4,7 @@ import axios from 'axios';
 import { TypeOfService } from '../typings/TypeOfServices';
 import { Professional } from '../typings/Professional';
 
-const dbUrl = "https://template-peluquerias-back.vercel.app"
+const dbUrl = process?.env?.REACT_APP_API_URL || "https://template-peluquerias-back.vercel.app"
 
 interface ConfigContextProps {
     config: ConfigFile | undefined;
