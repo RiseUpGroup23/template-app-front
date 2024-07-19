@@ -24,7 +24,7 @@ interface ConfigContextProps {
     professionals: Professional[] | undefined;
     setProfessionals: React.Dispatch<React.SetStateAction<Professional[] | undefined>>;
     fetchProfessionals: () => Promise<void>;
-    fetchServices: () => void;
+    fetchServices: () => Promise<void>;
     editService: any;
     cancelAppointment: any;
     dbUrl: string;

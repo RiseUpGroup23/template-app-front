@@ -10,11 +10,13 @@ import { FormData } from '../../../typings/FormData';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useConfig } from '../../../context/AdminContext';
-import { Chip, CircularProgress, FormControl, IconButton, InputBase, Stack, Switch, TablePagination } from '@mui/material';
+import { CircularProgress, FormControl, IconButton, InputBase, Stack, Switch, TablePagination, useMediaQuery } from '@mui/material';
 import sortByDate from '../utils/sortByDate';
 import DeleteModal from '../Buttons/DeleteModal';
 import EditAppointment from '../Buttons/EditAppointment';
 import SearchIcon from '@mui/icons-material/Search';
+import { TypeOfService } from '../../../typings/TypeOfServices';
+import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 
 function createData(apo: FormData) {
     return {
@@ -26,7 +28,8 @@ function createData(apo: FormData) {
             day: '2-digit'
         }).format(new Date(apo.date)).slice(0, -5),
         hour: `${new Date(apo.date).getUTCHours().toString().padStart(2, "0")}:${new Date(apo.date).getUTCMinutes().toString().padStart(2, "0")}`,
-        disabled: apo.disabled
+        disabled: apo.disabled,
+        service: (apo?.typeOfService as TypeOfService)?.name ?? "-"
     }
 }
 
@@ -37,6 +40,7 @@ export default function BasicTable() {
     const [searchValue, setSearchValue] = useState("")
     const [seeDisabled, setSeeDisabled] = useState(true)
     const [loading, setLoading] = useState(true)
+    const isMobile = useMediaQuery('(max-width:1024px)');
     const { dbUrl, cancelAppointment } = useConfig()
 
 
@@ -102,7 +106,7 @@ export default function BasicTable() {
                         border-color:rgba(255, 255, 255, 0.30) !important;
                     }
 
-                    .MuiTableCell-root,
+                    .MuiTableCell-root:not(.rowCanceled),
                     .MuiTablePagination-selectLabel,
                     .MuiInputBase-root,
                     .MuiTablePagination-displayedRows {
@@ -122,13 +126,14 @@ export default function BasicTable() {
         )
     }
 
-    return (
-        <TableContainer component={Paper}>
-            {style()}
-            <form onSubmit={(e) => {
-                e.preventDefault()
-                searchAppos()
-            }}>
+    const searchBar = () => {
+        return (
+            <form
+                className='formSearch'
+                onSubmit={(e) => {
+                    e.preventDefault()
+                    searchAppos()
+                }}>
                 <FormControl className='formFilters'>
                     <div className='searchFilters'>
                         <InputBase
@@ -142,7 +147,7 @@ export default function BasicTable() {
                             <SearchIcon />
                         </IconButton>
                     </div>
-                    <div className="canceledFilter">
+                    {!isMobile && <div className="canceledFilter">
                         Cancelados
                         <Stack className="switchOptions" direction="row" spacing={1} alignItems="center">
                             <span>Ocultar</span>
@@ -152,78 +157,176 @@ export default function BasicTable() {
                             }} />
                             <span>Mostrar</span>
                         </Stack>
-                    </div>
+                    </div>}
                 </FormControl>
             </form>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align='center'>Cliente</TableCell>
-                        <TableCell align='center'>Día</TableCell>
-                        <TableCell align='center'>Hora</TableCell>
-                        <TableCell align='center'>Editar</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {
-                        !loading ?
-                            (visibleRows.length ?
-                                visibleRows.map((row) => (
-                                    <TableRow
-                                        key={row._id}
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell align='center' sx={{ minWidth: "150px" }}>
-                                            {row.name}
-                                        </TableCell>
-                                        <TableCell align='center'>{row.date}</TableCell>
-                                        <TableCell align='center' >{row.hour}</TableCell>
-                                        <TableCell align='center'>{row.disabled ?
-                                            <Chip label="Cancelado" color="error" />
-                                            :
-                                            <div className='tableEdit'>
-                                                <DeleteModal message="¿Desea cancelar este turno?" action={() => {
-                                                    cancelAppointment(row._id).then(() => {
-                                                        fetchData()
-                                                    })
-                                                }} />
-                                                <EditAppointment id={row._id} />
+        )
+    }
+
+    return (
+        !isMobile ?
+            <TableContainer component={Paper}>
+                {style()}
+                {searchBar()}
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align='center'>Cliente</TableCell>
+                            <TableCell align='center'>Servicio</TableCell>
+                            <TableCell align='center'>Día</TableCell>
+                            <TableCell align='center'>Hora</TableCell>
+                            <TableCell align='center'>Editar</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            !loading ?
+                                (visibleRows.length ?
+                                    visibleRows.map((row) => (
+                                        <TableRow
+                                            key={row._id}
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell
+                                                align='center'
+                                                sx={{ minWidth: "150px" }}
+                                                className={`${row.disabled ? "rowCanceled" : ""}`}
+                                            >
+                                                {row.name}
+                                            </TableCell>
+                                            <TableCell
+                                                align='center'
+                                                sx={{ minWidth: "150px" }}
+                                                className={`${row.disabled ? "rowCanceled" : ""}`}
+                                            >
+                                                {row.service}
+                                            </TableCell>
+                                            <TableCell
+                                                align='center'
+                                                className={`${row.disabled ? "rowCanceled" : ""}`}
+                                            >
+                                                {row.date}
+                                            </TableCell>
+                                            <TableCell
+                                                align='center'
+                                                className={`${row.disabled ? "rowCanceled" : ""}`}
+                                            >
+                                                {row.hour}
+                                            </TableCell>
+                                            <TableCell
+                                                align='center'
+                                                className={`${row.disabled ? "rowCanceled" : ""}`}
+                                            >
+                                                {row.disabled ?
+                                                    <span>
+                                                        Cancelado
+                                                    </span>
+                                                    :
+                                                    <div className='tableEdit'>
+                                                        <DeleteModal message="¿Desea cancelar este turno?" action={() => {
+                                                            cancelAppointment(row._id).then(() => {
+                                                                fetchData()
+                                                            })
+                                                        }} />
+                                                        <EditAppointment id={row._id} />
+                                                    </div>
+                                                }</TableCell>
+                                        </TableRow>
+                                    ))
+                                    :
+                                    <TableRow>
+                                        <TableCell colSpan={5}>
+                                            <div className="noData">
+                                                No hay turnos próximos
                                             </div>
-                                        }</TableCell>
+                                        </TableCell>
                                     </TableRow>
-                                ))
+                                )
                                 :
                                 <TableRow>
-                                    <TableCell colSpan={4}>
-                                        <div className="noData">
-                                            No hay turnos próximos
+                                    <TableCell colSpan={5}>
+                                        <div className="blackLayLoading">
+                                            <CircularProgress size={50} sx={{ color: "white" }} />
                                         </div>
                                     </TableCell>
                                 </TableRow>
-                            )
-                            :
-                            <TableRow>
-                                <TableCell colSpan={4}>
-                                    <div className="blackLayLoading">
-                                        <CircularProgress size={50} sx={{ color: "white" }} />
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                    }
-                </TableBody>
-            </Table>
+                        }
+                    </TableBody>
+                </Table>
 
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={count}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                labelRowsPerPage="Filas por página:"
-                labelDisplayedRows={({ from, to, count }) => `${page + 1} de ${Math.ceil(count / rowsPerPage)}`}
-            />
-        </TableContainer >
+                <TablePagination
+                    sx={{ visibility: count > 0 ? "visible" : "hidden" }}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={count}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    labelRowsPerPage="Filas por página:"
+                    labelDisplayedRows={({ from, to, count }) => `${page + 1} de ${Math.ceil(count / rowsPerPage) > 0 ? Math.ceil(count / rowsPerPage) : 1}`}
+                />
+            </TableContainer >
+            :
+            <>
+                {searchBar()}
+                {!loading ?
+                    <>
+                        <div className="apoCards">
+                            {
+                                visibleRows.length ?
+                                    visibleRows.map((row) => (
+                                        <div className={`apoCard ${row.disabled ? "apoCardCanceled" : ""}`}>
+                                            <div className="apoCardInfo">
+                                                <span className="apoCardName">
+                                                    {row.name} -
+                                                </span>
+                                                <span className="apoCardName">
+                                                    {row.date} -
+                                                </span>
+                                                <span className="apoCardName">
+                                                    {row.hour}
+                                                </span>
+                                            </div>
+                                            <div className="apoCardEdit">
+                                                {!row.disabled ?
+                                                    <>
+                                                        <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(row._id)} />
+                                                        <EditAppointment id={row._id} />
+                                                    </>
+                                                    :
+                                                    <DoNotDisturbIcon />
+                                                }
+                                            </div>
+                                        </div>
+                                    ))
+                                    :
+                                    <div className="noData">
+                                        No hay turnos próximos
+                                    </div>
+                            }
+
+                            <div className="center">
+                                <TablePagination
+                                    sx={{ visibility: count > 0 ? "visible" : "hidden" }}
+                                    rowsPerPageOptions={[5, 10, 25]}
+                                    component="div"
+                                    count={count}
+                                    rowsPerPage={rowsPerPage}
+                                    page={page}
+                                    onPageChange={handleChangePage}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    labelRowsPerPage="Filas por página:"
+                                    labelDisplayedRows={({ from, to, count }) => `${page + 1} de ${Math.ceil(count / rowsPerPage) > 0 ? Math.ceil(count / rowsPerPage) : 1}`}
+                                />
+                            </div>
+                        </div>
+                    </>
+                    :
+                    <div className="blackLayLoading">
+                        <CircularProgress size={50} sx={{ color: "white" }} />
+                    </div>
+                }
+            </>
     );
 }

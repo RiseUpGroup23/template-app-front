@@ -350,7 +350,7 @@
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
     width: 100%;
-    gap: 2rem;
+    gap: 1rem;
     column-gap: 2rem;
     margin-top: 2rem;
 }
@@ -365,6 +365,7 @@
     color: white;
     width: 90%;
     justify-content: space-between;
+    height: 1.75rem;
 }
 
 .apoCardInfo {
@@ -482,6 +483,14 @@
     aspect-ratio: 1;
 }
 
+.rowCanceled {
+    color: #817F7F !important;
+}
+
+.apoCardCanceled {
+    opacity: .5;
+}
+
 @media (max-width:1300px) {
     .calendarDay .info {
         display: none;
@@ -566,6 +575,11 @@
         height: 1.75rem;
     }
 
+    .apoCardEdit svg {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+
     .colorDemo {
         width: 3rem;
         height: 3rem;
@@ -603,6 +617,14 @@
         width: 85%;
     }
 
+    .apoCardName {
+        display: block;
+        max-width: 120px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .actionsContainer {
         gap: .5rem;
     }
@@ -619,6 +641,32 @@
 
     .noData {
         font-size: 1rem;
+    }
+
+    .MuiTablePagination-toolbar,
+    .MuiTablePagination-selectIcon {
+        padding: 0 !important;
+        color: white !important;
+    }
+
+    .MuiFormControl-root {
+        margin: 1rem 0 0 0 !important;
+        width: 100%;
+        display: flex;
+    }
+
+    .formSearch {
+        width: 100%;
+    }
+
+    .searchFilters {
+        width: 100%;
+        display: flex;
+    }
+
+    .searchFilters .MuiInputBase-input,
+    .searchFilters .MuiSvgIcon-root {
+        color: white !important;
     }
 }
 

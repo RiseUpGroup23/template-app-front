@@ -13,11 +13,6 @@ const meses = [
 
 const diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 
-
-
-
-
-
 const Appointments = () => {
     const { newConfig, cancelAppointment, dbUrl } = useConfig()
     const [actualMonth, setActualMonth] = useState(new Date().getMonth())

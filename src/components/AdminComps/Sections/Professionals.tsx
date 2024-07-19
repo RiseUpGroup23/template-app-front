@@ -13,9 +13,12 @@ const Professionals = () => {
     const { newConfig, professionals, fetchProfessionals, fetchServices } = useConfig()
     const pageStep = 4
     const [visibleItems, setVisibleItems] = useState(pageStep);
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetchProfessionals()
+        fetchProfessionals().then(() => {
+            setLoading(false)
+        })
         fetchServices()
         //eslint-disable-next-line
     }, [])
@@ -38,10 +41,17 @@ const Professionals = () => {
                     <div className="rowItem" style={{ width: "40%" }}><span>Nombre</span></div>
                     <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
                 </div>
-                {newConfig.appointment.bannedDays.slice(0, visibleItems).map((e, index) => RenderBanRow(e, index))}
+                {
+                    newConfig.appointment.bannedDays.length ?
+                        newConfig.appointment.bannedDays.slice(0, visibleItems).map((e, index) => RenderBanRow(e, index))
+                        :
+                        <div className="noData">
+                            No hay excepciones configuradas
+                        </div>
+                }
             </div>
             <div className="addSection">
-                {newConfig.appointment.bannedDays.length > visibleItems && (
+                {newConfig?.appointment?.bannedDays?.length > visibleItems && (
                     <button className="seeAllButton" onClick={handleSeeMore}>
                         Ver más
                         {arrowIco(0)}
@@ -57,14 +67,20 @@ const Professionals = () => {
                 Editar profesionales
             </span>
             <div className="blackLayout">
-                {professionals?.length ?
+                {!loading ?
                     <>
                         <div className="proxApoHeader rowContainer">
                             <div className="rowItem" style={{ width: "35%" }}><span>Nombre</span></div>
                             <div className="rowItem" style={{ width: "40%" }}><span>Vista Previa</span></div>
                             <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
                         </div>
-                        {professionals?.map((prof) => RenderProfessionalRow(prof))}
+                        {professionals?.length ?
+                            professionals?.map((prof) => RenderProfessionalRow(prof))
+                            :
+                            <div className="noData">
+                                No hay profesionales configurados
+                            </div>
+                        }
                     </>
                     :
                     <div className="blackLayLoading">
