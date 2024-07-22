@@ -1,9 +1,12 @@
 const uploadImage = async (selectedImage: any) => {
     try {
+        const dbUrl = process.env.REACT_APP_API_URL ?
+            (process.env.REACT_APP_API_URL.endsWith("/") ? process.env.REACT_APP_API_URL.slice(0, -1) : process.env.REACT_APP_API_URL)
+            : "https://template-peluquerias-back.vercel.app"
         const formData = new FormData();
         formData.append('photo', selectedImage);
 
-        const response = await fetch("https://template-peluquerias-back.vercel.app/cloudinary", {
+        const response = await fetch(`${dbUrl}/cloudinary`, {
             method: 'POST',
             body: formData,
         });

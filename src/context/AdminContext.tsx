@@ -8,6 +8,16 @@ const dbUrl = process.env.REACT_APP_API_URL ?
     (process.env.REACT_APP_API_URL.endsWith("/") ? process.env.REACT_APP_API_URL.slice(0, -1) : process.env.REACT_APP_API_URL)
     : "https://template-peluquerias-back.vercel.app"
 
+function updateUI(data: any) {
+    document.title = window?.location?.href?.includes("admin") ? data.customization.shopName + " - Admin" : data.customization.shopName;
+    const favicon = document.getElementById('favicon') as HTMLLinkElement;
+    const faviconIos = document.getElementById('faviconIos') as HTMLLinkElement;
+    if (favicon && faviconIos) {
+        favicon.href = data.customization.logo.primary;
+        faviconIos.href = data.customization.logo.primary;
+    }
+}
+
 interface ConfigContextProps {
     config: ConfigFile | undefined;
     setConfig: React.Dispatch<React.SetStateAction<ConfigFile | undefined>>;
@@ -70,6 +80,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         if (dbData) {
             setConfig(dbData)
             setNewConfig(dbData)
+            updateUI(dbData)
         }
         return dbData
     }

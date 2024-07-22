@@ -29,7 +29,7 @@ const Overlay = ({ children, image }: Props) => {
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    backgroundColor: `${hexToRgb(config.customization.secondary.text, .6)}`,
+                    backgroundColor: `${hexToRgb(config.customization.primary.color, .6, .25)}`,
                     backdropFilter: 'blur(4px)',
                 }}
             ></div>

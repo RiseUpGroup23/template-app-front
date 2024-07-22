@@ -44,6 +44,8 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
                 setOpen(false)
             })
         } else {
+            console.log(newData);
+            
             await axios.post(`${dbUrl}/typesOfServices`, newData).then(() => {
                 fetchServices()
                 setAlert({
