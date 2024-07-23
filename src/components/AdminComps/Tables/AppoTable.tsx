@@ -110,7 +110,8 @@ export default function BasicTable() {
                     .MuiTablePagination-displayedRows {
                         color: white !important;
                     }
-                    .MuiTablePagination-root .MuiSvgIcon-root path{
+                    .MuiTablePagination-root .MuiSvgIcon-root path,
+                    .searchFilters .MuiSvgIcon-root path{
                         fill: white !important;
                     }
                     .Mui-disabled .MuiSvgIcon-root path{
