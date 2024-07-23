@@ -76,8 +76,6 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         let formattedDate = newValue.locale('en').format("DD-MM-YYYY").split("-").join("/");
         await axios(`${dbUrl}/professionalsAndTimeAvailable/${form.professional}/${newValue.locale('en').format("MM-DD-YYYY")}`).then((res) => {
             const formattedAva = res.data.allSchedules
-            console.log(res.data);
-            
             setSchedules({ allSchedules: formattedAva, unavailableSchedules: res.data.unavailableSchedules });
             const isMorning = (hour: string) => {
                 const hours = Number(hour.split(":")[0]);

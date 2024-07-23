@@ -49,3 +49,40 @@
 .backToHome:hover {
     text-decoration: underline;
 }
+
+.imageLoginBox {
+    border-radius: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100px;
+}
+
+.imageLoginBox img {
+    width: 50%;
+    object-fit: contain;
+    max-height: 50%;
+}
+
+.formLoginBox {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.formLoginBox .textInModal {
+    width: 100%;
+}
+
+.formLoginBox .actionbutton {
+    width: 40%;
+    max-width: 150px;
+}
+
+@media (max-width:1024px) {
+    .formLoginBox .textInModal {
+        width: 90%;
+    }
+}

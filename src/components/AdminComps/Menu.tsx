@@ -6,6 +6,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import "./AdminModules.css"
 import DeleteModal from "./Buttons/DeleteModal";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useConfig } from "../../context/AdminContext";
 
 const items = [
     {
@@ -35,7 +36,7 @@ const Menu = () => {
     const [selected, setSelected] = useState(items.findIndex(item => item.url.includes(window.location.pathname)))
     const location = useLocation();
     const [open, setOpen] = React.useState(false);
-    const { logout } = useAuth0()
+    const { logout } = useConfig()
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);

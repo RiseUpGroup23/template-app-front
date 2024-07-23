@@ -41,6 +41,9 @@ interface ConfigContextProps {
     cancelAppointment: any;
     dbUrl: string;
     isMpConfigured: boolean;
+    isAuthenticated: boolean;
+    login: (user: string, pass: string) => Promise<void>;
+    logout: () => Promise<void>;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -58,6 +61,30 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         type: "hidden",
         msg: ""
     });
+    const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    useEffect(() => {
+        const jwtToken = localStorage.getItem('jwt');
+        if (jwtToken) {
+            axios(`${dbUrl}/jwt`, {
+                headers: {
+                    "Authorization": jwtToken
+                }
+            }).then(res => {
+                
+                if (res.data.logged) {
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                    localStorage.removeItem('jwt');
+                }
+            }).catch(err => {
+                console.error('Error al verificar token:', err);
+                setIsAuthenticated(false);
+                localStorage.removeItem('jwt'); 
+            });
+        }
+    }, []);
 
     const invertColors = () => {
         setConfig((prevConfig: any) => ({
@@ -147,6 +174,29 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         })
     }
 
+    const login = async (user: string, pass: string) => {
+        try {
+            const res = await axios.post(`${dbUrl}/login`, {
+                email: user,
+                password: pass
+            });
+
+            if (res.data.logged) {
+                localStorage.setItem("jwt", res.data.token)
+                setIsAuthenticated(true);
+            } else {
+                setAlert({ type: "error", msg: res.data.message });
+            }
+        } catch (err) {
+            setAlert({ type: "error", msg: "Hubo un error al iniciar sesión, inténtelo de nuevo más tarde" });
+        }
+    }
+
+    const logout = async () => {
+        setIsAuthenticated(false);
+        localStorage.removeItem("jwt")
+    }
+
     const contextValue: ConfigContextProps = {
         config,
         setConfig,
@@ -167,7 +217,10 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         editService,
         cancelAppointment,
         dbUrl,
-        isMpConfigured
+        isMpConfigured,
+        isAuthenticated,
+        login,
+        logout
     };
 
     useEffect(() => {
