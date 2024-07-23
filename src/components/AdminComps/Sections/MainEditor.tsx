@@ -1,7 +1,8 @@
-import React from "react"
+import React, { useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { Link } from "react-router-dom";
 import AppoTable from "../Tables/AppoTable";
+import { Stack, Switch } from "@mui/material";
 
 export const arrowIco = (inverted = 0) => {
     return (
@@ -12,7 +13,8 @@ export const arrowIco = (inverted = 0) => {
 }
 
 const MainEditor = () => {
-    const { config } = useConfig()
+    const { config, editProp, isMpConfigured } = useConfig()
+    const [mpEnabled, setMpEnabled] = useState(config?.appointment.mercadoPago || false)
 
     if (!config) return (<></>)
 
@@ -55,6 +57,27 @@ const MainEditor = () => {
                         </div>
                     </Link>
                     <span className="circButtonTitle">Calendario</span>
+                </div>
+            </div>
+            <div className="blackLayout">
+                <div className="mpSwitcher">
+                    <span>Cobro por MercadoPago</span>
+                    {isMpConfigured && <Stack className="mpSwitch" direction="row" spacing={1} alignItems="center">
+                        <span className="mpSwitchText">Habilitar</span>
+                        <Switch checked={mpEnabled} onChange={() => {
+                            setMpEnabled((prev) => {
+                                editProp("appointment.mercadoPago", !prev)
+                                return !prev
+                            })
+                        }} />
+                    </Stack>}
+                </div>
+                <div className="mpInfo">
+                    {isMpConfigured ?
+                        "(Si deshabilitas esta opción, los turnos se reservarán sin recibir ninguna seña)"
+                        :
+                        "No está asociada su cuenta de mercadopago, comunicarse con soporte para activarlo"
+                    }
                 </div>
             </div>
         </div>

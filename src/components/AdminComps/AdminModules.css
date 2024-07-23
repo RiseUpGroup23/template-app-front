@@ -491,6 +491,22 @@
     opacity: .5;
 }
 
+.mpSwitcher {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-size: 1.5rem;
+    padding: 2rem 2rem 0 2rem;
+}
+
+.mpInfo {
+    color: white;
+    font-size: 1rem;
+    padding: 0 2rem;
+    margin: 2rem 0;
+}
+
 @media (max-width:1300px) {
     .calendarDay .info {
         display: none;
@@ -667,6 +683,18 @@
     .searchFilters .MuiInputBase-input,
     .searchFilters .MuiSvgIcon-root {
         color: white !important;
+    }
+
+    .mpSwitcher {
+        font-size: 1rem;
+    }
+
+    .mpSwitchText {
+        display: none;
+    }
+
+    .mpInfo {
+        font-size: .875rem;
     }
 }
 

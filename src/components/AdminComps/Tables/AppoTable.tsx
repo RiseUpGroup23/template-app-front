@@ -17,6 +17,7 @@ import EditAppointment from '../Buttons/EditAppointment';
 import SearchIcon from '@mui/icons-material/Search';
 import { TypeOfService } from '../../../typings/TypeOfServices';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
+import { Professional } from '../../../typings/Professional';
 
 function createData(apo: FormData) {
     return {
@@ -29,7 +30,8 @@ function createData(apo: FormData) {
         }).format(new Date(apo.date)).slice(0, -5),
         hour: `${new Date(apo.date).getUTCHours().toString().padStart(2, "0")}:${new Date(apo.date).getUTCMinutes().toString().padStart(2, "0")}`,
         disabled: apo.disabled,
-        service: (apo?.typeOfService as TypeOfService)?.name ?? "-"
+        service: (apo?.typeOfService as TypeOfService)?.name ?? "-",
+        prof: (apo.professional as Professional)?.name + " " + (apo.professional as Professional)?.lastname
     }
 }
 
@@ -43,15 +45,6 @@ export default function BasicTable() {
     const isMobile = useMediaQuery('(max-width:1024px)');
     const { dbUrl, cancelAppointment } = useConfig()
 
-
-    const fetchData = () => {
-        axios(`${dbUrl}/appointments/`).then((res) => {
-            setRows(sortByDate(res.data).map((e: FormData) => createData(e)))
-        }).then(() => {
-            setLoading(false)
-        })
-    }
-
     const searchAppos = () => {
         setLoading(true)
         axios(`${dbUrl}/appointments/search/?term=${searchValue}`).then((res) => {
@@ -63,7 +56,7 @@ export default function BasicTable() {
     }
 
     useEffect(() => {
-        fetchData()
+        searchAppos()
         //eslint-disable-next-line
     }, [])
 
@@ -104,6 +97,11 @@ export default function BasicTable() {
 
                     .MuiTableCell-root{
                         border-color:rgba(255, 255, 255, 0.30) !important;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-align: center;
+                        max-width: 100px;
                     }
 
                     .MuiTableCell-root:not(.rowCanceled),
@@ -112,7 +110,7 @@ export default function BasicTable() {
                     .MuiTablePagination-displayedRows {
                         color: white !important;
                     }
-                    .MuiSvgIcon-root path{
+                    .MuiTablePagination-root .MuiSvgIcon-root path{
                         fill: white !important;
                     }
                     .Mui-disabled .MuiSvgIcon-root path{
@@ -173,6 +171,7 @@ export default function BasicTable() {
                         <TableRow>
                             <TableCell align='center'>Cliente</TableCell>
                             <TableCell align='center'>Servicio</TableCell>
+                            <TableCell align='center'>Profesional</TableCell>
                             <TableCell align='center'>Día</TableCell>
                             <TableCell align='center'>Hora</TableCell>
                             <TableCell align='center'>Editar</TableCell>
@@ -203,6 +202,13 @@ export default function BasicTable() {
                                             </TableCell>
                                             <TableCell
                                                 align='center'
+                                                sx={{ minWidth: "150px" }}
+                                                className={`${row.disabled ? "rowCanceled" : ""}`}
+                                            >
+                                                {row.prof}
+                                            </TableCell>
+                                            <TableCell
+                                                align='center'
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
                                                 {row.date}
@@ -225,7 +231,7 @@ export default function BasicTable() {
                                                     <div className='tableEdit'>
                                                         <DeleteModal message="¿Desea cancelar este turno?" action={() => {
                                                             cancelAppointment(row._id).then(() => {
-                                                                fetchData()
+                                                                searchAppos()
                                                             })
                                                         }} />
                                                         <EditAppointment id={row._id} />
@@ -235,7 +241,7 @@ export default function BasicTable() {
                                     ))
                                     :
                                     <TableRow>
-                                        <TableCell colSpan={5}>
+                                        <TableCell colSpan={6}>
                                             <div className="noData">
                                                 No hay turnos próximos
                                             </div>
@@ -244,7 +250,7 @@ export default function BasicTable() {
                                 )
                                 :
                                 <TableRow>
-                                    <TableCell colSpan={5}>
+                                    <TableCell colSpan={6}>
                                         <div className="blackLayLoading">
                                             <CircularProgress size={50} sx={{ color: "white" }} />
                                         </div>

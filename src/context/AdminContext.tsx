@@ -8,6 +8,8 @@ const dbUrl = process.env.REACT_APP_API_URL ?
     (process.env.REACT_APP_API_URL.endsWith("/") ? process.env.REACT_APP_API_URL.slice(0, -1) : process.env.REACT_APP_API_URL)
     : "https://template-peluquerias-back.vercel.app"
 
+const isMpConfigured = process.env.REACT_APP_MERCADOPAGO?.length ? true : false
+
 function updateUI(data: any) {
     document.title = window?.location?.href?.includes("admin") ? data.customization.shopName + " - Admin" : data.customization.shopName;
     const favicon = document.getElementById('favicon') as HTMLLinkElement;
@@ -38,6 +40,7 @@ interface ConfigContextProps {
     editService: any;
     cancelAppointment: any;
     dbUrl: string;
+    isMpConfigured: boolean;
 }
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
@@ -163,7 +166,8 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
         fetchServices,
         editService,
         cancelAppointment,
-        dbUrl
+        dbUrl,
+        isMpConfigured
     };
 
     useEffect(() => {

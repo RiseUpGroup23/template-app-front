@@ -76,6 +76,8 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         let formattedDate = newValue.locale('en').format("DD-MM-YYYY").split("-").join("/");
         await axios(`${dbUrl}/professionalsAndTimeAvailable/${form.professional}/${newValue.locale('en').format("MM-DD-YYYY")}`).then((res) => {
             const formattedAva = res.data.allSchedules
+            console.log(res.data);
+            
             setSchedules({ allSchedules: formattedAva, unavailableSchedules: res.data.unavailableSchedules });
             const isMorning = (hour: string) => {
                 const hours = Number(hour.split(":")[0]);
@@ -120,6 +122,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
             setNoWorkDays(noWD)
             const bannedDays = config?.appointment.bannedDays
             let nextAvailable = dayjs();
+            // eslint-disable-next-line
             while (bannedDays?.some(e => new Date(e.date).getUTCDate() === nextAvailable.date()) || noWD.some((e: any) => e === nextAvailable.locale("en").format('dddd').toLowerCase())) {
                 nextAvailable = nextAvailable.add(1, 'day');
             }

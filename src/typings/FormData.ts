@@ -1,9 +1,10 @@
+import { Professional } from "./Professional";
 import { TypeOfService } from "./TypeOfServices";
 
 export interface FormData {
   _id?: String;
   date: Date;
-  professional: string;
+  professional: string | Professional;
   typeOfService: string | TypeOfService;
   customer: {
     name: string;
