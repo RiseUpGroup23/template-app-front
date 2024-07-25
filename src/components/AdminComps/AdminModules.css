@@ -133,7 +133,8 @@
     padding: 1rem 0;
 }
 
-.rowContainer .rowItem span {
+.rowContainer .rowItem span,
+.rowContainer .rowItem p {
     font-size: 1.5rem;
     width: 80%;
     text-overflow: ellipsis;
@@ -578,11 +579,13 @@
     }
 
     .rowItem span,
+    .rowItem p,
     .colorGroupName {
         font-size: 1rem !important;
     }
 
-    .rowContainer .rowItem span {
+    .rowContainer .rowItem span,
+    .rowContainer .rowItem p {
         max-width: 100px;
     }
 

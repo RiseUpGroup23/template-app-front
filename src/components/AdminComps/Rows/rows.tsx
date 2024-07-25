@@ -10,19 +10,20 @@ import { useConfig } from "../../../context/AdminContext";
 import axios from "axios";
 import { BannedDay } from "../../../typings/ConfigFile";
 import BansModal from "../Buttons/BansModal";
+import ReactMarkdown from "react-markdown";
 
-export function RenderTextRow(label: string, valor: string, prop: string, noMD?: boolean): JSX.Element {
+export function RenderTextRow(label: string, valor: string, prop: string, noMD?: boolean, limit?: number): JSX.Element {
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
                 <span>{label}</span>
             </div>
             <div className="rowItem" style={{ width: '45%' }}>
-                <span>{valor}</span>
+                <ReactMarkdown>{valor}</ReactMarkdown>
             </div>
             <div className="rowItem" style={{ width: '20%' }}>
                 <div className="actionsContainer">
-                    <EditTextModal initialTitle={valor} prop={prop} noMD={noMD || false} />
+                    <EditTextModal initialTitle={valor} prop={prop} noMD={noMD || false} limit={limit || false} />
                 </div>
             </div>
         </div>
