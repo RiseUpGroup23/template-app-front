@@ -45,11 +45,24 @@
     background: #FAFAFA;
     font-family: "Roboto";
     justify-content: center;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.75);
 }
 
-.next {
-    background: rgba(128, 66, 0, 1);
-    color: white;
+.nextConfirmado {
+    gap: 0.5rem;
+    color: #000;
+    display: flex;
+    cursor: pointer;
+    font-weight: 300;
+    padding: 0 1.5rem;
+    height: 2.6875rem;
+    font-size: 1.25rem;
+    align-items: center;
+    border-radius: 1.5rem;
+    background: #FAFAFA;
+    font-family: "Roboto";
+    justify-content: center;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.75);
 }
 
 .next.disabled {
@@ -332,19 +345,13 @@
 
     .resumeInfo {
         width: 90%;
+        padding: 2.5rem;
     }
-
+    
     .resumeContainer {
         margin-top: 5rem;
-    }
-
-    .resumeContainer {
         align-items: center;
         gap: 2rem;
-    }
-
-    .resumeInfo {
-        padding: 2.5rem;
     }
 
     .formContainer form {
@@ -375,5 +382,10 @@
 
     .container_Professional_Service {
         gap: 2rem;
+    }
+
+    .botonConfirmado {
+        margin-right: 1.5rem;
+        margin-top: 1rem;
     }
 }

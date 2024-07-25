@@ -6,6 +6,7 @@ import Admin from './views/Admin/Admin';
 import Error from './views/Error/Error';
 import Reprogramar from './views/Turnos/Reprogramar';
 import ReproDet from './views/Turnos/ReproDet';
+import Confirmado from './views/Confirmado/Confirmado';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/reprogramar/:id' element={<ReproDet />} />
         <Route path='/admin/*' element={<Admin />} />
         <Route path='/error' element={<Error />} />
+        <Route path='/confirmado' element={<Confirmado />} />
       </Routes>
     </Router>
   );
