@@ -19,10 +19,12 @@ const EditColorModal = ({ initialColor, prop }: Props) => {
     const [value, setValue] = React.useState(initialColor);
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const { editProp } = useConfig()
     const hexRegex = /^#[A-Fa-f0-9]{0,6}$/;
+
+    const handleOpen = () => setOpen(true);
+
+    const handleClose = (reason?: string) => reason !== "backdropClick" && setOpen(false);
 
     const handleSave = () => {
         setLoading(true)
@@ -38,12 +40,12 @@ const EditColorModal = ({ initialColor, prop }: Props) => {
             <div onClick={handleOpen} className="colorDemo" style={{ background: `${initialColor}` }}></div>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={(e, reason) => handleClose(reason)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar color
                     </Typography>
@@ -53,7 +55,7 @@ const EditColorModal = ({ initialColor, prop }: Props) => {
                         <input type='text' value={value} onChange={(e) => hexRegex.test(e.target.value) && setValue(e.target.value)} />
                     </div>
                     <div className="modalButtons">
-                        <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
+                        <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
                         <button className="confirmModal" onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>

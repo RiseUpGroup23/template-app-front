@@ -46,7 +46,9 @@ const EditTextModal = ({ initialTitle, prop, noMD = false, limit = false }: Prop
     const { editProp } = useConfig()
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {
+
+    const handleClose = (reason?: string) => {
+        if (reason === "backdropClick") return
         setValue(initialTitle || "")
         setErrorMessage("")
         setOpen(false)
@@ -85,12 +87,12 @@ const EditTextModal = ({ initialTitle, prop, noMD = false, limit = false }: Prop
             </div>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={(e, reason) => handleClose(reason)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar texto
                     </Typography>
@@ -107,7 +109,7 @@ const EditTextModal = ({ initialTitle, prop, noMD = false, limit = false }: Prop
                         <Alert severity="error">{errorMessage}</Alert>
                     </div>}
                     <div className="modalButtons">
-                        <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
+                        <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
                         <button className={`confirmModal ${limit && value.length > limit ? "buttonDisabled" : ""}`} onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>

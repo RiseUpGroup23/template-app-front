@@ -34,7 +34,8 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
 
     const handleOpen = () => setOpen(true);
 
-    const handleClose = () => {
+    const handleClose = (reason?: string) => {
+        if (reason === "backdropClick") return
         setSrvc(service ?? ({} as TypeOfService))
         setErrorMessage({
             duration: "",
@@ -115,12 +116,12 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
             </div>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={(e, reason) => handleClose(reason)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar servicio
                     </Typography>
@@ -200,7 +201,7 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
                     }
 
                     <div className="modalButtons">
-                        <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
+                        <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
                         <button className={`confirmModal ${disabled || Object.values(errorMessage).some(e => e !== "") ? "buttonDisabled" : ""}`} onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>

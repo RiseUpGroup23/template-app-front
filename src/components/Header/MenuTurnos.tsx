@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./header.css"
 import hexToRgb from "../../modules/hexToRgb";
 import { Link, useLocation } from "react-router-dom";
@@ -7,7 +7,12 @@ import { useConfig } from "../../context/AdminContext";
 const MenuTurnos = () => {
     const [open, setOpen] = React.useState<boolean>(false);
     const location = useLocation()
-    const { config } = useConfig()
+    const { config, services, fetchServices } = useConfig()
+
+    useEffect(() => {
+        !services?.length && fetchServices()
+        //eslint-disable-next-line
+    }, [])
 
     if (!config) return <></>
 
@@ -36,7 +41,7 @@ const MenuTurnos = () => {
                     background: linear-gradient(90deg, ${hexToRgb(config.customization.primary.color, 1, .35)} 0%, ${hexToRgb(config.customization.primary.color, 1, .5)} 100%);
                 }
             `}</style>
-            <button style={{ color: `${config.customization.primary.text}` }} className={`botonHeader ${location.pathname === '/reprogramar' || location.pathname === '/reservar' ? 'active' : ''}`} onClick={handleClick}>Turnos</button>
+            {services?.length ? <button style={{ color: `${config.customization.primary.text}` }} className={`botonHeader ${location.pathname === '/reprogramar' || location.pathname === '/reservar' ? 'active' : ''}`} onClick={handleClick}>Turnos</button> : <></>}
             {open &&
                 <div className="listHeader" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color, 1, .3)}` }}>
                     <Link to={"/reservar"}>

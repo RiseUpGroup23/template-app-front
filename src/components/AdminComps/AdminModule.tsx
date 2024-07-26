@@ -9,6 +9,7 @@ import Appointments from "./Sections/Appointments"
 import Alert from '@mui/material/Alert';
 import Professionals from "./Sections/Professionals"
 import Services from "./Sections/Services"
+import ComercialConfig from "./Sections/ComercialConfig"
 
 
 const AdminModule = () => {
@@ -27,6 +28,7 @@ const AdminModule = () => {
                     <Route path="/turnos" element={<Appointments />} />
                     <Route path="/profesionales" element={<Professionals />} />
                     <Route path="/servicios" element={<Services />} />
+                    <Route path="/politicas" element={<ComercialConfig />} />
                 </Routes>
             </div>
             {alert && alert.type !== "hidden" && <Alert className="alertBox" severity={alert.type}>

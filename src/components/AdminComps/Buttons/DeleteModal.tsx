@@ -17,12 +17,12 @@ interface Props {
 const DeleteModal = ({ message, action, customTrigger }: Props) => {
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
-    
+
     const handleOpen = () => {
         setLoading(false)
         setOpen(true)
     };
-    const handleClose = () => setOpen(false);
+    const handleClose = (reason?: string) => reason !== "backdropClick" && setOpen(false);
 
     return (
         <>
@@ -45,17 +45,17 @@ const DeleteModal = ({ message, action, customTrigger }: Props) => {
             </div>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={(e, reason) => handleClose(reason)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         {message}
                     </Typography>
                     <div className="modalButtons">
-                        <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
+                        <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
                         <button className="cancelModal" onClick={async () => {
                             setLoading(true)
                             await action()
