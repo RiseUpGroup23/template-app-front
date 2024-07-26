@@ -1,6 +1,21 @@
+import { useEffect } from "react";
 import "./error.css"
+import { useConfig } from "../../context/AdminContext";
 
 const Error = () => {
+    const { fetchConfigFromDB } = useConfig()
+
+    useEffect(() => {
+        const myFunction = () => {
+            fetchConfigFromDB()
+        };
+
+        const interval = setInterval(myFunction, 30000);
+
+        return () => clearInterval(interval);
+        //eslint-disable-next-line
+    }, []);
+
     return (
         <div className="errorContainer">
             <span className="titleError">¡Uy! Ocurrió un problema...</span>

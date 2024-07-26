@@ -8,11 +8,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
 import { useConfig } from '../../../context/AdminContext';
+import { Alert } from '@mui/material';
 
 interface Props {
     initialTitle: string;
     prop: string;
     noMD?: boolean;
+    limit?: false | number;
 }
 
 export const style = {
@@ -33,16 +35,22 @@ export const style = {
     borderRadius: "1rem",
     maxHeight: "75vh",
     overflowY: "auto",
-    overflowX:"hidden"
+    overflowX: "hidden"
 };
 
-const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
+const EditTextModal = ({ initialTitle, prop, noMD = false, limit = false }: Props) => {
     const [value, setValue] = React.useState(initialTitle);
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [errorMessage, setErrorMessage] = React.useState("")
     const { editProp } = useConfig()
+
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setValue(initialTitle || "")
+        setErrorMessage("")
+        setOpen(false)
+    };
 
     const handleSave = () => {
         setLoading(true)
@@ -51,6 +59,15 @@ const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
             setLoading(false)
             setOpen(false)
         }, 2000)
+    }
+
+    const handleText = (text: string) => {
+        setValue(text ?? "")
+        if (limit && text.length > limit) {
+            setErrorMessage(`Este texto solo puede tener hasta ${limit} caractéres`)
+        } else {
+            setErrorMessage("")
+        }
     }
 
     return (
@@ -75,20 +92,23 @@ const EditTextModal = ({ initialTitle, prop, noMD = false }: Props) => {
                 <Box sx={style}>
                     <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Editar título
+                        Editar texto
                     </Typography>
                     <div data-color-mode="light" style={{ width: "100%" }}>
                         <MDEditor
                             height={200}
                             value={value}
-                            onChange={(text) => setValue(text ?? "")}
+                            onChange={(text) => handleText(text || "")}
                             commands={noMD ? [] : [commands.bold, commands.italic, commands.strikethrough]}
                             extraCommands={[]}
                         />
                     </div>
+                    {errorMessage !== "" && <div className="avaAlert">
+                        <Alert severity="error">{errorMessage}</Alert>
+                    </div>}
                     <div className="modalButtons">
                         <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className="confirmModal" onClick={handleSave}>
+                        <button className={`confirmModal ${limit && value.length > limit ? "buttonDisabled" : ""}`} onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>
                     </div>

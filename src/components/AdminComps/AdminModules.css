@@ -133,7 +133,8 @@
     padding: 1rem 0;
 }
 
-.rowContainer .rowItem span {
+.rowContainer .rowItem span,
+.rowContainer .rowItem p {
     font-size: 1.5rem;
     width: 80%;
     text-overflow: ellipsis;
@@ -507,6 +508,14 @@
     margin: 2rem 0;
 }
 
+.selectContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    min-width: 300px;
+}
+
 @media (max-width:1300px) {
     .calendarDay .info {
         display: none;
@@ -578,11 +587,13 @@
     }
 
     .rowItem span,
+    .rowItem p,
     .colorGroupName {
         font-size: 1rem !important;
     }
 
-    .rowContainer .rowItem span {
+    .rowContainer .rowItem span,
+    .rowContainer .rowItem p {
         max-width: 100px;
     }
 
