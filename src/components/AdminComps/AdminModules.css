@@ -514,6 +514,7 @@
     justify-content: space-between;
     gap: 2rem;
     min-width: 300px;
+    width: 100%;
 }
 
 @media (max-width:1300px) {
