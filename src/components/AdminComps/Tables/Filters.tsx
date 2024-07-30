@@ -4,20 +4,26 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { useConfig } from '../../../context/AdminContext';
 
 interface Props {
-    seeDisabled: string;
-    setSeeDisabled: React.Dispatch<React.SetStateAction<string>>
-    typeOfS: string;
-    setTypeOfS: React.Dispatch<React.SetStateAction<string>>
+    setFilterQuery: React.Dispatch<React.SetStateAction<string>>
 }
 
-const FilterButton = ({ setSeeDisabled, seeDisabled, typeOfS, setTypeOfS }: Props) => {
+const FilterButton = ({ setFilterQuery }: Props) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const { services, fetchServices } = useConfig()
+    const [seeDisabled, setSeeDisabled] = useState("all")
+    const [typeOfS, setTypeOfS] = useState("all")
+    const [profQuery, setProfQuery] = useState("all")
+    const { services, fetchServices, professionals, fetchProfessionals } = useConfig()
 
     useEffect(() => {
         !services?.length && fetchServices()
+        !professionals?.length && fetchProfessionals()
         //eslint-disable-next-line
     }, [])
+
+    useEffect(() => {
+        setFilterQuery(`disabled=${seeDisabled}&typeOfService=${typeOfS}&professional=${profQuery}`)
+        //eslint-disable-next-line
+    }, [seeDisabled, typeOfS, profQuery])
 
     const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -92,8 +98,8 @@ const FilterButton = ({ setSeeDisabled, seeDisabled, typeOfS, setTypeOfS }: Prop
                                 variant='outlined'
                             >
                                 <MenuItem value={"all"}>Todos</MenuItem>
-                                <MenuItem value={"disabled"}>Solo cancelados</MenuItem>
-                                <MenuItem value={"pending"}>Solo pendientes</MenuItem>
+                                <MenuItem value={"true"}>Solo cancelados</MenuItem>
+                                <MenuItem value={"false"}>Solo pendientes</MenuItem>
                             </Select>
                         </div>
                     </MenuItem>
@@ -115,6 +121,28 @@ const FilterButton = ({ setSeeDisabled, seeDisabled, typeOfS, setTypeOfS }: Prop
                                 <MenuItem value={"all"}>Todos</MenuItem>
                                 {services?.map((serv) =>
                                     <MenuItem key={serv._id} value={serv._id}>{serv.name}</MenuItem>
+                                )}
+                            </Select>
+                        </div>
+                    </MenuItem>
+                    <MenuItem>
+                        <div className="selectContainer">
+                            <span className="selectText">
+                                Profesional
+                            </span>
+                            <Select
+                                labelId="disabled-option"
+                                id="disabled-select"
+                                value={profQuery}
+                                onChange={(e) => {
+                                    e.preventDefault()
+                                    setProfQuery(e.target.value)
+                                }}
+                                variant='outlined'
+                            >
+                                <MenuItem value={"all"}>Todos</MenuItem>
+                                {professionals?.map((prof) =>
+                                    <MenuItem key={prof._id} value={prof._id}>{prof.name} {prof?.lastname ?? ""}</MenuItem>
                                 )}
                             </Select>
                         </div>

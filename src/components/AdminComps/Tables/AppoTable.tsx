@@ -10,7 +10,7 @@ import { FormData } from '../../../typings/FormData';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useConfig } from '../../../context/AdminContext';
-import { CircularProgress, FormControl, IconButton, InputBase, Stack, Switch, TablePagination, useMediaQuery } from '@mui/material';
+import { CircularProgress, FormControl, IconButton, InputBase, TablePagination, useMediaQuery } from '@mui/material';
 import sortByDate from '../utils/sortByDate';
 import DeleteModal from '../Buttons/DeleteModal';
 import EditAppointment from '../Buttons/EditAppointment';
@@ -41,8 +41,7 @@ export default function BasicTable() {
     const [page, setPage] = useState(0)
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchValue, setSearchValue] = useState("")
-    const [seeDisabled, setSeeDisabled] = useState("all")
-    const [typeOfS, setTypeOfS] = useState("all")
+    const [filterQuery, setFilterQuery] = useState("")
     const [count, setCount] = useState(0)
     const [loading, setLoading] = useState(true)
     const isMobile = useMediaQuery('(max-width:1024px)');
@@ -50,7 +49,7 @@ export default function BasicTable() {
 
     const searchAppos = () => {
         setLoading(true)
-        axios(`${dbUrl}/appointments/search/?term=${searchValue}&page=${page + 1}&disabled=${seeDisabled}&typeOfService=${typeOfS}`).then((res) => {
+        axios(`${dbUrl}/appointments/search/?term=${searchValue}&${filterQuery}&page=${page+1}&rows=${rowsPerPage}`).then((res) => {
             setRows(sortByDate(res.data.appointments).map((e: FormData) => createData(e)))
             setCount(res.data.totalAppointments)
         }).then(() => {
@@ -64,7 +63,7 @@ export default function BasicTable() {
     useEffect(() => {
         searchAppos()
         //eslint-disable-next-line
-    }, [page, seeDisabled, rowsPerPage, typeOfS])
+    }, [page, filterQuery, rowsPerPage])
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -138,10 +137,7 @@ export default function BasicTable() {
                     </div>
                     {!isMobile && <div className="canceledFilter">
                         <FilterButton
-                            seeDisabled={seeDisabled}
-                            setSeeDisabled={setSeeDisabled}
-                            typeOfS={typeOfS}
-                            setTypeOfS={setTypeOfS}
+                            setFilterQuery={setFilterQuery}
                         />
                     </div>}
                 </FormControl>

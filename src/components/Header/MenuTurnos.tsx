@@ -18,9 +18,9 @@ const MenuTurnos = () => {
 
     const handleClick = () => {
         setOpen((prev) => !prev)
-        setTimeout(() => {
-            setOpen(false)
-        }, 5000)
+        // setTimeout(() => {
+        //     setOpen(false)
+        // }, 5000)
     };
 
     return (
@@ -38,7 +38,7 @@ const MenuTurnos = () => {
 
                 .listHeader .botonHeader:hover {
                     border-color: transparent;
-                    background: linear-gradient(90deg, ${hexToRgb(config.customization.primary.color, 1, .35)} 0%, ${hexToRgb(config.customization.primary.color, 1, .5)} 100%);
+                    background: ${hexToRgb(config.customization.primary.color, 1, .35)};
                 }
             `}</style>
             {services?.length ? <button style={{ color: `${config.customization.primary.text}` }} className={`botonHeader ${location.pathname === '/reprogramar' || location.pathname === '/reservar' ? 'active' : ''}`} onClick={handleClick}>Turnos</button> : <></>}
