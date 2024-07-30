@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useConfig } from '../../../context/AdminContext';
 import { CircularProgress, FormControl, IconButton, InputBase, TablePagination, useMediaQuery } from '@mui/material';
-import sortByDate from '../utils/sortByDate';
 import DeleteModal from '../Buttons/DeleteModal';
 import EditAppointment from '../Buttons/EditAppointment';
 import SearchIcon from '@mui/icons-material/Search';
@@ -49,8 +48,8 @@ export default function BasicTable() {
 
     const searchAppos = () => {
         setLoading(true)
-        axios(`${dbUrl}/appointments/search/?term=${searchValue}&${filterQuery}&page=${page+1}&rows=${rowsPerPage}`).then((res) => {
-            setRows(sortByDate(res.data.appointments).map((e: FormData) => createData(e)))
+        axios(`${dbUrl}/appointments/search/?term=${searchValue}&${filterQuery}&page=${page + 1}&rows=${rowsPerPage}`).then((res) => {
+            setRows(res.data.appointments.map((e: FormData) => createData(e)))
             setCount(res.data.totalAppointments)
         }).then(() => {
             setLoading(false)
