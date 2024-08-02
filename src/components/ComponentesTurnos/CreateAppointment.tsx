@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import StepButtons from './buttonsStep';
 import { AppointmentProvider } from '../../context/ApContext';
 import { StepProvider, useStepContext } from '../../context/StepContext';
-import { Step0, Step1, Step2, Step3, Step4, Step5 } from './indexAppointments';
+import { Step0, Step1, Step2, Step3, Step4 } from './indexAppointments';
 import { useConfig } from '../../context/AdminContext';
 
 const CreateAppointment = () => {
@@ -26,7 +26,7 @@ const CreandoTurnos = () => {
         { prev: 'Anterior', next: 'Continuar' },
         { prev: 'Anterior', next: 'Continuar' },
         { prev: 'Anterior', next: config?.appointment.mercadoPago?'Ir a Pagar':"Confirmar" },
-        { prev: '', next: 'Ir a Inicio' }
+        // { prev: '', next: 'Ir a Inicio' }
     ];
 
     return (
@@ -36,11 +36,10 @@ const CreandoTurnos = () => {
                 {currentStep === 1 && <Step1 />}
                 {currentStep === 2 && <Step2 setIsFormComplete={setNextButtonEnabled} />}
                 {currentStep === 3 && (
-
                     <Step3 setNextButtonEnabled={setNextButtonEnabled} />
                 )}
                 {currentStep === 4 && <Step4 />}
-                {currentStep === 5 && <Step5 />}
+                {/* {currentStep === 5 && <Step5 />} */}
             </div>
             <StepButtons
                 prevButtonText={buttonTexts[currentStep].prev}
