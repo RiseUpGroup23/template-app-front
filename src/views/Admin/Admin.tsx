@@ -14,7 +14,7 @@ const Admin = () => {
     if (!config) return (<></>)
     return (
 
-        !isAuthenticated ?
+        isAuthenticated ?
             <AdminModule />
             :
             <div className="appContainer" style={{ background: `linear-gradient(90deg, ${hexToRgb(config.customization.secondary.text, .5)} 31%, ${hexToRgb(config.customization.secondary.text, .0)} 100%), url(${config.customization.background.backgroundImage}) lightgray 50% / cover no-repeat` }}>
