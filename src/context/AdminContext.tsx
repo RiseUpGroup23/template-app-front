@@ -12,11 +12,11 @@ const isMpConfigured = process.env.REACT_APP_MERCADOPAGO && process.env.REACT_AP
 
 function updateUI(data: any) {
     document.title = window?.location?.href?.includes("admin") ? data.customization.shopName + " - Admin" : data.customization.shopName;
-    const favicon = document.getElementById('favicon') as HTMLLinkElement;
-    const faviconIos = document.getElementById('faviconIos') as HTMLLinkElement;
-    if (favicon && faviconIos) {
-        favicon.href = data.customization.logo.primary;
-        faviconIos.href = data.customization.logo.primary;
+    const favicons = document.querySelectorAll('.appIco');
+    if (favicons.length) {
+        favicons.forEach((fav) => {
+            (fav as HTMLLinkElement).href = data.customization.logo.primary;
+        })
     }
 }
 
