@@ -67,7 +67,7 @@ const EditTextModal = ({ initialTitle, prop, noMD = false, limit = false }: Prop
     const handleText = (text: string) => {
         setValue(text ?? "")
         if (limit && text.length > limit) {
-            setErrorMessage(`Este texto solo puede tener hasta ${limit} caractéres`)
+            setErrorMessage(`Este texto solo puede tener hasta ${limit} caracteres`)
         } else {
             setErrorMessage("")
         }

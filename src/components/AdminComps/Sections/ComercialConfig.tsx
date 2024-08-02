@@ -95,7 +95,7 @@ const ComercialConfig = () => {
                     {isMpConfigured ?
                         "(Si deshabilitas esta opción, los turnos se reservarán sin recibir ninguna seña)"
                         :
-                        "No está asociada su cuenta de mercadopago, comunicarse con soporte para activarlo"
+                        "No está asociada su cuenta de MercadoPago, comunicarse con soporte para activarlo"
                     }
                 </div>
             </div>
