@@ -1,11 +1,13 @@
-import React, { useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { Link } from "react-router-dom";
 import AppoTable from "../Tables/AppoTable";
+<<<<<<< HEAD
 import { Stack, Switch } from "@mui/material";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import EditIcon from '@mui/icons-material/Edit';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+=======
+>>>>>>> 1fbbe7436b8a1f96e52111e0c310067342b72945
 
 export const arrowIco = (inverted = 0) => {
     return (
@@ -16,10 +18,14 @@ export const arrowIco = (inverted = 0) => {
 }
 
 const MainEditor = () => {
+<<<<<<< HEAD
     const { config, editProp, isMpConfigured } = useConfig()
     const [mpEnabled, setMpEnabled] = useState(config?.appointment.mercadoPago || false)
     const isMobile = useMediaQuery('(max-width:1024px)');
 
+=======
+    const { config } = useConfig()
+>>>>>>> 1fbbe7436b8a1f96e52111e0c310067342b72945
 
     if (!config) return (<></>)
 
@@ -112,7 +118,11 @@ const MainEditor = () => {
                         }
                     </div>
                 </div>
+<<<<<<< HEAD
             }
+=======
+            </div>
+>>>>>>> 1fbbe7436b8a1f96e52111e0c310067342b72945
         </div>
     )
 }

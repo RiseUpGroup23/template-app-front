@@ -156,7 +156,6 @@
 
 .clockDivisor {
     display: flex;
-    gap: 1rem;
 }
 
 .clockLeft,
@@ -165,6 +164,16 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 0.25rem;
     justify-items: center;
+    max-height: 200px;
+    overflow-y: scroll;
+}
+
+.clockLeft {
+    padding-right: 1rem;
+}
+
+.clockRight {
+    padding-left: 1rem;
 }
 
 .clockHour {

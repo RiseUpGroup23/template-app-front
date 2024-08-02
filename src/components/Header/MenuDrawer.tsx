@@ -101,7 +101,7 @@ export default function MenuDrawer() {
                     }
 
                     .drawerSelected{
-                        background:linear-gradient(90deg, ${hexToRgb(config!.customization?.primary.color, 1, .35)} 0%, ${hexToRgb(config!.customization.primary.color, 1, .5)} 100%);
+                        background:${hexToRgb(config!.customization?.primary.color, 1, .15)};
                         border-radius: 0.3125rem;
                     }
                 `}

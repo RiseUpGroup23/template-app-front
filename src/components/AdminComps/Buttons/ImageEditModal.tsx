@@ -9,7 +9,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
 import uploadImage from '../utils/uploadImage';
 import { useConfig } from '../../../context/AdminContext';
+<<<<<<< HEAD
 import EditIcon from '@mui/icons-material/Edit';
+=======
+import { Alert } from '@mui/material';
+>>>>>>> 1fbbe7436b8a1f96e52111e0c310067342b72945
 
 interface Props {
     initialImg: string;
@@ -22,17 +26,27 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
     const [loading, setLoading] = useState(false)
     const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const [src, setSrc] = useState(initialImg)
+    const [errorMessage, setErrorMessage] = React.useState("")
     const { editProp } = useConfig()
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => {
+    const handleClose = (reason?: string) => {
+        if (reason === "backdropClick") return
+        setSrc(initialImg)
+        setSelectedImage(null)
+        setErrorMessage("")
         setLoading(false)
         setOpen(false)
     };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
+        const maxSize = 2 * 1024 * 1024;
         if (file) {
+            if (file.size > maxSize) {
+                return setErrorMessage("La imagen supera los 2MB, por favor seleccione una más pequeña")
+            }
+            setErrorMessage("")
             setSelectedImage(file);
             const imageUrl = URL.createObjectURL(file);
             setSrc(imageUrl);
@@ -81,12 +95,12 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
             }
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={(e, reason) => handleClose(reason)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar imagen
                     </Typography>
@@ -114,9 +128,12 @@ const ImageEditModal = ({ initialImg, prop, customTrigger }: Props) => {
                             <input type="file" id="images" accept="image/*" required onChange={handleImageChange} />
                         </label>
                     </div>
+                    {errorMessage !== "" && <div className="avaAlert">
+                        <Alert severity="error">{errorMessage}</Alert>
+                    </div>}
                     <div className="modalButtons">
-                        <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className="confirmModal" onClick={handleSave}>
+                        <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
+                        <button className={`confirmModal ${!selectedImage ? "buttonDisabled" : ""}`} onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>
                     </div>

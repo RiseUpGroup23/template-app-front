@@ -28,6 +28,10 @@ const items = [
     {
         title: "Servicios",
         url: "/admin/servicios"
+    },
+    {
+        title: "Políticas",
+        url: "/admin/politicas"
     }
 ]
 

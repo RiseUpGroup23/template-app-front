@@ -71,7 +71,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
                     "Authorization": jwtToken
                 }
             }).then(res => {
-                
+
                 if (res.data.logged) {
                     setIsAuthenticated(true);
                 } else {
@@ -81,7 +81,7 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
             }).catch(err => {
                 console.error('Error al verificar token:', err);
                 setIsAuthenticated(false);
-                localStorage.removeItem('jwt'); 
+                localStorage.removeItem('jwt');
             });
         }
     }, []);
@@ -102,7 +102,12 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
     }
 
     const fetchConfigFromDB = async () => {
-        const dbData = await axios(dbUrl).then((res) => res.data).catch(() => {
+        const dbData = await axios(dbUrl).then((res) => {
+            if (window.location.pathname === "/error") {
+                window.location.pathname = "/"
+            }
+            return res.data
+        }).catch(() => {
             if (window.location.pathname !== "/error") {
                 window.location.pathname = "/error"
             }

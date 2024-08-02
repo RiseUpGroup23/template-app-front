@@ -139,6 +139,11 @@ input[type=file]::file-selector-button:hover {
     background: rgba(123, 154, 46, 0.74)
 }
 
+.textInModal input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 .textInModal {
     display: flex;
     gap: 1rem;
@@ -162,8 +167,23 @@ input[type=file]::file-selector-button:hover {
     font-weight: bold;
 }
 
-.MuiBox-root {
-    scrollbar-color: #C2E36D transparent;
+.MuiModal-root ::-webkit-scrollbar {
+    width: 10px;
+}
+
+.MuiModal-root ::-webkit-scrollbar-track {
+    background: #474747;
+    margin: 3rem 0;
+    border-radius: 5rem;
+}
+
+.MuiModal-root ::-webkit-scrollbar-thumb {
+    background: #C2E36D;
+    border-radius: 5rem;
+}
+
+.MuiModal-root ::-webkit-scrollbar-thumb:hover {
+    background: #9fbb5a;
 }
 
 .editToS {

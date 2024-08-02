@@ -174,6 +174,27 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                     background-color: #1565C0 !important;
                     color: white !important
                 }
+
+                .clockLeft::-webkit-scrollbar,
+                .clockRight::-webkit-scrollbar {
+                    width: 5px;
+                }
+
+                .clockLeft::-webkit-scrollbar-track,
+                .clockRight::-webkit-scrollbar-track {
+                    background: transparent;
+                }
+
+                .clockLeft::-webkit-scrollbar-thumb,
+                .clockRight::-webkit-scrollbar-thumb {
+                    background: ${hexToRgb(config.customization.primary.color, 1, .25)};
+                    border-radius: 5rem;
+                }
+
+                .clockLeft::-webkit-scrollbar-thumb:hover,
+                .clockRight::-webkit-scrollbar-thumb:hover {
+                    background: ${hexToRgb(config.customization.primary.color, 1, .5)};
+                }
                 `}
             </style>
         )

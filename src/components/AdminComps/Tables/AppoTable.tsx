@@ -10,14 +10,14 @@ import { FormData } from '../../../typings/FormData';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useConfig } from '../../../context/AdminContext';
-import { CircularProgress, FormControl, IconButton, InputBase, Stack, Switch, TablePagination, useMediaQuery } from '@mui/material';
-import sortByDate from '../utils/sortByDate';
+import { CircularProgress, FormControl, IconButton, InputBase, TablePagination, useMediaQuery } from '@mui/material';
 import DeleteModal from '../Buttons/DeleteModal';
 import EditAppointment from '../Buttons/EditAppointment';
 import SearchIcon from '@mui/icons-material/Search';
 import { TypeOfService } from '../../../typings/TypeOfServices';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { Professional } from '../../../typings/Professional';
+import FilterButton from './Filters';
 
 function createData(apo: FormData) {
     return {
@@ -38,19 +38,23 @@ function createData(apo: FormData) {
 export default function BasicTable() {
     const [rows, setRows] = useState<any[]>([])
     const [page, setPage] = useState(0)
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
     const [searchValue, setSearchValue] = useState("")
-    const [seeDisabled, setSeeDisabled] = useState(true)
+    const [filterQuery, setFilterQuery] = useState("")
+    const [count, setCount] = useState(0)
     const [loading, setLoading] = useState(true)
     const isMobile = useMediaQuery('(max-width:1024px)');
     const { dbUrl, cancelAppointment } = useConfig()
 
     const searchAppos = () => {
         setLoading(true)
-        axios(`${dbUrl}/appointments/search/?term=${searchValue}`).then((res) => {
-            setRows(sortByDate(res.data).map((e: FormData) => createData(e)))
+        axios(`${dbUrl}/appointments/search/?term=${searchValue}&${filterQuery}&page=${page + 1}&rows=${rowsPerPage}`).then((res) => {
+            setRows(res.data.appointments.map((e: FormData) => createData(e)))
+            setCount(res.data.totalAppointments)
         }).then(() => {
-            setPage(0)
+            setLoading(false)
+        }).catch(() => {
+            setRows([])
             setLoading(false)
         })
     }
@@ -58,7 +62,7 @@ export default function BasicTable() {
     useEffect(() => {
         searchAppos()
         //eslint-disable-next-line
-    }, [])
+    }, [page, filterQuery, rowsPerPage])
 
     const handleChangePage = (event: unknown, newPage: number) => {
         setPage(newPage);
@@ -68,22 +72,6 @@ export default function BasicTable() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-
-    const visibleRows = React.useMemo(
-        () => {
-            const startIndex = page * rowsPerPage;
-            const endIndex = startIndex + rowsPerPage;
-            return rows.filter((e) => seeDisabled || !e.disabled).slice(startIndex, endIndex);
-        },
-        [page, rowsPerPage, rows, seeDisabled]
-    );
-
-    const count = React.useMemo(
-        () => {
-            return rows.filter((e) => seeDisabled || !e.disabled).length;
-        },
-        [rows, seeDisabled]
-    );
 
     const style = () => {
         return (
@@ -147,15 +135,9 @@ export default function BasicTable() {
                         </IconButton>
                     </div>
                     {!isMobile && <div className="canceledFilter">
-                        Cancelados
-                        <Stack className="switchOptions" direction="row" spacing={1} alignItems="center">
-                            <span>Ocultar</span>
-                            <Switch checked={seeDisabled} onChange={() => {
-                                setPage(0)
-                                setSeeDisabled((prev) => !prev)
-                            }} />
-                            <span>Mostrar</span>
-                        </Stack>
+                        <FilterButton
+                            setFilterQuery={setFilterQuery}
+                        />
                     </div>}
                 </FormControl>
             </form>
@@ -181,8 +163,8 @@ export default function BasicTable() {
                     <TableBody>
                         {
                             !loading ?
-                                (visibleRows.length ?
-                                    visibleRows.map((row) => (
+                                (rows.length ?
+                                    rows.map((row) => (
                                         <TableRow
                                             key={row._id}
                                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -281,8 +263,8 @@ export default function BasicTable() {
                     <>
                         <div className="apoCards">
                             {
-                                visibleRows.length ?
-                                    visibleRows.map((row) => (
+                                rows.length ?
+                                    rows.map((row) => (
                                         <div className={`apoCard ${row.disabled ? "apoCardCanceled" : ""}`}>
                                             <div className="apoCardInfo">
                                                 <span className="apoCardName">

@@ -40,16 +40,21 @@ const hourToNumber = (hour: string) => {
 }
 
 const ProfessionalModal = ({ professional, customTrigger }: Props) => {
+    const defaultImg = professional.image || "https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png"
     const { setAlert, fetchProfessionals, services, dbUrl } = useConfig()
     const [prof, setProf] = React.useState(professional)
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
-    const [src, setSrc] = React.useState(professional.image || "https://static-00.iconduck.com/assets.00/profile-default-icon-512x511-v4sw4m29.png")
+    const [src, setSrc] = React.useState(defaultImg)
     const [disabled, setDisabled] = React.useState(true)
     const isMobile = useMediaQuery('(max-width:600px)');
     const [error, setError] = React.useState<any>({})
-    const [errorMessage, setErrorMessage] = React.useState("")
+    const [errorMessage, setErrorMessage] = React.useState({
+        availability: "",
+        image: "",
+        inputs: ""
+    })
 
 
     const handleOpen = () => {
@@ -58,10 +63,23 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
             timeAvailabilities: professional?.timeAvailabilities?.monday ? professional.timeAvailabilities : defaultTimeAvailabilities
         })
         setOpen(true)
+        document.addEventListener("wheel", function () {
+            if (document.activeElement && (document.activeElement as HTMLInputElement).type === "number") {
+                (document.activeElement as HTMLInputElement).blur();
+            }
+        });
     };
 
-    const handleClose = () => {
-        setProf({} as Professional)
+    const handleClose = (reason?: string) => {
+        if (reason === "backdropClick") return
+        setProf(professional ?? ({} as Professional))
+        setErrorMessage({
+            availability: "",
+            image: "",
+            inputs: ""
+        })
+        setSrc(defaultImg)
+        setSelectedImage(null)
         setOpen(false)
     };
 
@@ -86,14 +104,14 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     ...prev,
                     [day]: true
                 }))
-                setErrorMessage(`El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios vayan de menor a mayor`)
+                setErrorMessage((prev: any) => ({ ...prev, availability: `El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios vayan de menor a mayor` }))
             }
             if (inicioM >= 2400 || finM >= 2400 || inicioT >= 2400 || finT >= 2400) {
                 setError((prev: any) => ({
                     ...prev,
                     [day]: true
                 }))
-                setErrorMessage(`El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios sean válidos`)
+                setErrorMessage((prev: any) => ({ ...prev, availability: `El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios sean válidos` }))
             }
         })
     }, [prof])
@@ -139,7 +157,12 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
+        const maxSize = 2 * 1024 * 1024;
         if (file) {
+            if (file.size > maxSize) {
+                return setErrorMessage((prev) => ({ ...prev, image: "La imagen supera los 2MB, por favor seleccione una más pequeña" }))
+            }
+            setErrorMessage((prev) => ({ ...prev, image: "" }))
             setSelectedImage(file);
             const imageUrl = URL.createObjectURL(file);
             setSrc(imageUrl);
@@ -167,7 +190,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
     const changeAvailability = (value: string, day: string, prop: string) => {
         let newValue = value
         if (value.length > 5) return
-        setErrorMessage("")
+        setErrorMessage((prev: any) => ({ ...prev, availability: "" }))
         if (value.length === 3 && !value.includes(":")) {
             newValue = newValue.slice(0, 2) + ":" + value.charAt(2)
         }
@@ -186,6 +209,18 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
         ))
     }
 
+    const handleBlurInput = (event: React.FocusEvent<HTMLInputElement>) => {
+        const day = event.target.name
+        if (event.target.value.length < 5) {
+            setError((prev: any) => ({
+                ...prev,
+                [day]: true
+            }))
+            setErrorMessage((prev: any) => ({ ...prev, availability: `El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios sean válidos (Formato HH:MM)` }))
+        }
+
+    }
+
     return (
         <>
             <div className="rowButtonAction" onClick={handleOpen}>
@@ -197,12 +232,12 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
             </div>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={(e, reason) => handleClose(reason)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar profesional
                     </Typography>
@@ -224,17 +259,34 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
                     <div className="textInModal">
                         <span>Teléfono: </span>
-                        <input type='text' value={prof.phoneNumber} onChange={(e) => setProf((prev) => ({ ...prev, phoneNumber: Number(e.target.value) || e.target.value === "" ? e.target.value : prev.phoneNumber }))} />
+                        <input type='number' value={prof.phoneNumber} onChange={(e) => {
+                            setProf((prev) => ({ ...prev, phoneNumber: e.target.value.toString() }))
+                        }}
+                        />
                     </div>
 
                     <div className="textInModal">
                         <span>Email: </span>
-                        <input type='text' value={prof.email} onChange={(e) => setProf((prev) => ({ ...prev, email: e.target.value }))} />
+                        <input type='text' value={prof.email} onChange={(e) => {
+                            setProf((prev) => ({ ...prev, email: e.target.value }))
+                        }}
+                        />
                     </div>
 
                     <div className="textInModal">
                         <span>Turnos cada (min): </span>
-                        <input type='text' value={prof.appointmentInterval} onChange={(e) => setProf((prev) => ({ ...prev, appointmentInterval: Number(e.target.value) || e.target.value === "" ? e.target.value : prev.appointmentInterval }))} />
+                        <input
+                            type='number'
+                            value={prof.appointmentInterval}
+                            onChange={(e) => {
+                                if (Number(e.target.value) && (Number(e.target.value) < 5 || Number(e.target.value) > 480)) {
+                                    setErrorMessage((prev) => ({ ...prev, inputs: "La ventana horaria de los turnos debe ser un valor entre 5min y 480min" }))
+                                } else {
+                                    setErrorMessage((prev) => ({ ...prev, inputs: "" }))
+                                }
+                                setProf((prev) => ({ ...prev, appointmentInterval: e.target.value.toString() }))
+                            }
+                            } />
                     </div>
 
                     <div className="textInModal">
@@ -287,23 +339,19 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                                     </td>
                                     <td style={{ width: "80%", textAlign: "center" }}>
                                         <div className="inputSchedule">
-                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                            <input name={day} onBlur={handleBlurInput} className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
                                                 type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].initialHour} onChange={(e) => changeAvailability(e.target.value, day, "initialHour")} />
-                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                            <input name={day} onBlur={handleBlurInput} className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
                                                 type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].finalHour} onChange={(e) => changeAvailability(e.target.value, day, "finalHour")} />
-                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                            <input name={day} onBlur={handleBlurInput} className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
                                                 type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondInitialHour} onChange={(e) => changeAvailability(e.target.value, day, "secondInitialHour")} />
-                                            <input className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
+                                            <input name={day} onBlur={handleBlurInput} className={error[day] === true ? "availabilityError" : (prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].active !== true ? "dayDisabled" : "")}
                                                 type='text' value={prof.timeAvailabilities[day as keyof typeof prof.timeAvailabilities].secondFinalHour} onChange={(e) => changeAvailability(e.target.value, day, "secondFinalHour")} />
                                         </div>
                                     </td>
                                 </tr>
                             ))}
                         </table>
-                        {errorMessage !== "" && <div className="avaAlert">
-                            <Alert severity="error">{errorMessage}</Alert>
-                        </div>}
-
                     </div>
 
                     <div className='dragContainer'>
@@ -331,9 +379,25 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                         </label>
                     </div>
 
+                    {Object.values(errorMessage).some(e => e !== "") ?
+                        <div className="avaAlert">
+                            <Alert severity="error">{Object.values(errorMessage).find(e => e !== "")}</Alert>
+                        </div>
+                        :
+                        (Object.values(prof).length <= 6 || !Object.values(prof).every(e => {
+                            return typeof e !== "string" || e !== ""
+                        }) ?
+                            <div className="avaAlert">
+                                <Alert severity="error">Todos los campos deben ser completados</Alert>
+                            </div>
+                            :
+                            <></>
+                        )
+                    }
+
                     <div className="modalButtons">
-                        <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className={`confirmModal ${disabled || errorMessage !== "" ? "buttonDisabled" : ""}`} onClick={handleSave}>
+                        <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
+                        <button className={`confirmModal ${disabled || Object.values(errorMessage).some(e => e !== "") ? "buttonDisabled" : ""}`} onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>
                     </div>

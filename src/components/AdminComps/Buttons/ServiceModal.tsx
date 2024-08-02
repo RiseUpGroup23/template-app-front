@@ -11,9 +11,13 @@ import { style } from "./EditTextModal"
 import { TypeOfService } from '../../../typings/TypeOfServices';
 import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
+<<<<<<< HEAD
 import { duration } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
+=======
+import { Alert } from '@mui/material';
+>>>>>>> 1fbbe7436b8a1f96e52111e0c310067342b72945
 
 interface Props {
     service: TypeOfService;
@@ -21,16 +25,32 @@ interface Props {
 }
 
 const ServiceModal = ({ service, customTrigger }: Props) => {
+    const defaultImg = service.image || "https://iconape.com/wp-content/png_logo_vector/settings.png"
     const [srvc, setSrvc] = React.useState(service)
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
-    const [src, setSrc] = React.useState(service.image || "https://iconape.com/wp-content/png_logo_vector/settings.png")
+    const [src, setSrc] = React.useState(defaultImg)
     const { editService, fetchServices, setAlert, dbUrl } = useConfig()
     const [disabled, setDisabled] = React.useState(true)
+    const [errorMessage, setErrorMessage] = React.useState({
+        duration: "",
+        image: ""
+    })
 
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+
+    const handleClose = (reason?: string) => {
+        if (reason === "backdropClick") return
+        setSrvc(service ?? ({} as TypeOfService))
+        setErrorMessage({
+            duration: "",
+            image: ""
+        })
+        setSrc(defaultImg)
+        setSelectedImage(null)
+        setOpen(false)
+    };
 
     React.useEffect(() => {
         setDisabled(Object.values(srvc).length < 3 || Object.values(srvc).some((e) => e === ""))
@@ -70,7 +90,12 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
+        const maxSize = 2 * 1024 * 1024;
         if (file) {
+            if (file.size > maxSize) {
+                return setErrorMessage(prev => ({ ...prev, image: "La imagen supera los 2MB, por favor seleccione una más pequeña" }))
+            }
+            setErrorMessage(prev => ({ ...prev, image: "" }))
             setSelectedImage(file);
             const imageUrl = URL.createObjectURL(file);
             setSrc(imageUrl);
@@ -89,12 +114,12 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
             </div>
             <Modal
                 open={open}
-                onClose={handleClose}
+                onClose={(e, reason) => handleClose(reason)}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={handleClose}><CloseIcon /></div>
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar servicio
                     </Typography>
@@ -106,12 +131,32 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
 
                     <div className="textInModal">
                         <span>Duracion (min): </span>
-                        <input type='text' value={srvc.duration} onChange={(e) => setSrvc((prev) => ({ ...prev, duration: Number(e.target.value) || e.target.value === "" ? Number(e.target.value) : prev.duration }))} />
+                        <input type='number' value={srvc.duration === 0 ? "" : srvc.duration}
+                            onChange={(e) => {
+                                if (Number(e.target.value) && (Number(e.target.value) < 5 || Number(e.target.value) > 480)) {
+                                    setErrorMessage((prev) => ({ ...prev, duration: "La duración de un servicio solo puede ser un valor entre 5min y 480min" }))
+                                } else {
+                                    setErrorMessage((prev) => ({ ...prev, duration: "" }))
+                                }
+                                setSrvc((prev) => ({ ...prev, duration: Number(e.target.value) }))
+                            }
+                            }
+                        />
                     </div>
 
                     <div className="textInModal">
                         <span>Precio: </span>
-                        <input type='text' value={srvc.price} onChange={(e) => setSrvc((prev) => ({ ...prev, price: Number(e.target.value) || e.target.value === "" ? Number(e.target.value) : prev.price }))} />
+                        <input type='number' value={srvc.price === 0 ? "" : srvc.price}
+                            onChange={(e) => {
+                                if (!Number(e.target.value)) {
+                                    setErrorMessage((prev) => ({ ...prev, price: "El precio debe ser un número válido" }))
+                                } else {
+                                    setErrorMessage((prev) => ({ ...prev, price: "" }))
+                                }
+                                setSrvc((prev) => ({ ...prev, price: Number(e.target.value) }))
+                            }
+                            }
+                        />
                     </div>
 
                     <div className='dragContainer'>
@@ -139,14 +184,28 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
                         </label>
                     </div>
 
+                    {Object.values(errorMessage).some(e => e !== "") ?
+                        <div className="avaAlert">
+                            <Alert severity="error">{Object.values(errorMessage).find(e => e !== "")}</Alert>
+                        </div>
+                        :
+                        (Object.values(srvc).length < 3 ?
+                            <div className="avaAlert">
+                                <Alert severity="error">Todos los campos deben ser completados</Alert>
+                            </div>
+                            :
+                            <></>
+                        )
+                    }
+
                     <div className="modalButtons">
-                        <button className="backModal" onClick={handleClose}>{arrowIco(90)}Volver</button>
-                        <button className={`confirmModal ${disabled ? "buttonDisabled" : ""}`} onClick={handleSave}>
+                        <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
+                        <button className={`confirmModal ${disabled || Object.values(errorMessage).some(e => e !== "") ? "buttonDisabled" : ""}`} onClick={handleSave}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>
                     </div>
                 </Box>
-            </Modal>
+            </Modal >
         </>
     )
 }
