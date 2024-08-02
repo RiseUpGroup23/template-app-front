@@ -25,6 +25,7 @@ export interface ConfigFile {
     appointment: {
         bannedDays: BannedDay[]
         mercadoPago: boolean;
+        nextMonths: 2
     }
     banners: {
         imageAppointment: string;
