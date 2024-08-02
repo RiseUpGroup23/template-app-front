@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Turnos",
+  "name": "Agendá tu próximo turno",
   "icons": [
     {
       "src": "favicon.ico",

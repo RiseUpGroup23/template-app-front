@@ -8,11 +8,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
 import { useConfig } from '../../../context/AdminContext';
-<<<<<<< HEAD
 import EditIcon from '@mui/icons-material/Edit';
-=======
 import { Alert } from '@mui/material';
->>>>>>> 1fbbe7436b8a1f96e52111e0c310067342b72945
 
 interface Props {
     initialTitle: string;

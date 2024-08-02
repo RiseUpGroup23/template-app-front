@@ -53,8 +53,7 @@ function concatenateHours(schedule: Availability, interval: number) {
 
 const Step3 = ({ setNextButtonEnabled }: Props) => {
     const { date, setDate, setForm } = useAppointment()
-    const thisMonth = dayjs().month() + 1;
-    const nextTwoMonths = thisMonth + 2;
+    const { config } = useConfig()
     const [schedules, setSchedules] = useState<Schedules | null>()
     const [clockLeft, setClockLeft] = useState<string[]>([])
     const [clockRight, setClockRight] = useState<string[]>([])
@@ -66,6 +65,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
     const [noWorkDays, setNoWorkDays] = useState<any>([])
     const { dbUrl } = useConfig()
     const { form } = useAppointment()
+    const dbNextMonths = config?.appointment?.nextMonths ?? 2
 
     const handleDate = async (newValue: any, firstCharge?: boolean) => {
         setNextButtonEnabled(false)
@@ -147,29 +147,28 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         setNextButtonEnabled(true)
     };
 
-    const { config } = useConfig()
     if (!config) return <></>
 
     const style = () => {
         return (
             <style>
                 {`
-                .MuiSvgIcon-root,
-                .MuiTypography-root,
-                .MuiPickersDay-root,
-                .MuiPickersCalendarHeader-label,
+                .pickersContainer .MuiSvgIcon-root,
+                .pickersContainer .MuiTypography-root,
+                .pickersContainer .MuiPickersDay-root,
+                .pickersContainer .MuiPickersCalendarHeader-label,
                 .clockHour:not(.clockDisabled):not(.clockHourSelected)
                     {
                         color: ${config.customization.primary.text} !important; 
                     }
                     
-                .MuiPickersDay-root.Mui-disabled 
+                .pickersContainer .MuiPickersDay-root.Mui-disabled 
                     {
                         color: gray !important; 
                     }
 
                 .clockHourSelected,
-                .MuiPickersDay-root.Mui-selected 
+                .pickersContainer .MuiPickersDay-root.Mui-selected 
                 {
                     background-color: #1565C0 !important;
                     color: white !important
@@ -195,6 +194,10 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                 .clockRight::-webkit-scrollbar-thumb:hover {
                     background: ${hexToRgb(config.customization.primary.color, 1, .5)};
                 }
+                
+                .pickersContainer .MuiButtonBase-root.Mui-disabled svg{
+                    fill:gray;
+                }
                 `}
             </style>
         )
@@ -215,8 +218,8 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                             onChange={(newValue) => {
                                 handleDate(newValue);
                             }}
-                            minDate={dayjs().date(1)}
-                            maxDate={dayjs().date(1).add(nextTwoMonths, 'month').subtract(1, 'day')}
+                            minDate={dayjs()}
+                            maxDate={dayjs().add(dbNextMonths + 1, 'month').subtract(dayjs().date(), "day")}
                             views={["day"]}
                             dayOfWeekFormatter={(date) => {
                                 return dayjs(date).subtract(1, "day").locale("es").format('ddd').toUpperCase().slice(0, -1);

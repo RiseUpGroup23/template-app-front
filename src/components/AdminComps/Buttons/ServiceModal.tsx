@@ -11,13 +11,8 @@ import { style } from "./EditTextModal"
 import { TypeOfService } from '../../../typings/TypeOfServices';
 import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
-<<<<<<< HEAD
-import { duration } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-
-=======
 import { Alert } from '@mui/material';
->>>>>>> 1fbbe7436b8a1f96e52111e0c310067342b72945
 
 interface Props {
     service: TypeOfService;
