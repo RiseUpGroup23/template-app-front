@@ -274,22 +274,6 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     </div>
 
                     <div className="textInModal">
-                        <span>Turnos cada (min): </span>
-                        <input
-                            type='number'
-                            value={prof.appointmentInterval}
-                            onChange={(e) => {
-                                if (Number(e.target.value) && (Number(e.target.value) < 5 || Number(e.target.value) > 480)) {
-                                    setErrorMessage((prev) => ({ ...prev, inputs: "La ventana horaria de los turnos debe ser un valor entre 5min y 480min" }))
-                                } else {
-                                    setErrorMessage((prev) => ({ ...prev, inputs: "" }))
-                                }
-                                setProf((prev) => ({ ...prev, appointmentInterval: e.target.value.toString() }))
-                            }
-                            } />
-                    </div>
-
-                    <div className="textInModal">
                         <span>Tipos de servicio: </span>
                         <div className="editToS">
                             {services?.map((service, index) => (
