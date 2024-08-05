@@ -46,7 +46,8 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
               name: form.customer.name.split(" ")[0],
               lastname: form.customer.name.split(" ")[1] ?? ""
             }
-          }
+          },
+          origin: window.location.origin
         }
       );
       const { id } = response.data;
