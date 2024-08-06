@@ -1,55 +1,70 @@
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemText, useMediaQuery } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
-import "./AdminModules.css"
+import HomeIcon from '@mui/icons-material/Home';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
+import ChecklistRtlOutlinedIcon from '@mui/icons-material/ChecklistRtlOutlined';
+import LocalPoliceOutlinedIcon from '@mui/icons-material/LocalPoliceOutlined';
+import "./AdminModules.css";
 import DeleteModal from "./Buttons/DeleteModal";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useConfig } from "../../context/AdminContext";
 
 const items = [
     {
         title: "Inicio",
-        url: "/admin"
+        url: "/admin",
+        icon: <HomeIcon />
     },
     {
         title: "Personalización",
-        url: "/admin/personalizacion"
+        url: "/admin/personalizacion",
+        icon: <ModeEditOutlinedIcon />
     },
     {
         title: "Turnos",
-        url: "/admin/turnos"
+        url: "/admin/turnos",
+        icon: <CalendarMonthOutlinedIcon />
     },
     {
         title: "Profesionales",
-        url: "/admin/profesionales"
+        url: "/admin/profesionales",
+        icon: <PersonOutlineOutlinedIcon />
     },
     {
         title: "Servicios",
-        url: "/admin/servicios"
+        url: "/admin/servicios",
+        icon: <ChecklistRtlOutlinedIcon />
     },
     {
         title: "Políticas",
-        url: "/admin/politicas"
+        url: "/admin/politicas",
+        icon: <LocalPoliceOutlinedIcon />
     }
-]
+];
+
+const GoToHome = () => {
+    window.location.href = "/";
+};
 
 const Menu = () => {
     const isMobile = useMediaQuery('(max-width:1024px)');
-    const [selected, setSelected] = useState(items.findIndex(item => item.url.includes(window.location.pathname)))
+    const [selected, setSelected] = useState(items.findIndex(item => item.url.includes(window.location.pathname)));
     const location = useLocation();
-    const [open, setOpen] = React.useState(false);
-    const { logout } = useConfig()
+    const [open, setOpen] = useState(false);
+    const { logout } = useConfig();
 
     const toggleDrawer = (newOpen: boolean) => () => {
         setOpen(newOpen);
     };
 
     useEffect(() => {
-        setSelected(items.findIndex(item => item.url.includes(window.location.pathname)))
-        window.scrollTo(0, 0)
-    }, [location])
+        setSelected(items.findIndex(item => item.url.includes(window.location.pathname)));
+        window.scrollTo(0, 0);
+    }, [location]);
 
     return (
         !isMobile ?
@@ -57,14 +72,20 @@ const Menu = () => {
                 {items.map((item, index) =>
                     <Link to={item.url} key={index}>
                         <div className={`menuItem ${selected === index ? "itemSelected" : ""}`}>
+                            <span className={`menuItem ${selected === index ? "itemSelected" : ""}`}>{item.icon}</span>
                             {item.title}
                         </div>
                     </Link>
                 )}
+                <div className="goHomeButton" onClick={GoToHome}>
+                    <span className="goHomeText">
+                        Ir a Inicio
+                    </span>
+                    <HomeIcon />
+                </div>
                 <DeleteModal
                     customTrigger={
                         <div className="logoutButton">
-
                             <span className="logoutText">
                                 Cerrar sesión
                             </span>
@@ -73,24 +94,32 @@ const Menu = () => {
                     message="¿Desea cerrar la sesión?"
                     action={logout}
                 />
-            </div >
+            </div>
             :
             <div className="drawerButton">
                 <button onClick={toggleDrawer(true)}><MenuIcon /></button>
                 <Drawer className="adminDrawer" open={open} onClose={toggleDrawer(false)}>
                     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
                         <List>
-                            {items.map(({ title, url }, index) => (
+                            {items.map(({ title, url, icon }, index) => (
                                 <Link to={url} key={url}>
                                     <ListItem className={`menuItem ${selected === index ? "itemSelected" : ""}`} key={title} disablePadding>
                                         <ListItemButton>
-                                            <ListItemText primary={title} />
+                                            <div className="menuItemContent">
+                                                {icon}
+                                                <ListItemText primary={title} />
+                                            </div>
                                         </ListItemButton>
                                     </ListItem>
                                 </Link>
                             ))}
                         </List>
-
+                        <div className="goHomeButton" onClick={GoToHome}>
+                            <span className="goHomeText">
+                                Ir a Inicio
+                            </span>
+                            <HomeIcon />
+                        </div>
                         <div className="logoutButton" onClick={() => logout()}>
                             <span className="logoutText">
                                 Cerrar sesión
@@ -100,7 +129,7 @@ const Menu = () => {
                     </Box>
                 </Drawer>
             </div>
-    )
-}
+    );
+};
 
-export default Menu
+export default Menu;
