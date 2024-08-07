@@ -8,6 +8,7 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import ChecklistRtlOutlinedIcon from '@mui/icons-material/ChecklistRtlOutlined';
+import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 import LocalPoliceOutlinedIcon from '@mui/icons-material/LocalPoliceOutlined';
 import "./AdminModules.css";
 import DeleteModal from "./Buttons/DeleteModal";
@@ -47,7 +48,7 @@ const items = [
 ];
 
 const GoToHome = () => {
-    window.location.href = "/";
+    window.open('/', '_blank');
 };
 
 const Menu = () => {
@@ -79,9 +80,9 @@ const Menu = () => {
                 )}
                 <div className="goHomeButton" onClick={GoToHome}>
                     <span className="goHomeText">
-                        Ir a Inicio
+                        Ir a tu sitio web
                     </span>
-                    <HomeIcon />
+                    <LaunchOutlinedIcon />
                 </div>
                 <DeleteModal
                     customTrigger={
@@ -116,9 +117,9 @@ const Menu = () => {
                         </List>
                         <div className="goHomeButton" onClick={GoToHome}>
                             <span className="goHomeText">
-                                Ir a Inicio
+                                Ir a tu sitio web
                             </span>
-                            <HomeIcon />
+                            <LaunchOutlinedIcon />
                         </div>
                         <div className="logoutButton" onClick={() => logout()}>
                             <span className="logoutText">

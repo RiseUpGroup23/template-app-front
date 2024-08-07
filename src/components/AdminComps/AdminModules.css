@@ -59,7 +59,7 @@
 .goHomeButton {
     color: white;
     position: fixed;
-    bottom: 3rem; /* Adjust as needed to position above the logout button */
+    bottom: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,7 +70,7 @@
 
 .menuItem {
     color: white;
-    font-size: min(1.8rem, 2vw);
+    font-size: min(1.5rem, 2vw);
     padding: 1rem;
     border-radius: 1rem;
 }
