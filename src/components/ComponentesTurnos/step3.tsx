@@ -110,12 +110,10 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         });
         axios(`${dbUrl}/professionals/${form.professional}`).then((res) => {
             const noWD: any = []
-            const formattedAva: any = {}
             Object.keys(res.data.timeAvailabilities).forEach((e) => {
                 if (!res.data.timeAvailabilities[e].active) {
                     noWD.push(e)
                 }
-                formattedAva[e] = concatenateHours(res.data.timeAvailabilities[e], res.data.appointmentInterval)
             })
             setNoWorkDays(noWD)
             const bannedDays = config?.appointment.bannedDays

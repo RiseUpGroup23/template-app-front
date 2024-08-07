@@ -4,10 +4,8 @@ import { useConfig } from '../../context/AdminContext';
 import Header from '../../components/Header/Header';
 import "./Home.css"
 import Footer from '../../components/Footer/Footer';
-import hexToRgb from '../../modules/hexToRgb';
 import React from 'react';
 import Overlay from '../Turnos/Overlay';
-
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 
 const Home = () => {
