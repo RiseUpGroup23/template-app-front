@@ -6,7 +6,7 @@ import { useConfig } from '../../context/AdminContext';
 import { useAppointment } from '../../context/ApContext';
 import HomeIcon from '@mui/icons-material/Home';
 
-const Confirmado = () => {
+const TurnoConfirmado = () => {
     const { config } = useConfig()
     const { form } = useAppointment()
     if (!config) return <></>
@@ -51,4 +51,4 @@ const Confirmado = () => {
     )
 }
 
-export default Confirmado;
+export default TurnoConfirmado;

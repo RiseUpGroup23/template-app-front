@@ -6,7 +6,8 @@ import Admin from './views/Admin/Admin';
 import Error from './views/Error/Error';
 import Reprogramar from './views/Turnos/Reprogramar';
 import ReproDet from './views/Turnos/ReproDet';
-import Confirmado from './views/Confirmado/Confirmado';
+import TurnoConfirmado from './views/TurnoConfirmado-Rechazado/Confirmado';
+import TurnoRechazado from './views/TurnoConfirmado-Rechazado/Rechazado';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route path='/reprogramar/:id' element={<ReproDet />} />
         <Route path='/admin/*' element={<Admin />} />
         <Route path='/error' element={<Error />} />
-        <Route path='/confirmado' element={<Confirmado />} />
+        <Route path='/turno-confirmado' element={<TurnoConfirmado />} />
+        <Route path='/turno-rechazado' element={<TurnoRechazado />} />
       </Routes>
     </Router>
   );
