@@ -21,9 +21,8 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
 
   if (!config) return <></>;
 
-  // const TOKEN = process.env.REACT_APP_MPTOKEN ?? "";
-  const TOKEN = "APP_USR-08e70c66-11de-48fa-9f7d-89571f73b476";
-
+  const TOKEN = process.env.REACT_APP_MERCADOPAGO ?? "APP_USR-08e70c66-11de-48fa-9f7d-89571f73b476";
+  
   initMercadoPago(TOKEN, { locale: "es-AR" });
 
   const createPreference = async () => {
