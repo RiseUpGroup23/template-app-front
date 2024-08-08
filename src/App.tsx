@@ -19,8 +19,8 @@ function App() {
         <Route path='/reprogramar/:id' element={<ReproDet />} />
         <Route path='/admin/*' element={<Admin />} />
         <Route path='/error' element={<Error />} />
-        <Route path='/turno-confirmado' element={<TurnoConfirmado />} />
-        <Route path='/turno-rechazado' element={<TurnoRechazado />} />
+        <Route path='/reserva-confirmada' element={<TurnoConfirmado />} />
+        <Route path='/reserva-error' element={<TurnoRechazado />} />
       </Routes>
     </Router>
   );
