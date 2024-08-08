@@ -9,7 +9,7 @@ interface Props {
 }
 
 const PaymentStep = ({ setPaymentReady }: Props) => {
-  const { config, dbUrl } = useConfig();
+  const { config, dbUrl, services } = useConfig();
   const { form } = useAppointment()
 
   useEffect(() => {
@@ -20,8 +20,6 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
   const [preferenceId, setPreferenceId] = useState(null);
 
   if (!config) return <></>;
-
-  const price = 500 //porcentaje del precio del tipo de servicio
 
   // const TOKEN = process.env.REACT_APP_MPTOKEN ?? "";
   const TOKEN = "APP_USR-08e70c66-11de-48fa-9f7d-89571f73b476";
@@ -35,9 +33,9 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
       const response = await axios.post(
         `${dbUrl}/mercadopago/crear-preferencia`,
         {
-          title: "Reserva",
+          title: services?.find(e => form.typeOfService === e._id)?.name,
           quantity: 1,
-          price: price,
+          price: services?.find(e => form.typeOfService === e._id)?.price,
           appointment: {
             ...form,
             date: jsonDateInUTCMinus3,

@@ -8,7 +8,7 @@ const dbUrl = process.env.REACT_APP_API_URL ?
     (process.env.REACT_APP_API_URL.endsWith("/") ? process.env.REACT_APP_API_URL.slice(0, -1) : process.env.REACT_APP_API_URL)
     : "https://template-peluquerias-back.vercel.app"
 
-const isMpConfigured = process.env.REACT_APP_MERCADOPAGO && process.env.REACT_APP_MERCADOPAGO.length > 10 ? true : false
+const isMpConfigured = process.env.REACT_APP_MERCADOPAGO ? true : false
 
 function updateUI(data: any) {
     document.title = window?.location?.href?.includes("admin") ? data.customization.shopName + " - Admin" : data.customization.shopName;
