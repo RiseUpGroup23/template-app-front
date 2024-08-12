@@ -13,6 +13,7 @@ import axios from 'axios';
 import uploadImage from '../utils/uploadImage';
 import { Alert, useMediaQuery } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import ModalConflicts from './ModalConflicts';
 
 interface Props {
     professional: Professional;
@@ -55,6 +56,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
         image: "",
         inputs: ""
     })
+    const [conflicts, setConflicts] = React.useState([])
 
 
     const handleOpen = () => {
@@ -116,9 +118,12 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
         })
     }, [prof])
 
-    const handleSave = async () => {
-        setLoading(true)
-        const newData = { ...prof, image: selectedImage ? await uploadImage(selectedImage).catch(() => prof.image) : (prof.image || src) }
+    const handleSave = async (conflictSolution?: string) => {
+        !conflictSolution && setLoading(true)
+        let newData: any = { ...prof, image: selectedImage ? await uploadImage(selectedImage).catch(() => prof.image) : (prof.image || src) }
+        if (conflictSolution) {
+            newData = { ...newData, changeAppointment: conflictSolution }
+        }
         if (customTrigger) { // Creando nuevo
             await axios.post(`${dbUrl}/professionals`, newData).then(() => {
                 fetchProfessionals()
@@ -126,12 +131,13 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     type: "success",
                     msg: "Se creó el profesional con éxito"
                 })
-            }).catch(() => {
+            }).catch((res) => {
                 setAlert({
                     type: "error",
                     msg: "Hubo un error al crear el profesional"
                 })
             })
+            setOpen(false)
         } else {
             await axios.put(`${dbUrl}/professionals/${prof._id}`, newData).then(() => {
                 fetchProfessionals()
@@ -139,15 +145,20 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     type: "success",
                     msg: "Se actualizó el profesional con éxito"
                 })
-            }).catch(() => {
-                setAlert({
-                    type: "error",
-                    msg: "Hubo un error al actualizar el profesional"
-                })
+                setOpen(false)
+            }).catch((error) => {
+                if (error?.response?.data?.conflicts) {
+                    setConflicts(error?.response?.data?.conflicts)
+                } else {
+                    setAlert({
+                        type: "error",
+                        msg: "Hubo un error al actualizar el profesional"
+                    })
+
+                }
             })
         }
         setLoading(false)
-        setOpen(false)
     }
 
     const handleDrag = (event: React.DragEvent<HTMLLabelElement>) => {
@@ -237,6 +248,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
+                    <ModalConflicts conflicts={conflicts} saveFunction={handleSave} />
                     <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar profesional
@@ -381,7 +393,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
                     <div className="modalButtons">
                         <button className="backModal" onClick={() => handleClose()}>{arrowIco(90)}Volver</button>
-                        <button className={`confirmModal ${disabled || Object.values(errorMessage).some(e => e !== "") ? "buttonDisabled" : ""}`} onClick={handleSave}>
+                        <button className={`confirmModal ${disabled || Object.values(errorMessage).some(e => e !== "") ? "buttonDisabled" : ""}`} onClick={() => handleSave()}>
                             {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                         </button>
                     </div>
