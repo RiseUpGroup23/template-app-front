@@ -22,7 +22,7 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
   if (!config) return <></>;
 
   const TOKEN = process.env.REACT_APP_MERCADOPAGO ?? "APP_USR-08e70c66-11de-48fa-9f7d-89571f73b476";
-  
+
   initMercadoPago(TOKEN, { locale: "es-AR" });
 
   const createPreference = async () => {
@@ -47,6 +47,7 @@ const PaymentStep = ({ setPaymentReady }: Props) => {
           origin: window.location.origin
         }
       );
+      localStorage.setItem("tryToReserve", jsonDateInUTCMinus3)
       const { id } = response.data;
       return id
     } catch (error) {

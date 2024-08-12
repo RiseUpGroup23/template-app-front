@@ -35,6 +35,7 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
         } else {
             let dateInUTCMinus3 = new Date(form.date.getTime() - (3 * 60 * 60 * 1000));
             let jsonDateInUTCMinus3 = dateInUTCMinus3.toJSON();
+            localStorage.setItem("tryToReserve", jsonDateInUTCMinus3)
 
             await axios.post(`${dbUrl}/appointments`, {
                 ...form,
@@ -61,18 +62,18 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
     return (
         <div className="appointBoxButtons">
             {currentStep === 0 && <button className='prev' onClick={GoToHome}>
-                <ArrowBackIosNewIcon/>
+                <ArrowBackIosNewIcon />
                 {prevButtonText}
             </button>}
             {currentStep > 0 && currentStep < 5 && <button className='prev' onClick={() => prevStep()}>
-                <ArrowBackIosNewIcon/>
+                <ArrowBackIosNewIcon />
                 {prevButtonText}
             </button>}
             {currentStep < 5 && nextButtonText && <button className={`next ${!isNextButtonEnabled ? 'disabled' : ''}`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }} onClick={handleNext} disabled={!isNextButtonEnabled}>
                 {currentStep !== 4 || paymentReady ?
                     <>
                         {nextButtonText}
-                        <ArrowForwardIosIcon/>
+                        <ArrowForwardIosIcon />
                     </>
                     :
                     <div style={{ width: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -82,7 +83,7 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
             </button>}
             {currentStep === 5 && nextButtonText !== "" && <button className='next' style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }} onClick={GoToHome}>
                 {nextButtonText}
-                <ArrowForwardIosIcon/>
+                <ArrowForwardIosIcon />
             </button>}
             {currentStep === 4 && <div className='mpContainer'>
                 <PaymentStep setPaymentReady={setPaymentReady} />
