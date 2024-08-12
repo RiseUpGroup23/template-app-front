@@ -87,7 +87,6 @@
     .containerRepro .next,
     .containerRepro .prev {
         padding: 1rem;
-        font-size: .9rem;
         gap: .25rem;
         min-width: 40%;
         margin-top: 1rem;

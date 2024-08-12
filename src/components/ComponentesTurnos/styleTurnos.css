@@ -356,7 +356,7 @@
         width: 90%;
         padding: 2.5rem;
     }
-    
+
     .resumeContainer {
         margin-top: 5rem;
         align-items: center;
@@ -372,12 +372,12 @@
     }
 
     .tarjet {
-        width: 120px;
-        height: 150px;
+        width: 140px;
+        height: 180px;
     }
 
     .imgCard {
-        width: 4.25rem;
+        width: 5.25rem;
     }
 
     .names_Professionals_Service {
@@ -386,7 +386,8 @@
     }
 
     .tipoPeluquero {
-        font-size: 0.7rem;
+        font-size: 0.875rem;
+        text-align: center;
     }
 
     .container_Professional_Service {

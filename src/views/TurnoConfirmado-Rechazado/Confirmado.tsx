@@ -9,6 +9,7 @@ const TurnoConfirmado = () => {
     const { config } = useConfig()
     const appoData = localStorage.getItem("tryToReserve")
     const dateString = localStorage.getItem("tryToReserve") || new Date().toJSON()
+    
     if (!config) return <></>
 
     const GoToHome = () => {
@@ -33,7 +34,7 @@ const TurnoConfirmado = () => {
                             </div>
 
                             <div style={{ color: `${config.customization.primary.text}` }} className='hora'>
-                                Hora: <span style={{ fontWeight: "bold" }}>{new Date(dateString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
+                                Hora: <span style={{ fontWeight: "bold" }}>{dateString.split("T")[1].slice(0, 5)}</span>
                             </div>
                         </div>
                         <div className="resumeInfo" style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, 1)}`, marginBottom: '-120px' }}>

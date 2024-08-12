@@ -40,7 +40,7 @@ const ReproDet = () => {
                         </div>
 
                         <div style={{ color: `${config.customization.primary.text}`, marginTop: "15%" }}>
-                            Hora: <span style={{ fontWeight: "bold" }}>{new Date(apo.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</span>
+                            Hora: <span style={{ fontWeight: "bold" }}>{apo.date.split("T")[1].slice(0, 5)}</span>
                         </div>
                     </div>
                     {!apo.disabled ?

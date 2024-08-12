@@ -9,9 +9,10 @@ import "./reprogramar.css"
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Overlay from './Overlay';
+import Alert from '@mui/material/Alert';
 
 const Reprogramar = () => {
-    const { config, dbUrl } = useConfig()
+    const { config, dbUrl, setAlert, alert } = useConfig()
     const [enabled, setEnabled] = useState(false)
     const [loading, setLoading] = useState(false)
     const [phoneNumber, setPhoneNumber] = useState<number | string>("")
@@ -23,12 +24,16 @@ const Reprogramar = () => {
         axios(`${dbUrl}/appointments/phoneNumber/${forcedPhone ?? phoneNumber}`).then((res) => {
             setFound(res.data);
             setLoading(false)
+            if (!res.data.length) {
+                setAlert({ type: "error", msg: "No se encontraron turnos para este número" })
+            }
         })
     }
 
     useEffect(() => {
         if (localStorage.getItem("searchedPhoneNumber")) {
             searchAppo(localStorage.getItem("searchedPhoneNumber")!)
+            setPhoneNumber(localStorage.getItem("searchedPhoneNumber")!)
             localStorage.removeItem("searchedPhoneNumber")
         }
     }, [dbUrl])
@@ -141,6 +146,9 @@ const Reprogramar = () => {
                     </button>}
                 </div>
             </div >
+            {alert && alert.type !== "hidden" && <Alert className="alertBox" severity={alert.type}>
+                {alert.msg}
+            </Alert>}
             <Footer />
         </Overlay >
     )
