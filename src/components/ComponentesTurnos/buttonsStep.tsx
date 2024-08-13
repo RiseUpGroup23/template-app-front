@@ -50,11 +50,15 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
 
             if (reproId) {
                 await axios.put(`${dbUrl}/appointments/${reproId}`, newData).then(() => {
-                    nextStep()
+                    window.location.pathname = "/reserva-confirmada"
+                }).catch(() => {
+                    window.location.pathname = "/reserva-error"
                 })
             } else {
                 await axios.post(`${dbUrl}/appointments`, newData).then(() => {
-                    nextStep()
+                    window.location.pathname = "/reserva-confirmada"
+                }).catch(() => {
+                    window.location.pathname = "/reserva-error"
                 })
             }
         }
