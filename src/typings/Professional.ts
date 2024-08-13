@@ -17,14 +17,16 @@ export interface Professional {
     phoneNumber: string;
     image: string;
     profession: string;
-    timeAvailabilities: {
-        monday: Availability;
-        tuesday: Availability;
-        wednesday: Availability;
-        thursday: Availability;
-        friday: Availability;
-        saturday: Availability;
-        sunday: Availability;
-    };
+    timeAvailabilities: TimeAvailability;
     typesOfServices: TypeOfService[];
+}
+
+export interface TimeAvailability {
+    monday: Availability;
+    tuesday: Availability;
+    wednesday: Availability;
+    thursday: Availability;
+    friday: Availability;
+    saturday: Availability;
+    sunday: Availability;
 }

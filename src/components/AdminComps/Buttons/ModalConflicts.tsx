@@ -6,7 +6,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import "./Modals.css"
 import { style } from "./EditTextModal"
 import { useState } from 'react';
-import BackupTableIcon from '@mui/icons-material/BackupTable';
+import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
 import downloadExcel from '../utils/downloadExcel';
 
 interface Props {
@@ -24,12 +24,8 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
     };
 
     const handleSave = () => {
-        if (solution === "close") {
-            alert("close")
-        } else {
-            setLoading(true)
-            saveFunction(solution)
-        }
+        setLoading(true)
+        saveFunction(solution)
     }
 
     return (
@@ -43,7 +39,7 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
                     Resolver conflictos
                 </Typography>
                 <span className="conflictsText">
-                    Hay turnos pendientes que quedan fuera del nuevo rango de horario, que desea hacer con ellos?
+                    Hay {conflicts.length} turno{conflicts.length > 1 ? "s" : ""} pendiente{conflicts.length > 1 ? "s" : ""} que queda{conflicts.length > 1 ? "n" : ""} fuera del nuevo rango de horario, que desea hacer con {conflicts.length > 1 ? "ellos" : "él"}?
                 </span>
                 <div className="conflictsOptions">
                     <div>
@@ -63,11 +59,11 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
                     <button className="backModal" onClick={() => {
                         downloadExcel(conflicts)
                     }}>
-                        <BackupTableIcon />
+                        <TableChartOutlinedIcon />
                         Descargar excel
                     </button>
                     <button className={`confirmModal ${!solution ? "buttonDisabled" : ""}`} onClick={() => handleSave()}>
-                        {!loading ? "Guardar" : <CircularProgress size={20} sx={{ color: "black" }} />}
+                        {!loading ? "Continuar" : <CircularProgress size={20} sx={{ color: "black" }} />}
                     </button>
                 </div>
             </Box>

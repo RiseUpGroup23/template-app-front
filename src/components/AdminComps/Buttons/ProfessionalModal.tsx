@@ -80,6 +80,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
             image: "",
             inputs: ""
         })
+        setConflicts([])
         setSrc(defaultImg)
         setSelectedImage(null)
         setOpen(false)
@@ -122,6 +123,9 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
         !conflictSolution && setLoading(true)
         let newData: any = { ...prof, image: selectedImage ? await uploadImage(selectedImage).catch(() => prof.image) : (prof.image || src) }
         if (conflictSolution) {
+            if (conflictSolution === "close") {
+                return handleClose()
+            }
             newData = { ...newData, changeAppointment: conflictSolution }
         }
         if (customTrigger) { // Creando nuevo

@@ -7,7 +7,6 @@ import hexToRgb from "../../modules/hexToRgb";
 import { FormData } from "../../typings/FormData";
 import { useConfig } from "../../context/AdminContext";
 import { useAppointment } from "../../context/ApContext";
-import { Availability } from "../../typings/Professional";
 
 import Divider from '@mui/material/Divider';
 import { CircularProgress } from "@mui/material";
@@ -16,6 +15,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 import 'dayjs/locale/es'; // Importar el idioma español para dayjs
+import { TimeAvailability } from "../../typings/Professional";
 
 dayjs.locale('es');
 
@@ -28,32 +28,9 @@ interface Schedules {
     allSchedules: string[];
 }
 
-function generateHoursArray(start: string, end: string, interval: number) {
-    const result = [];
-    let current = new Date(`2000-01-01T${start}`);
-    const endDateTime = new Date(`2000-01-01T${end}`);
-
-    while (current <= endDateTime) {
-        const hourMinute = `${current.getHours().toString().padStart(2, '0')}:${current.getMinutes().toString().padStart(2, '0')}`;
-        result.push(hourMinute);
-        current.setMinutes(current.getMinutes() + interval);
-    }
-
-    return result;
-}
-
-function concatenateHours(schedule: Availability, interval: number) {
-    const { initialHour, finalHour, secondInitialHour, secondFinalHour } = schedule;
-
-    const firstRange = generateHoursArray(initialHour, finalHour, interval);
-    const secondRange = generateHoursArray(secondInitialHour, secondFinalHour, interval);
-
-    return [...firstRange, ...secondRange];
-}
-
 const Step3 = ({ setNextButtonEnabled }: Props) => {
     const { date, setDate, setForm } = useAppointment()
-    const { config } = useConfig()
+    const { config, professionals } = useConfig()
     const [schedules, setSchedules] = useState<Schedules | null>()
     const [clockLeft, setClockLeft] = useState<string[]>([])
     const [clockRight, setClockRight] = useState<string[]>([])
@@ -79,7 +56,9 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
             setSchedules({ allSchedules: formattedAva, unavailableSchedules: res.data.unavailableSchedules });
             const isMorning = (hour: string) => {
                 const hours = Number(hour.split(":")[0]);
-                return hours < 12;
+                const day: keyof TimeAvailability = newValue.locale('en').format('dddd').toLowerCase()
+                const clockDivider = professionals?.find(e => e._id === form.professional)?.timeAvailabilities[day].finalHour.split(":")[0];
+                return hours <= (Number(clockDivider) ?? 12)
             };
             const clockL = formattedAva?.filter((sch: string) => isMorning(sch));
             const clockR = formattedAva?.filter((sch: string) => !isMorning(sch));
