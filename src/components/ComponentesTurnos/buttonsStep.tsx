@@ -9,6 +9,7 @@ import PaymentStep from './PaymentStep';
 import { CircularProgress } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useParams } from 'react-router-dom';
 
 interface StepButtonsProps {
     prevButtonText: string;
@@ -21,13 +22,14 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
     const { dbUrl, config } = useConfig()
     const { form } = useAppointment()
     const [paymentReady, setPaymentReady] = useState(false)
+    const { reproId } = useParams()
 
     const GoToHome = () => {
         window.location.href = "/";
     };
 
     const createAppointment = async () => {
-        if (config?.appointment.mercadoPago) {
+        if (config?.appointment.mercadoPago && !reproId) {
             const mpButton = document.querySelector("#wallet_container button") as HTMLDivElement
             if (mpButton) {
                 mpButton.click()
@@ -36,8 +38,7 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
             let dateInUTCMinus3 = new Date(form.date.getTime() - (3 * 60 * 60 * 1000));
             let jsonDateInUTCMinus3 = dateInUTCMinus3.toJSON();
             localStorage.setItem("tryToReserve", jsonDateInUTCMinus3)
-
-            await axios.post(`${dbUrl}/appointments`, {
+            const newData = {
                 ...form,
                 date: jsonDateInUTCMinus3,
                 customer: {
@@ -45,9 +46,17 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
                     name: form.customer.name.split(" ")[0],
                     lastname: form.customer.name.split(" ")[1] ?? ""
                 }
-            }).then(() => {
-                nextStep()
-            })
+            }
+
+            if (reproId) {
+                await axios.put(`${dbUrl}/appointments/${reproId}`, newData).then(() => {
+                    nextStep()
+                })
+            } else {
+                await axios.post(`${dbUrl}/appointments`, newData).then(() => {
+                    nextStep()
+                })
+            }
         }
     }
 
@@ -65,7 +74,7 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
                 <ArrowBackIosNewIcon />
                 {prevButtonText}
             </button>}
-            {currentStep > 0 && currentStep < 5 && <button className='prev' onClick={() => prevStep()}>
+            {currentStep > 0 && currentStep < 5 && <button style={{ visibility: `${currentStep === 3 && reproId ? "hidden" : "visible"}` }} className='prev' onClick={() => prevStep()}>
                 <ArrowBackIosNewIcon />
                 {prevButtonText}
             </button>}

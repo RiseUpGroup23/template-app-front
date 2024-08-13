@@ -16,6 +16,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 
 import 'dayjs/locale/es'; // Importar el idioma español para dayjs
 import { TimeAvailability } from "../../typings/Professional";
+import { useParams } from "react-router-dom";
 
 dayjs.locale('es');
 
@@ -43,6 +44,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
     const { dbUrl } = useConfig()
     const { form } = useAppointment()
     const dbNextMonths = config?.appointment?.nextMonths ?? 2
+    const { reproId } = useParams()
 
     const handleDate = async (newValue: any, firstCharge?: boolean) => {
         setNextButtonEnabled(false)
@@ -184,7 +186,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         <div className="pickersBox">
             {style()}
             <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>
-                Seleccione la <span>fecha</span> y la <span>hora</span>
+                {!reproId ? "Seleccione" : "Editar"} la <span>fecha</span> y la <span>hora</span>
             </div>
             <div className="pickersContainer" style={{ color: 'white' }}>
                 <div className="calendarContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}` }}>

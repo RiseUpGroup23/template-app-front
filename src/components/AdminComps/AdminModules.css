@@ -219,8 +219,8 @@
     background-color: #232323;
     border-radius: 100%;
     padding: 1rem;
-    width: 4rem;
-    height: 4rem;
+    width: 3rem;
+    height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -509,9 +509,9 @@
     color: white;
 }
 
-.tableEdit .rowButtonAction svg {
-    height: 2rem;
-    aspect-ratio: 1;
+.tableEdit .rowButtonAction .MuiSvgIcon-root {
+    height: 2rem !important;
+    aspect-ratio: 1 !important;
 }
 
 .rowCanceled {
@@ -638,9 +638,9 @@
         max-width: 100px;
     }
 
-    .rowButtonAction svg {
-        width: 1.75rem;
-        height: 1.75rem;
+    .rowButtonAction .MuiSvgIcon-root {
+        width: 1.75rem !important;
+        height: 1.75rem !important;
     }
 
     .apoCardEdit svg {

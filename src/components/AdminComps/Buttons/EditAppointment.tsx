@@ -1,4 +1,5 @@
 import EditIcon from '@mui/icons-material/Edit';
+import { Link } from 'react-router-dom';
 
 interface Props {
     id: string;
@@ -7,11 +8,11 @@ interface Props {
 
 const EditAppointment = ({ id, customTrigger }: Props) => {
     return (
-        <div className="rowButtonAction" onClick={() => { console.log(id) }}>
+        <Link to={`/editar-turno/${id}`} className="rowButtonAction">
             {customTrigger ??
                 <EditIcon style={{ width: "37", height: "37" }} />
             }
-        </div>
+        </Link>
     )
 }
 

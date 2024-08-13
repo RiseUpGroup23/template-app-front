@@ -15,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path='/reservar' element={<Turnos />} />
+        <Route path='/editar-turno/:reproId' element={<Turnos />} />
         <Route path='/reprogramar/' element={<Reprogramar />} />
         <Route path='/reprogramar/:id' element={<ReproDet />} />
         <Route path='/admin/*' element={<Admin />} />

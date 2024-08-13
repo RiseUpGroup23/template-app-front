@@ -55,7 +55,7 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
                         <label htmlFor={`close`}>No guardar ningún cambio</label>
                     </div>
                 </div>
-                <div className="modalButtons">
+                <div className="modalButtons conflictsButtons">
                     <button className="backModal" onClick={() => {
                         downloadExcel(conflicts)
                     }}>

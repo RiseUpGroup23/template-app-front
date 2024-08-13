@@ -18,9 +18,9 @@ const MenuTurnos = () => {
 
     const handleClick = () => {
         setOpen((prev) => !prev)
-        // setTimeout(() => {
-        //     setOpen(false)
-        // }, 5000)
+        setTimeout(() => {
+            setOpen(false)
+        }, 5000)
     };
 
     return (
