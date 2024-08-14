@@ -62,9 +62,9 @@ const CreandoTurnos = () => {
     return (
         <div>
             <div className="containerStep">
-                {currentStep === 0 && <Step0 />}
-                {currentStep === 1 && <Step1 />}
-                {currentStep === 2 && <Step2 setIsFormComplete={setNextButtonEnabled} />}
+                {currentStep === 0 && !reproId && <Step0 />}
+                {currentStep === 1 && !reproId && <Step1 />}
+                {currentStep === 2 && !reproId && <Step2 setIsFormComplete={setNextButtonEnabled} />}
                 {currentStep === 3 && (
                     <Step3 setNextButtonEnabled={setNextButtonEnabled} />
                 )}

@@ -1,5 +1,6 @@
 .containerStep {
     margin: 3rem 7.5rem;
+    min-height: 40vh;
 }
 
 .cardsLoading {
