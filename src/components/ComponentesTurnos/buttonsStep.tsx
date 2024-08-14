@@ -10,6 +10,7 @@ import { CircularProgress } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useParams } from 'react-router-dom';
+import AddIcon from '@mui/icons-material/Add';
 
 interface StepButtonsProps {
     prevButtonText: string;
@@ -88,13 +89,16 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
                     {currentStep === 4 && isAuthenticated && !reproId && config?.appointment.mercadoPago &&
                         <button className='next' onClick={() => {
                             setCreateAdminLoading(true);
-                            //createAppointment(true)
+                            createAppointment(true)
                         }}>
                             {!createAdminLoading ?
-                                <>Crear como admin.</>
+                                <>
+                                    Crear turno
+                                    <AddIcon />
+                                </>
                                 :
                                 <div style={{ width: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <CircularProgress size={20} sx={{ color: `${config.customization.primary.text}` }} />
+                                    <CircularProgress size={20} />
                                 </div>
                             }
                         </button>
