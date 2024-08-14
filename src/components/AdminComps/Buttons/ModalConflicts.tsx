@@ -39,7 +39,9 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
                     Resolver conflictos
                 </Typography>
                 <span className="conflictsText">
-                    Hay {conflicts.length} turno{conflicts.length > 1 ? "s" : ""} pendiente{conflicts.length > 1 ? "s" : ""} que queda{conflicts.length > 1 ? "n" : ""} fuera del nuevo rango de horario, que desea hacer con {conflicts.length > 1 ? "ellos" : "él"}?
+                    Hay {conflicts.length} turno{conflicts.length > 1 ? "s" : ""} pendiente{conflicts.length > 1 ? "s" : ""} que queda{conflicts.length > 1 ? "n" : ""} fuera del nuevo rango de horario, 
+                    <br></br>
+                    que desea hacer con {conflicts.length > 1 ? "ellos" : "él"}?
                 </span>
                 <div className="conflictsOptions">
                     <div>
@@ -60,7 +62,7 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
                         downloadExcel(conflicts)
                     }}>
                         <TableChartOutlinedIcon />
-                        Descargar excel
+                        Descargar Excel
                     </button>
                     <button className={`confirmModal ${!solution ? "buttonDisabled" : ""}`} onClick={() => handleSave()}>
                         {!loading ? "Continuar" : <CircularProgress size={20} sx={{ color: "black" }} />}

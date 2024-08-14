@@ -19,17 +19,18 @@ interface StepButtonsProps {
 
 const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonText, isNextButtonEnabled }) => {
     const { currentStep, nextStep, prevStep } = useStepContext();
-    const { dbUrl, config } = useConfig()
+    const { dbUrl, config, isAuthenticated } = useConfig()
     const { form } = useAppointment()
     const [paymentReady, setPaymentReady] = useState(false)
+    const [createAdminLoading, setCreateAdminLoading] = useState(false)
     const { reproId } = useParams()
 
     const GoToHome = () => {
         window.location.href = "/";
     };
 
-    const createAppointment = async () => {
-        if (config?.appointment.mercadoPago && !reproId) {
+    const createAppointment = async (isAdmin = false) => {
+        if (config?.appointment.mercadoPago && !reproId && !isAdmin) {
             const mpButton = document.querySelector("#wallet_container button") as HTMLDivElement
             if (mpButton) {
                 mpButton.click()
@@ -82,18 +83,35 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
                 <ArrowBackIosNewIcon />
                 {prevButtonText}
             </button>}
-            {currentStep < 5 && nextButtonText && <button className={`next ${!isNextButtonEnabled ? 'disabled' : ''}`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }} onClick={handleNext} disabled={!isNextButtonEnabled}>
-                {currentStep !== 4 || paymentReady ?
-                    <>
-                        {nextButtonText}
-                        <ArrowForwardIosIcon />
-                    </>
-                    :
-                    <div style={{ width: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <CircularProgress size={20} sx={{ color: `${config.customization.primary.text}` }} />
-                    </div>
-                }
-            </button>}
+            {currentStep < 5 && nextButtonText &&
+                <div className="buttonsForCreate">
+                    {currentStep === 4 && isAuthenticated && !reproId && config?.appointment.mercadoPago &&
+                        <button className='next' onClick={() => {
+                            setCreateAdminLoading(true);
+                            //createAppointment(true)
+                        }}>
+                            {!createAdminLoading ?
+                                <>Crear como admin.</>
+                                :
+                                <div style={{ width: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                    <CircularProgress size={20} sx={{ color: `${config.customization.primary.text}` }} />
+                                </div>
+                            }
+                        </button>
+                    }
+                    <button className={`next ${!isNextButtonEnabled ? 'disabled' : ''}`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }} onClick={handleNext} disabled={!isNextButtonEnabled}>
+                        {currentStep !== 4 || paymentReady ?
+                            <>
+                                {nextButtonText}
+                                <ArrowForwardIosIcon />
+                            </>
+                            :
+                            <div style={{ width: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <CircularProgress size={20} sx={{ color: `${config.customization.primary.text}` }} />
+                            </div>
+                        }
+                    </button>
+                </div>}
             {currentStep === 5 && nextButtonText !== "" && <button className='next' style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }} onClick={GoToHome}>
                 {nextButtonText}
                 <ArrowForwardIosIcon />

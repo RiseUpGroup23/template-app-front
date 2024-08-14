@@ -5,6 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteModal from "../Buttons/DeleteModal";
 import axios from "axios";
 import EditAppointment from "../Buttons/EditAppointment";
+import { Link } from "react-router-dom";
 
 const meses = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -140,9 +141,11 @@ const Appointments = () => {
                     </div>
                     <div className="AdminCalendarContainer">
                         {renderizarCalendario(actualMonth + 1, selected, setSelected, setDate)}
-                        <button className="newProfButton">
-                            <AddIcon />
-                        </button>
+                        <Link to={"/reservar"} >
+                            <button className="newProfButton">
+                                <AddIcon />
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
