@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import AddIcon from '@mui/icons-material/Add';
 import { RenderServiceRow } from "../Rows/rows"
-import ServiceModal from "../Buttons/ServiceModal";
+import ServiceModal from "../Modals/ServiceModal";
 import { TypeOfService } from "../../../typings/TypeOfServices";
 import { CircularProgress } from "@mui/material";
 

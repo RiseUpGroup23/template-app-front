@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { RenderProfessionalRow } from "../Rows/rows"
 import AddIcon from '@mui/icons-material/Add';
-import ProfessionalModal from "../Buttons/ProfessionalModal";
+import ProfessionalModal from "../Modals/ProfessionalModal";
 import { Professional } from "../../../typings/Professional";
 import { CircularProgress } from "@mui/material";
 

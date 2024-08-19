@@ -7,8 +7,8 @@ import axios from "axios"
 import { useNavigate, useParams } from "react-router-dom"
 import CloseIcon from '@mui/icons-material/Close';
 import CachedIcon from '@mui/icons-material/Cached';
-import DeleteModal from "../../components/AdminComps/Buttons/DeleteModal"
-import EditAppointment from "../../components/AdminComps/Buttons/EditAppointment"
+import DeleteModal from "../../components/AdminComps/Modals/DeleteModal"
+import EditAppointment from "../../components/AdminComps/Modals/EditAppointment"
 import Overlay from "./Overlay"
 
 const ReproDet = () => {

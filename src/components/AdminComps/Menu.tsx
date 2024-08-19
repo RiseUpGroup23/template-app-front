@@ -11,7 +11,7 @@ import ChecklistRtlOutlinedIcon from '@mui/icons-material/ChecklistRtlOutlined';
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 import LocalPoliceOutlinedIcon from '@mui/icons-material/LocalPoliceOutlined';
 import "./AdminModules.css";
-import DeleteModal from "./Buttons/DeleteModal";
+import DeleteModal from "./Modals/DeleteModal";
 import { useConfig } from "../../context/AdminContext";
 
 const items = [

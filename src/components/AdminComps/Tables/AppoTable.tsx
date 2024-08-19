@@ -11,13 +11,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useConfig } from '../../../context/AdminContext';
 import { CircularProgress, FormControl, IconButton, InputBase, TablePagination, useMediaQuery } from '@mui/material';
-import DeleteModal from '../Buttons/DeleteModal';
-import EditAppointment from '../Buttons/EditAppointment';
+import DeleteModal from '../Modals/DeleteModal';
+import EditAppointment from '../Modals/EditAppointment';
 import SearchIcon from '@mui/icons-material/Search';
 import { TypeOfService } from '../../../typings/TypeOfServices';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { Professional } from '../../../typings/Professional';
 import FilterButton from './Filters';
+import DetailsModal from '../Modals/DetailsModal';
 
 function createData(apo: FormData) {
     return {
@@ -174,33 +175,43 @@ export default function BasicTable() {
                                                 sx={{ minWidth: "150px" }}
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                {row.name}
+                                                <DetailsModal appointment={row._id}>
+                                                    {row.name}
+                                                </DetailsModal>
                                             </TableCell>
                                             <TableCell
                                                 align='center'
                                                 sx={{ minWidth: "150px" }}
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                {row.service}
+                                                <DetailsModal appointment={row._id}>
+                                                    {row.service}
+                                                </DetailsModal>
                                             </TableCell>
                                             <TableCell
                                                 align='center'
                                                 sx={{ minWidth: "150px" }}
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                {row.prof}
+                                                <DetailsModal appointment={row._id}>
+                                                    {row.prof}
+                                                </DetailsModal>
                                             </TableCell>
                                             <TableCell
                                                 align='center'
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                {row.date}
+                                                <DetailsModal appointment={row._id}>
+                                                    {row.date}
+                                                </DetailsModal>
                                             </TableCell>
                                             <TableCell
                                                 align='center'
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                {row.hour}
+                                                <DetailsModal appointment={row._id}>
+                                                    {row.hour}
+                                                </DetailsModal>
                                             </TableCell>
                                             <TableCell
                                                 align='center'
@@ -266,17 +277,19 @@ export default function BasicTable() {
                                 rows.length ?
                                     rows.map((row) => (
                                         <div className={`apoCard ${row.disabled ? "apoCardCanceled" : ""}`}>
-                                            <div className="apoCardInfo">
-                                                <span className="apoCardName">
-                                                    {row.name} -
-                                                </span>
-                                                <span className="apoCardName">
-                                                    {row.date} -
-                                                </span>
-                                                <span className="apoCardName">
-                                                    {row.hour}
-                                                </span>
-                                            </div>
+                                            <DetailsModal appointment={row._id}>
+                                                <div className="apoCardInfo">
+                                                    <span className="apoCardName">
+                                                        {row.name} -
+                                                    </span>
+                                                    <span className="apoCardName">
+                                                        {row.date} -
+                                                    </span>
+                                                    <span className="apoCardName">
+                                                        {row.hour}
+                                                    </span>
+                                                </div>
+                                            </DetailsModal>
                                             <div className="apoCardEdit">
                                                 {!row.disabled ?
                                                     <>

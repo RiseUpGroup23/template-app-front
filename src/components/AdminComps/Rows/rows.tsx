@@ -1,15 +1,15 @@
 import React from "react";
-import EditTextModal from "../Buttons/EditTextModal";
-import ImageEditModal from "../Buttons/ImageEditModal";
-import ServiceModal from "../Buttons/ServiceModal";
+import EditTextModal from "../Modals/EditTextModal";
+import ImageEditModal from "../Modals/ImageEditModal";
+import ServiceModal from "../Modals/ServiceModal";
 import { TypeOfService } from "../../../typings/TypeOfServices";
-import ProfessionalModal from "../Buttons/ProfessionalModal";
+import ProfessionalModal from "../Modals/ProfessionalModal";
 import { Professional } from "../../../typings/Professional";
-import DeleteModal from "../Buttons/DeleteModal";
+import DeleteModal from "../Modals/DeleteModal";
 import { useConfig } from "../../../context/AdminContext";
 import axios from "axios";
 import { BannedDay } from "../../../typings/ConfigFile";
-import BansModal from "../Buttons/BansModal";
+import BansModal from "../Modals/BansModal";
 import ReactMarkdown from "react-markdown";
 
 export function RenderTextRow(label: string, valor: string, prop: string, noMD?: boolean, limit?: number): JSX.Element {

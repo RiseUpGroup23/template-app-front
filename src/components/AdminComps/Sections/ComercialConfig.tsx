@@ -3,7 +3,7 @@ import { useConfig } from "../../../context/AdminContext"
 import { RenderBanRow } from "../Rows/rows";
 import { arrowIco } from "./MainEditor";
 import AddIcon from '@mui/icons-material/Add';
-import BansModal from "../Buttons/BansModal";
+import BansModal from "../Modals/BansModal";
 import { BannedDay } from "../../../typings/ConfigFile";
 import { MenuItem, Select, Stack, Switch } from "@mui/material";
 

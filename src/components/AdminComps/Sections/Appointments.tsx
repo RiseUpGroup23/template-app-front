@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { Chip, CircularProgress, useMediaQuery } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import DeleteModal from "../Buttons/DeleteModal";
+import DeleteModal from "../Modals/DeleteModal";
 import axios from "axios";
-import EditAppointment from "../Buttons/EditAppointment";
+import EditAppointment from "../Modals/EditAppointment";
 import { Link } from "react-router-dom";
+import DetailsModal from "../Modals/DetailsModal";
 
 const meses = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
@@ -161,15 +162,17 @@ const Appointments = () => {
                             {dayAppos.map((apo) => (
                                 <div className="apoCard">
                                     <div className="apoCardInfo">
-                                        <span className="apoCardName">
-                                            {apo.customer.name + " " + (apo?.customer?.lastname ?? "")} -
-                                        </span>
+                                        <DetailsModal appointment={apo._id}>
+                                            <span className="apoCardName">
+                                                {apo.customer.name + " " + (apo?.customer?.lastname ?? "")}
+                                            </span>
+                                        </DetailsModal>
                                         <span className="apoCardName">
                                             {(() => {
                                                 const date = new Date(apo.date);
                                                 const hours = date.getUTCHours().toString().padStart(2, '0');
                                                 const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-                                                return `${hours}:${minutes}`;
+                                                return ` - ${hours}:${minutes}`;
                                             })()}
                                         </span>
                                     </div>

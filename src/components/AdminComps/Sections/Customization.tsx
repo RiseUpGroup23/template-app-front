@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { RenderImageRow, RenderTextRow } from "../Rows/rows"
-import EditColorModal from "../Buttons/ColorModal"
-import ImageEditModal from "../Buttons/ImageEditModal"
+import EditColorModal from "../Modals/ColorModal"
+import ImageEditModal from "../Modals/ImageEditModal"
 import Switch from '@mui/material/Switch';
 import { Stack } from "@mui/material"
 
