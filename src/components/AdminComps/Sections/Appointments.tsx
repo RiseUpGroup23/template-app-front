@@ -45,12 +45,17 @@ const Appointments = () => {
         })
     }, [actualMonth, dbUrl])
 
-    useEffect(() => {
+    const fetchDate = () => {
         setLoading(true)
         axios(`${dbUrl}/appointments/day/${date}`).then(res => {
             setDayAppos(res.data)
             setLoading(false)
         })
+    }
+
+    useEffect(() => {
+        fetchDate()
+        // eslint-disable-next-line
     }, [date, dbUrl])
 
     function renderizarCalendario(mes: number, diaSeleccionado: number | null, onDiaClick: (dia: number) => void, setDate: (date: Date) => void): JSX.Element[] {
@@ -179,7 +184,9 @@ const Appointments = () => {
                                     <div className="apoCardEdit">
                                         {!apo.disabled ?
                                             <>
-                                                <DeleteModal message="¿Desea cancelar este turno?" action={() => cancelAppointment(apo._id)} />
+                                                <DeleteModal message="¿Desea cancelar este turno?" action={() => {
+                                                    cancelAppointment(apo._id).then(() => fetchDate())
+                                                }} />
                                                 <EditAppointment id={apo._id} />
                                             </>
                                             :
