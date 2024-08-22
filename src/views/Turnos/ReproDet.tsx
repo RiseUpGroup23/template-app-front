@@ -15,13 +15,35 @@ const ReproDet = () => {
     const { config, dbUrl, cancelAppointment } = useConfig()
     const { id } = useParams()
     const [apo, setApo] = useState<any>()
+    const [isOutOfCancellationWindow, setIsOutOfCancellationWindow] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
         axios(`${dbUrl}/appointments/${id}`).then((res) => {
             setApo(res.data)
         })
+        // eslint-disable-next-line
     }, [dbUrl, id])
+
+    useEffect(() => {
+        if (!apo || !config) return
+        const date = new Date(apo.date)
+        const cancellationWindow = config.appointment.cancellationWindow
+        if (cancellationWindow) {
+            if (cancellationWindow === "Libre") {
+                return setIsOutOfCancellationWindow(false)
+            }
+            if (cancellationWindow === "No cancelar") {
+                return setIsOutOfCancellationWindow(true)
+            }
+            if (typeof cancellationWindow === "number") {
+                const now = new Date();
+                const diff = date.getTime() - now.getTime();
+                const cancellationWindowInMilliseconds = cancellationWindow * 60 * 60 * 1000;
+                setIsOutOfCancellationWindow(diff < cancellationWindowInMilliseconds);
+            }
+        }
+    }, [apo, config])
 
     if (!config || !apo) return (<></>)
     return (
@@ -55,9 +77,6 @@ const ReproDet = () => {
                 </div>
                 <div className={"appointBoxButtons" + (!apo.disabled ? " toDisable" : "")}>
                     <button className='prev' onClick={() => {
-                        if (apo.disabled) {
-                            return navigate("/")
-                        }
                         localStorage.setItem("searchedPhoneNumber", apo.customer.phoneNumber)
                         navigate("/reprogramar")
                     }}>
@@ -66,7 +85,7 @@ const ReproDet = () => {
                         </svg>
                         Volver
                     </button>
-                    {!apo.disabled && <div className="reproButtons">
+                    {!apo.disabled && !isOutOfCancellationWindow && <div className="reproButtons">
                         <EditAppointment id={apo._id} customTrigger={
                             <div className={`next`} style={{ backgroundColor: `${hexToRgb(config.customization.primary.color)}`, color: `${config.customization.primary.text}` }}>
                                 Cambiar turno

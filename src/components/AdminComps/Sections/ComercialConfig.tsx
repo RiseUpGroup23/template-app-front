@@ -120,6 +120,24 @@ const ComercialConfig = () => {
                         )}
                     </Select>
                 </div>
+
+                <div className="nextMonthsCont">
+                    <span>Selecciona cuánto tiempo antes pueden cancelar o reprogramar la reserva los usuarios</span>
+                    <Select
+                        labelId="disabled-option"
+                        id="disabled-select"
+                        value={newConfig?.appointment?.cancellationWindow ?? 24}
+                        onChange={(e) => {
+                            e.preventDefault()
+                            editProp("appointment.cancellationWindow", e.target.value)
+                        }}
+                        variant='outlined'
+                    >
+                        {[2, 4, 6, 12, 24, 48, 72, "No cancelar", "Libre"].map((timeOption: string | number) =>
+                            <MenuItem key={timeOption} value={timeOption}>{timeOption} {typeof timeOption === "number" ? "horas" : ""}</MenuItem>
+                        )}
+                    </Select>
+                </div>
             </div>
         </div>
     )

@@ -51,7 +51,7 @@ const MenuTurnos = () => {
                     </Link>
                     <Link to={"/reprogramar"}>
                         <button className="botonHeader" style={{ color: `${config.customization.primary.text}` }}>
-                            Cambiar turno
+                            Mis turnos
                         </button>
                     </Link>
                 </div>

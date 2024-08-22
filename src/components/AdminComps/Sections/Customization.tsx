@@ -3,8 +3,7 @@ import { useConfig } from "../../../context/AdminContext"
 import { RenderImageRow, RenderTextRow } from "../Rows/rows"
 import EditColorModal from "../Modals/ColorModal"
 import ImageEditModal from "../Modals/ImageEditModal"
-import Switch from '@mui/material/Switch';
-import { Stack } from "@mui/material"
+import { MenuItem, Select, Stack, Switch } from "@mui/material";
 
 const Customization = () => {
     const { newConfig, editProp } = useConfig()
@@ -12,8 +11,31 @@ const Customization = () => {
 
     if (!newConfig) return (<></>)
 
+    const style = () => {
+        return (
+            <style>
+                {`
+                        .nextMonthsCont .MuiSelect-select{
+                            color:white;
+                        }
+                        .nextMonthsCont fieldset,
+                        .nextMonthsCont .MuiInputBase-root:hover fieldset {
+                            border-color:white !important;
+                        }
+                        .nextMonthsCont .MuiInputBase-root {
+                            height:2rem !important;
+                        }
+                        .nextMonthsCont .MuiSvgIcon-root{
+                            fill:white;
+                        }
+                    `}
+            </style>
+        )
+    }
+
     return (
         <div className="mainContainer">
+            {style()}
             <span className="initialTitle">¡Hola, <strong>{newConfig.customization.shopName}!</strong></span>
             <span className="proxApo">
                 Personalizar textos
@@ -62,6 +84,28 @@ const Customization = () => {
                 {RenderTextRow("Facebook", newConfig.contact.facebook, "contact.facebook", true)}
                 {RenderTextRow("Instagram", newConfig.contact.instagram, "contact.instagram", true)}
 
+            </div>
+            <span className="proxApo">
+                Extras
+            </span>
+            <div className="blackLayout">
+                <div className="nextMonthsCont">
+                    <span>Seleccione los botones flotantes que desea ver en su página</span>
+                    <Select
+                        labelId="disabled-option"
+                        id="disabled-select"
+                        value={newConfig?.customization?.floatButtons ?? "Ninguno"}
+                        onChange={(e) => {
+                            e.preventDefault()
+                            editProp("customization.floatButtons", e.target.value)
+                        }}
+                        variant='outlined'
+                    >
+                        {["Ninguno", "Todos", "Solo Whatsapp", "Solo turnos"].map((fButtOption: string) =>
+                            <MenuItem key={fButtOption} value={fButtOption}>{fButtOption}</MenuItem>
+                        )}
+                    </Select>
+                </div>
             </div>
             <span className="proxApo">
                 <div className="switchColorMode">

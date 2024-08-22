@@ -8,6 +8,7 @@ import { useConfig } from "../../context/AdminContext";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
+import FloatButtons from "./FloatButtons";
 
 const Header = () => {
     const { config, invertColors } = useConfig()
@@ -18,6 +19,7 @@ const Header = () => {
 
     return (
         <div className="headerContainer" style={{ backgroundColor: `${hexToRgb(config.customization.primary.color, .75)}` }}>
+            <FloatButtons />
             <Link to={"/"}>
                 <div className="logoHeader">
                     <img src={config.customization.logo.primary} alt="logoImage" />

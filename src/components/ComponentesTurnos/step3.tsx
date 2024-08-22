@@ -126,6 +126,14 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         setNextButtonEnabled(true)
     };
 
+    const isTodayAndPastTime = (hour: string) => {
+        const today = dayjs();
+        const selected = dayjs(date);
+        const hourParts = hour.split(":");
+        const selectedHour = dayjs(date).set('hour', Number(hourParts[0])).set('minute', Number(hourParts[1]));
+        return today.isSame(selected, 'day') && today.isAfter(selectedHour);
+    }
+
     if (!config) return <></>
 
     const style = () => {
@@ -136,7 +144,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                 .pickersContainer .MuiTypography-root,
                 .pickersContainer .MuiPickersDay-root,
                 .pickersContainer .MuiPickersCalendarHeader-label,
-                .clockHour:not(.clockDisabled):not(.clockHourSelected)
+                .clockHour:not(.clockDisabled):not(.clockHourSelected):not(.clockPast)
                     {
                         color: ${config.customization.primary.text} !important; 
                     }
@@ -229,7 +237,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                             {clockLeft?.length ? (
                                 <div className="clockLeft" style={{ gridTemplateRows: `repeat(${gridDimension},1fr)` }}>
                                     {clockLeft?.map((elem, index) => (
-                                        <div key={`ch-l-${index}`} className={"clockHour" + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
+                                        <div key={`ch-l-${index}`} className={`clockHour ${isTodayAndPastTime(elem) ? "clockPast" : ""}` + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
                                             {elem}
                                         </div>
                                     ))}
@@ -241,7 +249,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                             {clockRight?.length ? (
                                 <div className="clockRight" style={{ gridTemplateRows: `repeat(${gridDimension},1fr)` }}>
                                     {clockRight?.map((elem, index) => (
-                                        <div key={`ch-r-${index}`} className={"clockHour" + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
+                                        <div key={`ch-r-${index}`} className={`clockHour ${isTodayAndPastTime(elem) ? "clockPast" : ""}` + (schedules?.unavailableSchedules?.some((un) => un === elem) ? " clockDisabled" : "")} onClick={(e) => selectHour(e)}>
                                             {elem}
                                         </div>
                                     ))}

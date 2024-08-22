@@ -57,7 +57,7 @@ export default function MenuDrawer() {
                     <Link to={"/reprogramar"}>
                         <ListItem key="novedades" disablePadding className={`${window.location.pathname === "/reprogramar" ? "drawerSelected" : ""}`}>
                             <ListItemButton>
-                                <ListItemText primary="Cambiar turno" />
+                                <ListItemText primary="Mis turnos" />
                             </ListItemButton>
                         </ListItem>
                     </Link>

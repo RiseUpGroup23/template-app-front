@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useStepContext } from '../../context/StepContext';
 import './styleTurnos.css';
 import { useConfig } from '../../context/AdminContext';
@@ -29,6 +29,12 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
     const GoToHome = () => {
         window.location.href = "/";
     };
+
+    useEffect(() => {
+        if (!config?.appointment.mercadoPago) {
+            setPaymentReady(true)
+        }
+    }, [config])
 
     const createAppointment = async (isAdmin = false) => {
         if (config?.appointment.mercadoPago && !reproId && !isAdmin) {
@@ -120,7 +126,7 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
                 {nextButtonText}
                 <ArrowForwardIosIcon />
             </button>}
-            {currentStep === 4 && <div className='mpContainer'>
+            {currentStep === 4 && config?.appointment.mercadoPago && <div className='mpContainer'>
                 <PaymentStep setPaymentReady={setPaymentReady} />
             </div>}
         </div>

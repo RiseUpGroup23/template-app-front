@@ -124,7 +124,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
         let newData: any = { ...prof, image: selectedImage ? await uploadImage(selectedImage).catch(() => prof.image) : (prof.image || src) }
         if (conflictSolution) {
             if (conflictSolution === "close") {
-                return handleClose()
+                return setConflicts([])
             }
             newData = { ...newData, changeAppointment: conflictSolution }
         }
@@ -226,14 +226,13 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
 
     const handleBlurInput = (event: React.FocusEvent<HTMLInputElement>) => {
         const day = event.target.name
-        if (event.target.value.length < 5) {
+        if (event.target.value.length < 5 || !/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/.test(event.target.value)) {
             setError((prev: any) => ({
                 ...prev,
                 [day]: true
             }))
             setErrorMessage((prev: any) => ({ ...prev, availability: `El día ${diasSemana[mock.indexOf(day)]} tiene errores, revisar que los horarios sean válidos (Formato HH:MM)` }))
         }
-
     }
 
     return (

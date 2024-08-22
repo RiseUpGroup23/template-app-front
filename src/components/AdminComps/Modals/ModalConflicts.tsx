@@ -18,6 +18,11 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
     const [loading, setLoading] = useState(false)
     const [solution, setSolution] = useState("")
 
+    React.useEffect(() => {
+        setSolution("")
+        setLoading(false)
+    }, [conflicts])
+
     const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { id } = event.target;
         setSolution(id);
@@ -39,7 +44,7 @@ const ModalConflicts = ({ conflicts, saveFunction }: Props) => {
                     Resolver conflictos
                 </Typography>
                 <span className="conflictsText">
-                    Hay {conflicts.length} turno{conflicts.length > 1 ? "s" : ""} pendiente{conflicts.length > 1 ? "s" : ""} que queda{conflicts.length > 1 ? "n" : ""} fuera del nuevo rango de horario, 
+                    Hay {conflicts.length} turno{conflicts.length > 1 ? "s" : ""} pendiente{conflicts.length > 1 ? "s" : ""} que queda{conflicts.length > 1 ? "n" : ""} fuera del nuevo rango de horario,
                     <br></br>
                     que desea hacer con {conflicts.length > 1 ? "ellos" : "él"}?
                 </span>

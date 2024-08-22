@@ -131,7 +131,7 @@ export default function BasicTable() {
                             value={searchValue}
                             onChange={(e) => setSearchValue(e.target.value)}
                         />
-                        <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
                             <SearchIcon />
                         </IconButton>
                     </div>

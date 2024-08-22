@@ -51,7 +51,7 @@
     white-space: nowrap;
 }
 
-.buttonsForCreate{
+.buttonsForCreate {
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -192,6 +192,12 @@
     justify-content: center;
     cursor: pointer;
     padding: 0.5rem;
+}
+
+.clockPast {
+    color: rgba(0, 0, 0, 0.40);
+    cursor: default;
+    pointer-events: none;
 }
 
 .clockHourSelected {

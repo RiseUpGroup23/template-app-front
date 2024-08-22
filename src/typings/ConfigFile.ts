@@ -26,6 +26,7 @@ export interface ConfigFile {
         bannedDays: BannedDay[]
         mercadoPago: boolean;
         nextMonths: number;
+        cancellationWindow: number | string;
     }
     banners: {
         imageAppointment: string;
@@ -59,5 +60,6 @@ export interface ConfigFile {
         }
         shopName: string;
         twoColors: boolean;
+        floatButtons: string;
     }
 }
