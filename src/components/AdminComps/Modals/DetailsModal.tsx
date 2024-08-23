@@ -65,7 +65,11 @@ const DetailsModal = ({ children, appointment }: Props) => {
                                 <strong>{appointmentData.customer.name} {appointmentData.customer.lastname ?? ""}</strong>
                             </div>
                             <div className="detailsText">
-                                <span>Nombre: </span>
+                                <span>Teléfono: </span>
+                                <strong>{appointmentData.customer.phoneNumber}</strong>
+                            </div>
+                            <div className="detailsText">
+                                <span>Fecha: </span>
                                 <strong>{new Date(appointmentData.date).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })}</strong>
                             </div>
                             <div className="detailsText">

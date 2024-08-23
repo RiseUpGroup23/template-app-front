@@ -15,6 +15,7 @@
     justify-content: space-between;
     margin: 0 1rem 1rem 1rem;
     align-items: flex-end;
+    margin-top: 4rem;
 }
 
 .Text {
@@ -103,7 +104,7 @@
     align-items: center;
     border-radius: 2rem;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    padding: 0rem 2rem;
+    padding: 1rem 2rem;
     color: #000;
     font-family: "Barlow Condensed";
     font-size: 1.8rem;
@@ -312,10 +313,6 @@
     margin-top: 1rem;
 }
 
-.hora {
-    margin-top: 15%;
-}
-
 .mpContainer {
     display: none;
 }
@@ -346,6 +343,7 @@
         text-align: center;
         margin: 2rem auto;
         min-height: 5rem;
+        max-width: 90vw;
     }
 
     .pickersContainer,
@@ -369,7 +367,7 @@
 
     .resumeInfo {
         width: 90%;
-        padding: 2.5rem;
+        padding: 2rem;
     }
 
     .resumeContainer {
@@ -409,8 +407,14 @@
         gap: 2rem;
     }
 
-    .botonConfirmado {
-        margin-right: 1.5rem;
-        margin-top: 1rem;
+    .containerRepro .resumeContainer {
+        margin-top: 0;
+        top: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .containerStep {
+        margin: 0 .5rem;
     }
 }

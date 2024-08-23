@@ -33,7 +33,7 @@ const TurnoConfirmado = () => {
                                 </span>
                             </div>
 
-                            <div style={{ color: `${config.customization.primary.text}` }} className='hora'>
+                            <div style={{ color: `${config.customization.primary.text}` }} >
                                 Hora: <span style={{ fontWeight: "bold" }}>{dateString.split("T")[1].slice(0, 5)}</span>
                             </div>
                         </div>
@@ -41,7 +41,7 @@ const TurnoConfirmado = () => {
                             Recordá llegar 10 minutos antes del horario reservado para evitar inconvenientes.
                         </div>
                     </div>
-                    <div style={{ display: "flex", justifyContent: "flex-end" }} className="botonConfirmado">
+                    <div className="appointBoxButtons">
                         <button style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, 1)}` }} className="next" onClick={GoToHome}>
                             Ir a Inicio <HomeIcon />
                         </button>

@@ -22,8 +22,12 @@ const Reprogramar = () => {
     const searchAppo = (forcedPhone?: string) => {
         setLoading(true)
         axios(`${dbUrl}/appointments/phoneNumber/${forcedPhone ?? phoneNumber}`).then((res) => {
-            setFound(res.data);
-            setLoading(false)            
+            setFound(res.data
+                .filter((apo: any) => {
+                    return new Date(apo.date).getTime() >= new Date().setHours(0, 0, 0, 0)
+                })
+                .sort((a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime()));
+            setLoading(false)
             if (!res.data.length) {
                 setAlert({ type: "error", msg: "No se encontraron turnos para este número" })
             }

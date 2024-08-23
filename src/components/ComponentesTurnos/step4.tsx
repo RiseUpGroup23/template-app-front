@@ -12,7 +12,7 @@ const Step4 = () => {
 
     return (
         <div >
-            <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}>Resumen de la <span>Reserva</span></div>
+            <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>Resumen de la <span>Reserva</span></div>
             <div className="resumeContainer">
                 <div className="title">
                     <div style={{ color: `${config.customization.primary.text}` }}>

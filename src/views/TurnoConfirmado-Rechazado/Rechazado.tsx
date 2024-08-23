@@ -31,15 +31,15 @@ const TurnoRechazado = () => {
                             </span>
                         </div>
 
-                        <div style={{ color: `${config.customization.primary.text}` }} className='hora'>
+                        <div style={{ color: `${config.customization.primary.text}` }}>
                             Hora: <span style={{ fontWeight: "bold" }}>{dateString.split("T")[1].slice(0, 5)}</span>
                         </div>
                     </div>
-                    <div className="canceledImage" style={{ marginTop: "-120px", justifyContent: "flex-end", marginRight: "100px" }}>
+                    <div className="canceledImage">
                         <img src="/canceled.png" alt="cancelado" />
                     </div>
                 </div>
-                <div style={{ display: "flex", justifyContent: "flex-end", marginRight: "100px" }} className="botonConfirmado">
+                <div className="appointBoxButtons">
                     <button style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, 1)}` }} className="next" onClick={GoToHome}>
                         Ir a Inicio <HomeIcon />
                     </button>

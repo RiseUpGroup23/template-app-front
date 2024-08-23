@@ -61,14 +61,14 @@ const ReproDet = () => {
                             </span>
                         </div>
 
-                        <div style={{ color: `${config.customization.primary.text}`, marginTop: "15%" }}>
+                        <div style={{ color: `${config.customization.primary.text}` }}>
                             Hora: <span style={{ fontWeight: "bold" }}>{apo.date.split("T")[1].slice(0, 5)}</span>
                         </div>
                     </div>
                     {!apo.disabled ?
-                        <div className="resumeInfo" style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, .7)}`, marginBottom: '-120px' }}>
-                            Recordá que solo podés cancelar o cambiar el turno 24 horas antes del mismo.
-                        </div>
+                        (typeof config.appointment.cancellationWindow === "number" ? <div className="resumeInfo" style={{ color: `${config.customization.primary.text}`, backgroundColor: `${hexToRgb(config.customization.primary.color, .7)}`, marginBottom: '-120px' }}>
+                            Recordá que solo podés cancelar o cambiar el turno {config.appointment.cancellationWindow} horas antes del mismo.
+                        </div> : <></>)
                         :
                         <div className="canceledImage">
                             <img src="/canceled.png" alt="cancelado" />
