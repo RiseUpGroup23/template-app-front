@@ -40,6 +40,9 @@ code {
 .appContainer {
   overflow: hidden;
   background-attachment: fixed !important;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .overlay {
@@ -49,6 +52,18 @@ code {
 .content {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+.content> :nth-child(2):not(.headerContainer):not(.footer) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
 }
 
 .MuiBox-root:focus-visible {

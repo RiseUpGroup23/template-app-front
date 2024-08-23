@@ -11,7 +11,6 @@ const FloatButtons: React.FC = () => {
     const shouldHideButtons = location.pathname !== "/";
     if (!config || shouldHideButtons) return <></>
     const buttonsConfig = config.customization.floatButtons;
-    console.log(buttonsConfig);
     
     if (buttonsConfig === "Ninguno") return <></>
     return (

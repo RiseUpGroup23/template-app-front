@@ -35,7 +35,6 @@ const DetailsModal = ({ children, appointment }: Props) => {
         if (open) {
             axios(`${dbUrl}/appointments/${appointment}`).then((response) => {
                 setAppointmentData(response.data);
-                console.log(response.data);
             }).catch((error) => {
                 console.error(error);
             });

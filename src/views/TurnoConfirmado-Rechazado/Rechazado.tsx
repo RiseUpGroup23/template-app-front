@@ -20,7 +20,7 @@ const TurnoRechazado = () => {
         <Overlay image={`${config.customization.background.backgroundTurno}`}>
             <Header />
             <div className="containerRepro">
-                <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}>No se puedo <span>reservar </span>tu <span>turno</span></div>
+                <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>No se puedo <span>reservar </span>tu <span>turno</span></div>
                 <div className="resumeContainer">
                     <div className="title" style={{ visibility: appoData ? "visible" : "hidden" }}>
                         <div style={{ color: `${config.customization.primary.text}` }}>

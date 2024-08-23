@@ -50,7 +50,7 @@ const ReproDet = () => {
         <Overlay image={`${config.customization.background.backgroundTurno}`}>
             <Header />
             <div className="containerRepro">
-                <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}><span>{apo.disabled ? "Se canceló el turno" : "Datos del turno"}</span></div>
+                <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}><span>{apo.disabled ? "Se canceló el turno" : "Datos del turno"}</span></div>
                 <div className="resumeContainer">
                     <div className="title">
                         <div style={{ color: `${config.customization.primary.text}` }}>

@@ -22,7 +22,7 @@ const TurnoConfirmado = () => {
             <Header />
             <div className="containerStep">
                 <div>
-                    <div className="appointTitle" style={{ color: `${config.customization.primary.text}`, marginLeft: '0px' }}>Turno <span>Confirmado</span></div>
+                    <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>Turno <span>Confirmado</span></div>
                     <div className="resumeContainer">
                         <div className="title" style={{ visibility: appoData ? "visible" : "hidden" }}>
                             <div style={{ color: `${config.customization.primary.text}` }}>

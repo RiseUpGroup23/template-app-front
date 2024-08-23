@@ -88,7 +88,7 @@
     .containerRepro .prev {
         padding: 1rem;
         gap: .25rem;
-        min-width: 40%;
+        min-width: 20%;
         margin-top: 1rem;
         white-space: nowrap;
         height: auto;
@@ -107,5 +107,13 @@
 
     .canceledImage img {
         width: 100%;
+    }
+}
+
+@media (max-width:768px) {
+
+    .containerRepro .next,
+    .containerRepro .prev {
+        min-width: 40%;
     }
 }

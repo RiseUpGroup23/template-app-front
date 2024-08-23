@@ -23,7 +23,7 @@ const Reprogramar = () => {
         setLoading(true)
         axios(`${dbUrl}/appointments/phoneNumber/${forcedPhone ?? phoneNumber}`).then((res) => {
             setFound(res.data);
-            setLoading(false)
+            setLoading(false)            
             if (!res.data.length) {
                 setAlert({ type: "error", msg: "No se encontraron turnos para este número" })
             }
@@ -47,7 +47,7 @@ const Reprogramar = () => {
 
     const style = () => {
         return (
-            <style>
+            <style style={{ display: "none" }}>
                 {`
                     .inputRepro{
                         width:100%;
@@ -64,8 +64,8 @@ const Reprogramar = () => {
     return (
         <Overlay image={`${config.customization.background.backgroundTurno}`}>
             <Header />
-            {style()}
             <div className="containerRepro">
+                {style()}
                 <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>
                     {!found.length ?
                         <>Ingresa tu <span>número de teléfono</span></>

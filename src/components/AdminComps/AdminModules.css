@@ -19,6 +19,7 @@
     position: fixed;
     bottom: 1rem;
     left: 1rem;
+    z-index: 3;
 }
 
 .floatLogo {
@@ -604,7 +605,8 @@
         margin-left: 1vw !important;
     }
 
-    .logoutButton, .goHomeButton {
+    .logoutButton,
+    .goHomeButton {
         font-size: 1.5rem;
         left: 1rem;
         align-items: flex-end;
@@ -661,6 +663,7 @@
 
     .calendarDay {
         aspect-ratio: 1;
+        max-width: 75px;
     }
 
     .monthsSelector {
@@ -704,7 +707,7 @@
     .AdminCalendarContainer .newProfButton {
         right: -2rem;
         bottom: -3rem;
-        transform: scale(.5);
+        transform: scale(.75);
     }
 
     .noData {
@@ -763,5 +766,9 @@
         position: absolute;
         left: 0;
         transform: scale(.9);
+    }
+
+    .AdminCalendarContainer .newProfButton {
+        transform: scale(.5);
     }
 }
