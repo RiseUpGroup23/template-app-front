@@ -20,7 +20,7 @@ const TurnoConfirmado = () => {
     return (
         <Overlay image={`${config.customization.background.backgroundTurno}`}>
             <Header />
-            <div className="containerStep">
+            <div className="containerRepro">
                 <div>
                     <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>Turno <span>Confirmado</span></div>
                     <div className="resumeContainer">
