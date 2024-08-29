@@ -27,7 +27,10 @@ const ReproDet = () => {
 
     useEffect(() => {
         if (!apo || !config) return
-        const date = new Date(apo.date)
+        const date = new Date(apo.date);
+        date.setHours(date.getHours() + 3);
+        console.log(date);
+        
         const cancellationWindow = config.appointment.cancellationWindow
         if (cancellationWindow) {
             if (cancellationWindow === "Libre") {

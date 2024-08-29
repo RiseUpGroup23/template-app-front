@@ -5,4 +5,5 @@ export interface TypeOfService {
     image: string;
     price: number;
     professional: string; // Este campo es opcional dependiendo de tus necesidades
+    disabled: boolean;
 }

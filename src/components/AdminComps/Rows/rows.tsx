@@ -11,6 +11,7 @@ import axios from "axios";
 import { BannedDay } from "../../../typings/ConfigFile";
 import BansModal from "../Modals/BansModal";
 import ReactMarkdown from "react-markdown";
+import ModalConflicts from "../Modals/ModalConflicts";
 
 export function RenderTextRow(label: string, valor: string, prop: string, noMD?: boolean, limit?: number): JSX.Element {
     return (
@@ -48,8 +49,37 @@ export function RenderImageRow(label: string, valor: string, prop: string): JSX.
     );
 }
 
-export function RenderServiceRow(service: TypeOfService): JSX.Element {
+export function RenderServiceRow(service: TypeOfService, conflicts: any, setConflicts: React.Dispatch<React.SetStateAction<any[]>>): JSX.Element {
     const { fetchServices, setAlert, dbUrl } = useConfig()
+
+    const handleSave = async (conflictSolution?: string) => {
+        if (conflictSolution === "close") {
+            return setConflicts((prev) => ({
+                ...prev,
+                [service._id]: []
+            }))
+        }
+        await axios.delete(`${dbUrl}/typesOfServices/${service._id}${conflictSolution ? `?action=${conflictSolution}` : ""}`).then(() => {
+            fetchServices()
+            setAlert({
+                type: "success",
+                msg: "Se eliminó el servicio con éxito"
+            })
+        }).catch((err) => {
+            if (err?.response?.data?.conflicts?.length) {
+                setConflicts((prev) => ({
+                    ...prev,
+                    [service._id]: (err.response.data.conflicts)
+                }))
+            } else {
+                setAlert({
+                    type: "error",
+                    msg: "Hubo un error al eliminar el servicio"
+                })
+            }
+        })
+    }
+
     return (
         <div className="rowContainer">
             <div className="rowItem" style={{ width: '35%' }}>
@@ -60,29 +90,46 @@ export function RenderServiceRow(service: TypeOfService): JSX.Element {
             </div>
             <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
-                    <DeleteModal message="¿Desea eliminar este servicio?" action={async () => {
-                        await axios.delete(`${dbUrl}/typesOfServices/${service._id}`).then(() => {
-                            fetchServices()
-                            setAlert({
-                                type: "success",
-                                msg: "Se eliminó el servicio con éxito"
-                            })
-                        }).catch(() => {
-                            setAlert({
-                                type: "error",
-                                msg: "Hubo un error al eliminar el servicio"
-                            })
-                        })
-                    }} />
+                    <DeleteModal message="¿Desea eliminar este servicio?" action={handleSave} />
                     <ServiceModal service={service} />
+                    <ModalConflicts variant="service" conflicts={conflicts[service._id] ?? []} saveFunction={handleSave} />
                 </div>
             </div>
         </div>
     );
 }
 
-export function RenderProfessionalRow(professional: Professional): JSX.Element {
+export function RenderProfessionalRow(professional: Professional, conflicts: any, setConflicts: React.Dispatch<React.SetStateAction<any[]>>): JSX.Element {
     const { fetchProfessionals, setAlert, dbUrl } = useConfig()
+
+    const handleSave = async (conflictSolution?: string) => {
+        if (conflictSolution === "close") {
+            return setConflicts((prev) => ({
+                ...prev,
+                [professional._id]: []
+            }))
+        }
+        await axios.delete(`${dbUrl}/professionals/${professional._id}${conflictSolution ? `?action=${conflictSolution}` : ""}`).then(() => {
+            fetchProfessionals()
+            setAlert({
+                type: "success",
+                msg: "Se eliminó el profesional con éxito"
+            })
+        }).catch((err) => {
+            if (err?.response?.data?.conflicts?.length) {
+                setConflicts((prev) => ({
+                    ...prev,
+                    [professional._id]: (err.response.data.conflicts)
+                }))
+            } else {
+                setAlert({
+                    type: "error",
+                    msg: "Hubo un error al eliminar el profesional"
+                })
+            }
+        })
+    }
+
     return (
         <div className="rowContainer" key={professional._id}>
             <div className="rowItem" style={{ width: '35%' }}>
@@ -93,21 +140,9 @@ export function RenderProfessionalRow(professional: Professional): JSX.Element {
             </div>
             <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
-                    <DeleteModal message="¿Desea eliminar este profesional?" action={async () => {
-                        await axios.delete(`${dbUrl}/professionals/${professional._id}`).then(() => {
-                            fetchProfessionals()
-                            setAlert({
-                                type: "success",
-                                msg: "Se eliminó el profesional con éxito"
-                            })
-                        }).catch(() => {
-                            setAlert({
-                                type: "error",
-                                msg: "Hubo un error al eliminar el profesional"
-                            })
-                        })
-                    }} />
+                    <DeleteModal message="¿Desea eliminar este profesional?" action={handleSave} />
                     <ProfessionalModal professional={professional} />
+                    <ModalConflicts variant="professional" conflicts={conflicts[professional._id] ?? []} saveFunction={handleSave} />
                 </div>
             </div>
         </div>

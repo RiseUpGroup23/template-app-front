@@ -11,7 +11,7 @@ const Step1 = () => {
     const { nextStep, previous, prevStep } = useStepContext()
 
     const visibleCards = useMemo(() => {
-        return professionals?.filter((e) => e.typesOfServices.some(ser => ser._id === form.typeOfService)) ?? []
+        return professionals?.filter((e) => !e.disabled && e.typesOfServices.some(ser => ser._id === form.typeOfService)) ?? []
         //eslint-disable-next-line
     }, [professionals])
 

@@ -7,12 +7,12 @@ const Step0 = () => {
     const { config, services, fetchServices, professionals, fetchProfessionals } = useConfig()
 
     const visibleCards = useMemo(() => {
-        return services?.filter((service) => professionals?.some((prof) => prof.typesOfServices.some((e) => e._id === service._id))) ?? []
+        return services?.filter((service) => !service.disabled && professionals?.some((prof) => !prof.disabled && prof.typesOfServices.some((e) => e._id === service._id))) ?? []
     }, [services, professionals])
 
     useEffect(() => {
-        !services?.length && fetchServices()
         !professionals?.length && fetchProfessionals()
+        !services?.length && fetchServices()
         //eslint-disable-next-line
     }, [])
 

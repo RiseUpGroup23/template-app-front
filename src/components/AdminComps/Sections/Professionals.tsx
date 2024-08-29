@@ -9,6 +9,7 @@ import { CircularProgress } from "@mui/material";
 const Professionals = () => {
     const { newConfig, professionals, fetchProfessionals, fetchServices } = useConfig()
     const [loading, setLoading] = useState(true)
+    const [conflicts, setConflicts] = useState<any>({})
 
     useEffect(() => {
         fetchProfessionals().then(() => {
@@ -34,8 +35,8 @@ const Professionals = () => {
                             <div className="rowItem" style={{ width: "40%" }}><span>Vista Previa</span></div>
                             <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
                         </div>
-                        {professionals?.length ?
-                            professionals?.map((prof) => RenderProfessionalRow(prof))
+                        {professionals?.filter(prof => !prof.disabled)?.length ?
+                            professionals?.filter(prof => !prof.disabled)?.map((prof) => RenderProfessionalRow(prof, conflicts, setConflicts))
                             :
                             <div className="noData">
                                 No hay profesionales configurados

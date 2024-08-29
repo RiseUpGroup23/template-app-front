@@ -9,6 +9,7 @@ import { CircularProgress } from "@mui/material";
 const Services = () => {
     const { fetchServices, services, newConfig } = useConfig()
     const [loading, setLoading] = useState(true)
+    const [conflicts, setConflicts] = useState<any>({})
 
     useEffect(() => {
         fetchServices().then(() => {
@@ -33,8 +34,8 @@ const Services = () => {
                             <div className="rowItem" style={{ width: "40%" }}><span>Vista Previa</span></div>
                             <div className="rowItem" style={{ width: "25%" }}><span>Editar</span></div>
                         </div>
-                        {services?.length ?
-                            services.map((service) => RenderServiceRow(service))
+                        {services?.filter(srvc => !srvc.disabled)?.length ?
+                            services?.filter(srvc => !srvc.disabled)?.map((service) => RenderServiceRow(service, conflicts, setConflicts))
                             :
                             <div className="noData">
                                 No hay servicios configurados

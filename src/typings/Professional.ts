@@ -19,6 +19,7 @@ export interface Professional {
     profession: string;
     timeAvailabilities: TimeAvailability;
     typesOfServices: TypeOfService[];
+    disabled: boolean;
 }
 
 export interface TimeAvailability {

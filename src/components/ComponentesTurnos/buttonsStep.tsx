@@ -37,6 +37,7 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
     }, [config])
 
     const createAppointment = async (isAdmin = false) => {
+        setPaymentReady(false)
         if (config?.appointment.mercadoPago && !reproId && !isAdmin) {
             const mpButton = document.querySelector("#wallet_container button") as HTMLDivElement
             if (mpButton) {

@@ -251,7 +251,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <ModalConflicts conflicts={conflicts} saveFunction={handleSave} />
+                    <ModalConflicts variant='time' conflicts={conflicts} saveFunction={handleSave} />
                     <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar profesional
