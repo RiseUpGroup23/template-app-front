@@ -1,20 +1,14 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import ServiceCard from './Service/ServiceCard';
 import { useConfig } from '../../context/AdminContext';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Step0 = () => {
-    const { config, services, fetchServices, professionals, fetchProfessionals } = useConfig()
+    const { config, services, professionals } = useConfig()
 
     const visibleCards = useMemo(() => {
         return services?.filter((service) => !service.disabled && professionals?.some((prof) => !prof.disabled && prof.typesOfServices.some((e) => e._id === service._id))) ?? []
     }, [services, professionals])
-
-    useEffect(() => {
-        !professionals?.length && fetchProfessionals()
-        !services?.length && fetchServices()
-        //eslint-disable-next-line
-    }, [])
 
     if (!config) return <></>
 

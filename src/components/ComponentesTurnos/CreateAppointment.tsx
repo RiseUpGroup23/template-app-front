@@ -20,7 +20,7 @@ const CreateAppointment = () => {
 const CreandoTurnos = () => {
     const { currentStep, nextStep } = useStepContext();
     const [nextButtonEnabled, setNextButtonEnabled] = useState<boolean>(false);
-    const { config, dbUrl } = useConfig()
+    const { config, dbUrl, professionals, fetchProfessionals, services, fetchServices, fetchConfigFromDB, isAuthenticated } = useConfig()
     const { setForm } = useAppointment()
     const { reproId } = useParams()
 
@@ -50,6 +50,13 @@ const CreandoTurnos = () => {
         //eslint-disable-next-line
     }, [reproId])
 
+    useEffect(() => {
+        (!config || !Object.keys(config).length) && fetchConfigFromDB()
+        !professionals?.length && fetchProfessionals()
+        !services?.length && fetchServices()
+        //eslint-disable-next-line
+    }, [])
+
     const buttonTexts = [
         { prev: 'Inicio' },
         { prev: 'Anterior' },
@@ -62,9 +69,9 @@ const CreandoTurnos = () => {
     return (
         <div>
             <div className="containerStep">
-                {currentStep === 0 && !reproId && <Step0 />}
-                {currentStep === 1 && !reproId && <Step1 />}
-                {currentStep === 2 && !reproId && <Step2 setIsFormComplete={setNextButtonEnabled} />}
+                {currentStep === 0 && (isAuthenticated || !reproId) && <Step0 />}
+                {currentStep === 1 && (isAuthenticated || !reproId) && <Step1 />}
+                {currentStep === 2 && (isAuthenticated || !reproId) && <Step2 setIsFormComplete={setNextButtonEnabled} />}
                 {currentStep === 3 && (
                     <Step3 setNextButtonEnabled={setNextButtonEnabled} />
                 )}

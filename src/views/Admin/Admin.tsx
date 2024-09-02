@@ -28,7 +28,10 @@ const Admin = () => {
                             className="formLoginBox"
                             onSubmit={(e) => {
                                 e.preventDefault()
-                                login(user, pass)
+                                login(user, pass).then(() => {
+                                    setUser("")
+                                    setPass("")
+                                })
                             }}>
                             <div className="textInModal">
                                 <span>Usuario: </span>

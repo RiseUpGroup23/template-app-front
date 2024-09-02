@@ -6,7 +6,7 @@ import ProfessionalCard from './Professional/ProfessionalCard';
 import { useStepContext } from '../../context/StepContext';
 
 const Step1 = () => {
-    const { config, professionals, fetchProfessionals } = useConfig()
+    const { config, professionals } = useConfig()
     const { form, setForm } = useAppointment()
     const { nextStep, previous, prevStep } = useStepContext()
 
@@ -14,11 +14,6 @@ const Step1 = () => {
         return professionals?.filter((e) => !e.disabled && e.typesOfServices.some(ser => ser._id === form.typeOfService)) ?? []
         //eslint-disable-next-line
     }, [professionals])
-
-    useEffect(() => {
-        !professionals?.length && fetchProfessionals()
-        //eslint-disable-next-line
-    }, [])
 
     useEffect(() => {
         if (visibleCards?.length === 1) {

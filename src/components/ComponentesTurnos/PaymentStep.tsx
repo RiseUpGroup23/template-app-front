@@ -3,6 +3,7 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
 import { useConfig } from "../../context/AdminContext";
 import { useAppointment } from "../../context/ApContext";
+import { useParams } from "react-router-dom";
 
 interface Props {
   setPaymentReady: React.Dispatch<SetStateAction<boolean>>;
@@ -11,9 +12,10 @@ interface Props {
 const PaymentStep = ({ setPaymentReady }: Props) => {
   const { config, dbUrl, services } = useConfig();
   const { form } = useAppointment()
+  const { reproId } = useParams()
 
   useEffect(() => {
-    setPaymentReady(false)
+    setPaymentReady(reproId ? true : false)
     handleBuy();
     //eslint-disable-next-line
   }, []);

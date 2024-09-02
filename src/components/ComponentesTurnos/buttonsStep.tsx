@@ -87,7 +87,7 @@ const StepButtons: React.FC<StepButtonsProps> = ({ prevButtonText, nextButtonTex
                 <ArrowBackIosNewIcon />
                 {prevButtonText}
             </button>}
-            {currentStep > 0 && currentStep < 5 && <button style={{ visibility: `${currentStep === 3 && reproId ? "hidden" : "visible"}` }} className='prev' onClick={() => prevStep()}>
+            {currentStep > 0 && currentStep < 5 && <button style={{ visibility: `${currentStep === 3 && !isAuthenticated ? "hidden" : "visible"}` }} className='prev' onClick={() => prevStep()}>
                 <ArrowBackIosNewIcon />
                 {prevButtonText}
             </button>}

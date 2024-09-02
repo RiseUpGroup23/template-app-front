@@ -31,7 +31,7 @@ interface Schedules {
 
 const Step3 = ({ setNextButtonEnabled }: Props) => {
     const { date, setDate, setForm } = useAppointment()
-    const { config, professionals } = useConfig()
+    const { config, professionals, dbUrl } = useConfig()
     const [schedules, setSchedules] = useState<Schedules | null>()
     const [clockLeft, setClockLeft] = useState<string[]>([])
     const [clockRight, setClockRight] = useState<string[]>([])
@@ -41,7 +41,6 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
     })
     const [gridDimension, setGridDimension] = useState(0)
     const [noWorkDays, setNoWorkDays] = useState<any>([])
-    const { dbUrl } = useConfig()
     const { form } = useAppointment()
     const dbNextMonths = config?.appointment?.nextMonths ?? 2
     const { reproId } = useParams()
@@ -60,7 +59,7 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
                 const hours = Number(hour.split(":")[0]);
                 const day: keyof TimeAvailability = newValue.locale('en').format('dddd').toLowerCase()
                 const clockDivider = professionals?.find(e => e._id === form.professional)?.timeAvailabilities[day].finalHour.split(":")[0];
-                return hours <= (Number(clockDivider) ?? 12)
+                return hours <= ((!isNaN(Number(clockDivider)) && Number(clockDivider)) || 12)
             };
             const clockL = formattedAva?.filter((sch: string) => isMorning(sch));
             const clockR = formattedAva?.filter((sch: string) => !isMorning(sch));
