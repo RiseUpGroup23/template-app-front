@@ -558,6 +558,36 @@
     gap: 1rem;
 }
 
+.dataFrameCont {
+    display: flex;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+}
+
+.dataFrame {
+    min-width: 32%;
+}
+
+.dataText {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 3rem 1rem;
+    gap: .5rem;
+}
+
+.dataNumber {
+    font-size: 3rem;
+}
+
+.dataLabel {
+    font-size: .875rem;
+}
+
 @media (max-width:1300px) {
     .calendarDay .info {
         display: none;
@@ -754,6 +784,18 @@
 
     .nextMonthsCont {
         font-size: .875rem;
+    }
+
+    .dataFrameCont {
+        flex-direction: column;
+    }
+
+    .dataNumber {
+        font-size: 2rem;
+    }
+
+    .dataText{
+        margin: 1rem 0;
     }
 }
 
