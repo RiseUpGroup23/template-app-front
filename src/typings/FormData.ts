@@ -12,4 +12,5 @@ export interface FormData {
     phoneNumber: string;
   };
   disabled?: boolean
+  note?: string
 }

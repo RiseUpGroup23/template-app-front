@@ -703,6 +703,57 @@
     text-decoration: underline;
 }
 
+.contrastAlert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2rem;
+    padding: 1rem;
+    font-size: .875rem;
+    gap: 1rem;
+    width: auto;
+    max-width: 400px;
+    margin: 2rem auto 0;
+}
+
+.contrastAlert.good {
+    background-color: #C2E36D;
+    color: #000;
+}
+
+.contrastAlert.medium {
+    background-color: #3d84a5;
+    color: white;
+}
+
+.contrastAlert.bad {
+    background-color: #de5858;
+    color: white;
+}
+
+.detailsNote {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.detailsNote input {
+    width: 75%;
+    height: 2rem;
+    border-radius: 0;
+    background-color: #555;
+    color: white;
+    box-shadow: none;
+    font-family: "Inter";
+    padding-left: .5rem;
+    border-color: transparent;
+    font-weight: bold;
+}
+
+.detailsNote strong {
+    max-width: 68%;
+}
+
 @media (max-width:1300px) {
     .calendarDay .info {
         display: none;

@@ -6,6 +6,7 @@ import DeleteModal from "../Modals/DeleteModal";
 import axios from "axios";
 import EditAppointment from "../Modals/EditAppointment";
 import { Link } from "react-router-dom";
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import DetailsModal from "../Modals/DetailsModal";
 
 const meses = [
@@ -171,7 +172,7 @@ const Appointments = () => {
                             {dayAppos.map((apo) => (
                                 <div className="apoCard">
                                     <div className="apoCardInfo">
-                                        <DetailsModal appointment={apo._id}>
+                                        <DetailsModal appointment={apo._id} refetch={fetchDate}>
                                             <span className="apoCardName">
                                                 {apo.customer.name + " " + (apo?.customer?.lastname ?? "")}
                                             </span>
@@ -184,6 +185,7 @@ const Appointments = () => {
                                                 return ` - ${hours}:${minutes}`;
                                             })()}
                                         </span>
+                                        {apo.note && <StickyNote2Icon sx={{ color: "white", width: 10 }} />}
                                     </div>
                                     <div className="apoCardEdit">
                                         {!apo.disabled ?

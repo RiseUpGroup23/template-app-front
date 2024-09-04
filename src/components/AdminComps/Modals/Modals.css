@@ -275,6 +275,13 @@ input[type=file]::file-selector-button:hover {
     height: 1rem;
 }
 
+.detailsModalTrigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+}
+
 .detailsModalTrigger:hover {
     text-decoration: underline;
     cursor: pointer;
@@ -286,6 +293,7 @@ input[type=file]::file-selector-button:hover {
     font-size: 2rem;
     width: 100%;
     white-space: nowrap;
+    align-items: center;
 }
 
 .detailsText strong {

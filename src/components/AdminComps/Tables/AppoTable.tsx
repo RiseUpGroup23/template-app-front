@@ -20,6 +20,7 @@ import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { Professional } from '../../../typings/Professional';
 import FilterButton from './Filters';
 import DetailsModal from '../Modals/DetailsModal';
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 
 function createData(apo: FormData) {
     return {
@@ -33,7 +34,8 @@ function createData(apo: FormData) {
         hour: `${new Date(apo.date).getUTCHours().toString().padStart(2, "0")}:${new Date(apo.date).getUTCMinutes().toString().padStart(2, "0")}`,
         disabled: apo.disabled,
         service: (apo?.typeOfService as TypeOfService)?.name ?? "-",
-        prof: (apo.professional as Professional)?.name + " " + (apo.professional as Professional)?.lastname
+        prof: (apo.professional as Professional)?.name + " " + (apo.professional as Professional)?.lastname,
+        note: apo.note ? true : false
     }
 }
 
@@ -187,8 +189,11 @@ export default function BasicTable() {
                                                 sx={{ minWidth: "150px" }}
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                <DetailsModal appointment={row._id}>
-                                                    {row.name}
+                                                <DetailsModal refetch={searchAppos} appointment={row._id}>
+                                                    {row.name}{
+                                                        row.note &&
+                                                        <StickyNote2Icon sx={{ color: "white", width: 10 }} />
+                                                    }
                                                 </DetailsModal>
                                             </TableCell>
                                             <TableCell
@@ -196,7 +201,7 @@ export default function BasicTable() {
                                                 sx={{ minWidth: "150px" }}
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                <DetailsModal appointment={row._id}>
+                                                <DetailsModal refetch={searchAppos} appointment={row._id}>
                                                     {row.service}
                                                 </DetailsModal>
                                             </TableCell>
@@ -205,7 +210,7 @@ export default function BasicTable() {
                                                 sx={{ minWidth: "150px" }}
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                <DetailsModal appointment={row._id}>
+                                                <DetailsModal refetch={searchAppos} appointment={row._id}>
                                                     {row.prof}
                                                 </DetailsModal>
                                             </TableCell>
@@ -213,7 +218,7 @@ export default function BasicTable() {
                                                 align='center'
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                <DetailsModal appointment={row._id}>
+                                                <DetailsModal refetch={searchAppos} appointment={row._id}>
                                                     {row.date}
                                                 </DetailsModal>
                                             </TableCell>
@@ -221,7 +226,7 @@ export default function BasicTable() {
                                                 align='center'
                                                 className={`${row.disabled ? "rowCanceled" : ""}`}
                                             >
-                                                <DetailsModal appointment={row._id}>
+                                                <DetailsModal refetch={searchAppos} appointment={row._id}>
                                                     {row.hour}
                                                 </DetailsModal>
                                             </TableCell>
@@ -289,7 +294,7 @@ export default function BasicTable() {
                                 rows.length ?
                                     rows.map((row) => (
                                         <div className={`apoCard ${row.disabled ? "apoCardCanceled" : ""}`}>
-                                            <DetailsModal appointment={row._id}>
+                                            <DetailsModal refetch={searchAppos} appointment={row._id}>
                                                 <div className="apoCardInfo">
                                                     <span className="apoCardName">
                                                         {row.name} -
@@ -300,6 +305,8 @@ export default function BasicTable() {
                                                     <span className="apoCardName">
                                                         {row.hour}
                                                     </span>
+                                                    {row.note &&
+                                                        <StickyNote2Icon sx={{ color: "white", width: 15 }} />}
                                                 </div>
                                             </DetailsModal>
                                             <div className="apoCardEdit">

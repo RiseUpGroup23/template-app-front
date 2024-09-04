@@ -4,6 +4,80 @@ import { RenderImageRow, RenderTextRow } from "../Rows/rows"
 import EditColorModal from "../Modals/ColorModal"
 import ImageEditModal from "../Modals/ImageEditModal"
 import { MenuItem, Select, Stack, Switch } from "@mui/material";
+import InfoIcon from '@mui/icons-material/Info';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import ReportIcon from '@mui/icons-material/Report';
+import Color from 'color';
+
+const checkColorContrast = (color1: string, color2: string): string => {
+    const colorA = Color(color1);
+    const colorB = Color(color2);
+    const contrastRatio = colorA.contrast(colorB);
+
+    const normalTextRatio = 4.5;
+    const largeTextRatio = 3.0;
+
+    if (contrastRatio >= normalTextRatio) {
+        return `good`;
+    } else if (contrastRatio >= largeTextRatio) {
+        return `medium`;
+    } else {
+        return `bad`;
+    }
+};
+
+const contrastInfo = (p1result: string, p2result: string, oneColorMode: boolean) => {
+    if (oneColorMode) {
+        switch (p1result) {
+            case "good":
+                return <div className="contrastAlert good">
+                    <TaskAltIcon />
+                    <span>La paleta principal contrasta excelente</span>
+                </div>
+            case "medium":
+                return <div className="contrastAlert medium">
+                    <InfoIcon />
+                    <span>La paleta principal contrasta bien</span>
+                </div>
+            case "bad":
+                return <div className="contrastAlert bad">
+                    <ReportIcon />
+                    <span>La paleta principal contrasta mal</span>
+                </div>
+        }
+    } else {
+        if (p1result === "bad" && p2result === "bad") {
+            return <div className="contrastAlert bad">
+                <ReportIcon />
+                <span>Ambas paletas de colores contrastan mal</span>
+            </div>
+        } else if (p1result === "bad") {
+            return <div className="contrastAlert bad">
+                <ReportIcon />
+                <span>La paleta principal no contrasta bien</span>
+            </div>
+        } else if (p2result === "bad") {
+            return <div className="contrastAlert bad">
+                <ReportIcon />
+                <span>La paleta secundaria no contrasta bien</span>
+            </div>
+        }
+
+        if (p1result === "medium" || p2result === "medium") {
+            return <div className="contrastAlert medium">
+                <InfoIcon />
+                <span>Ambas paletas de colores contrastan bien</span>
+            </div>
+        }
+
+        if (p1result === "good" && p2result === "good") {
+            return <div className="contrastAlert good">
+                <TaskAltIcon />
+                <span>Ambas paletas de colores contrastan excelente</span>
+            </div>
+        }
+    }
+}
 
 const Customization = () => {
     const { newConfig, editProp } = useConfig()
@@ -137,6 +211,7 @@ const Customization = () => {
                         <ImageEditModal initialImg={newConfig.customization.logo.secondary} prop="customization.logo.secondary" customTrigger={<img src={newConfig.customization.logo.secondary} className="colorDemo" alt="logoSecondary" />} />
                     </div>}
                 </div>
+                {contrastInfo(checkColorContrast(newConfig.customization.primary.color, newConfig.customization.primary.text), checkColorContrast(newConfig.customization.secondary.color, newConfig.customization.secondary.text), oneColorMode)}
             </span>
         </div>
     )
