@@ -10,6 +10,7 @@ import ModeEditOutlinedIcon from '@mui/icons-material/ModeEditOutlined';
 import ChecklistRtlOutlinedIcon from '@mui/icons-material/ChecklistRtlOutlined';
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined';
 import LocalPoliceOutlinedIcon from '@mui/icons-material/LocalPoliceOutlined';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import "./AdminModules.css";
 import DeleteModal from "./Modals/DeleteModal";
 import { useConfig } from "../../context/AdminContext";
@@ -44,6 +45,11 @@ const items = [
         title: "Políticas",
         url: "/admin/politicas",
         icon: <LocalPoliceOutlinedIcon />
+    },
+    {
+        title: "Estadísticas",
+        url: "/admin/estadisticas",
+        icon: <BarChartIcon />
     }
 ];
 
@@ -73,8 +79,12 @@ const Menu = () => {
                 {items.map((item, index) =>
                     <Link to={item.url} key={index}>
                         <div className={`menuItem ${selected === index ? "itemSelected" : ""}`}>
-                            <span className={`menuItem ${selected === index ? "itemSelected" : ""}`}>{item.icon}</span>
-                            {item.title}
+                            <div className="menuAdminIcon">
+                                {item.icon}
+                            </div>
+                            <span className="menuAdminTitle">
+                                {item.title}
+                            </span>
                         </div>
                     </Link>
                 )}

@@ -39,10 +39,13 @@
 
 .menuContainer {
     height: 100vh;
-    width: 20vw;
+    width: 77px;
+    max-height: 100vh;
     background-color: #232323;
     padding: 4vw 1vw;
     position: fixed;
+    transition: all .5s ease;
+    z-index: 2;
 }
 
 .logoutButton {
@@ -74,6 +77,59 @@
     font-size: min(1.5rem, 2vw);
     padding: 1rem;
     border-radius: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.menuAdminIcon {
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    transition: all .35s ease;
+}
+
+.menuAdminTitle {
+    font-size: clamp(1rem, 1.5vw, 1.5rem);
+}
+
+.menuContainer:hover {
+    width: 20vw;
+    transition: all .5s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.menuContainer:hover .menuAdminIcon {
+    width: 2rem;
+}
+
+.menuContainer .menuItem .menuAdminTitle,
+.menuContainer .goHomeText,
+.menuContainer .logoutText {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.3s ease, opacity 0.5s ease;
+    opacity: 0;
+}
+
+.menuContainer .goHomeText,
+.menuContainer .logoutText {
+    margin-left: 1rem;
+}
+
+.menuContainer:hover .menuItem .menuAdminTitle,
+.menuContainer:hover .goHomeText,
+.menuContainer:hover .logoutText {
+    max-width: 200px;
+    width: 200px;
+    opacity: 1;
+}
+
+.menuContainer:hover .goHomeText,
+.menuContainer:hover .logoutText {
+    width: unset;
 }
 
 .menuItemContent {
@@ -88,20 +144,21 @@
 }
 
 .editorContainer {
-    width: 80vw;
+    width: calc(100% - 77px);
     min-height: 100vh;
-    margin-left: 22vw;
+    margin-left: calc(2vw + 77px);
     background-color: #5F5F5F;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    overflow-y: scroll;
 }
 
 .mainContainer {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 9.25rem);
+    width: calc(75%);
     align-items: center;
     margin: 4rem 0;
 }
@@ -558,6 +615,84 @@
     gap: 1rem;
 }
 
+.dataFrameCont {
+    display: flex;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 100%;
+}
+
+.dataFrame3 {
+    min-width: 32%;
+}
+
+.dataFrame2 {
+    min-width: 49%;
+}
+
+.dataText {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 3rem 1rem;
+    gap: .5rem;
+}
+
+.dataNumber {
+    font-size: 3rem;
+}
+
+.dataLabel {
+    font-size: .875rem;
+}
+
+.rankingContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.rankingItem {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.rankingNumber {
+    color: white;
+    font-size: 1.5rem;
+    width: 3rem;
+    margin-right: 2rem;
+}
+
+.rankingImg {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    border-radius: 100%;
+    margin-right: 1rem;
+}
+
+.rankingData {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.rankingItemTitle {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.rankingItemCount {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
 @media (max-width:1300px) {
     .calendarDay .info {
         display: none;
@@ -566,8 +701,8 @@
 
 @media (max-width:1024px) {
     .editorContainer {
-        width: 100vw;
-        margin: 0;
+        width: 100%;
+        margin-left: 0;
     }
 
     .drawerButton {
@@ -576,13 +711,22 @@
         left: 1rem;
     }
 
+    .drawerButton button {
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        aspect-ratio: 1;
+    }
+
     .drawerButton svg {
         color: #fff;
     }
 
     .mainContainer {
         margin-top: 1rem;
-        width: calc(100% - 2rem);
+        width: calc(90%);
     }
 
     .initialTitle,
@@ -755,6 +899,18 @@
     .nextMonthsCont {
         font-size: .875rem;
     }
+
+    .dataFrameCont {
+        flex-direction: column;
+    }
+
+    .dataNumber {
+        font-size: 2rem;
+    }
+
+    .dataText {
+        margin: 1rem 0;
+    }
 }
 
 @media (max-width:500px) {
@@ -770,5 +926,17 @@
 
     .AdminCalendarContainer .newProfButton {
         transform: scale(.5);
+    }
+
+    .rankingNumber {
+        display: none;
+    }
+
+    .rankingItemTitle {
+        font-size: 1rem;
+    }
+
+    .rankingItemCount {
+        font-size: .875rem;
     }
 }

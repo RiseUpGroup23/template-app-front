@@ -26,6 +26,10 @@ const Appointments = () => {
     const isMobile = useMediaQuery('(max-width:1400px)');
 
     useEffect(() => {
+        document.querySelector(".editorContainer")?.scrollTo(0, 0)
+    }, [])
+
+    useEffect(() => {
         if (actualMonth !== new Date().getMonth()) {
             setSelected(0)
         } else {

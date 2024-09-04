@@ -12,6 +12,7 @@ const Professionals = () => {
     const [conflicts, setConflicts] = useState<any>({})
 
     useEffect(() => {
+        document.querySelector(".editorContainer")?.scrollTo(0, 0)
         fetchProfessionals().then(() => {
             setLoading(false)
         })

@@ -4,6 +4,7 @@ import AppoTable from "../Tables/AppoTable";
 import useMediaQuery from '@mui/material/useMediaQuery';
 import EditIcon from '@mui/icons-material/Edit';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import { useEffect } from "react";
 
 export const arrowIco = (inverted = 0) => {
     return (
@@ -17,6 +18,9 @@ const MainEditor = () => {
     const { config } = useConfig()
     const isMobile = useMediaQuery('(max-width:1024px)');
 
+    useEffect(() => {
+        document.querySelector(".editorContainer")?.scrollTo(0, 0)
+    }, [])
 
     if (!config) return (<></>)
 
@@ -33,7 +37,7 @@ const MainEditor = () => {
                         <div className="buttonCont">
                             <Link to={"/admin/personalizacion"}>
                                 <div className="circularButton">
-                                    <EditIcon style={{color: "white"}}/>
+                                    <EditIcon style={{ color: "white" }} />
                                 </div>
                             </Link>
                             <span className="circButtonTitle">Personalizar</span>
@@ -41,7 +45,7 @@ const MainEditor = () => {
                         <div className="buttonCont">
                             <Link to={"/admin/turnos"}>
                                 <div className="circularButton">
-                                    <CalendarMonthIcon style={{color: "white"}}/>
+                                    <CalendarMonthIcon style={{ color: "white" }} />
                                 </div>
                             </Link>
                             <span className="circButtonTitle">Calendario</span>

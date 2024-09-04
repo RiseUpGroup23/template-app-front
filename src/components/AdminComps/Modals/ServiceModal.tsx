@@ -127,6 +127,7 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
                     <div className="textInModal">
                         <span>Duracion (min): </span>
                         <input type='number' value={srvc.duration === 0 ? "" : srvc.duration}
+                            onDrag={(e) => e.preventDefault()}
                             onChange={(e) => {
                                 if (Number(e.target.value) && (Number(e.target.value) < 5 || Number(e.target.value) > 480)) {
                                     setErrorMessage((prev) => ({ ...prev, duration: "La duración de un servicio solo puede ser un valor entre 5min y 480min" }))
@@ -142,6 +143,7 @@ const ServiceModal = ({ service, customTrigger }: Props) => {
                     <div className="textInModal">
                         <span>Precio: </span>
                         <input type='number' value={srvc.price === 0 ? "" : srvc.price}
+                            onDrag={(e) => e.preventDefault()}
                             onChange={(e) => {
                                 if (!Number(e.target.value)) {
                                     setErrorMessage((prev) => ({ ...prev, price: "El precio debe ser un número válido" }))
