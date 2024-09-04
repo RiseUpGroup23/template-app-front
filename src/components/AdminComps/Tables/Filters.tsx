@@ -1,7 +1,14 @@
 import React, { useState, MouseEvent, useEffect } from 'react';
-import { Button, FormControl, Menu, MenuItem, Select } from '@mui/material';
+import { Button, FormControl, Menu, MenuItem, Select, useMediaQuery, IconButton } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useConfig } from '../../../context/AdminContext';
+import Badge from '@mui/material/Badge';
+
+const defaultFilters = {
+    seeDisabled: "all",
+    typeOfS: "all",
+    profQuery: "all"
+}
 
 interface Props {
     setFilterQuery: React.Dispatch<React.SetStateAction<string>>
@@ -9,9 +16,18 @@ interface Props {
 
 const FilterButton = ({ setFilterQuery }: Props) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [seeDisabled, setSeeDisabled] = useState("all")
-    const [typeOfS, setTypeOfS] = useState("all")
-    const [profQuery, setProfQuery] = useState("all")
+    const [filterState, setFilterState] = useState(defaultFilters);
+    const isMobile = useMediaQuery('(max-width:1024px)');
+
+    const { seeDisabled, typeOfS, profQuery } = filterState;
+
+    const handleFilterChange = (filterName: string, value: string) => {
+        setFilterState(prevState => ({
+            ...prevState,
+            [filterName]: value
+        }));
+    };
+
     const { services, fetchServices, professionals, fetchProfessionals } = useConfig()
 
     useEffect(() => {
@@ -55,16 +71,24 @@ const FilterButton = ({ setFilterQuery }: Props) => {
     return (
         <div>
             {style()}
-            <Button
-                aria-controls="filter-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-                startIcon={<FilterListIcon />}
-                variant="outlined"
-                color="inherit"
-            >
-                Filtros
-            </Button>
+            <Badge badgeContent={Object.values(filterState).filter(e => e !== "all").length} color="primary">
+                {!isMobile ?
+                    <Button
+                        aria-controls="filter-menu"
+                        aria-haspopup="true"
+                        onClick={handleClick}
+                        startIcon={<FilterListIcon />}
+                        variant="outlined"
+                        color="inherit"
+                    >
+                        Filtros
+                    </Button>
+                    :
+                    <IconButton onClick={handleClick} sx={{ p: '10px',border:"1px solid rgba(255, 255, 255, 0.30)" }}>
+                        <FilterListIcon sx={{ color: "white" }} />
+                    </IconButton>
+                }
+            </Badge>
             <Menu
                 id="filter-menu"
                 anchorEl={anchorEl}
@@ -93,7 +117,7 @@ const FilterButton = ({ setFilterQuery }: Props) => {
                                 value={seeDisabled}
                                 onChange={(e) => {
                                     e.preventDefault()
-                                    setSeeDisabled(e.target.value)
+                                    handleFilterChange("seeDisabled", e.target.value)
                                 }}
                                 variant='outlined'
                             >
@@ -114,7 +138,7 @@ const FilterButton = ({ setFilterQuery }: Props) => {
                                 value={typeOfS}
                                 onChange={(e) => {
                                     e.preventDefault()
-                                    setTypeOfS(e.target.value)
+                                    handleFilterChange("typeOfS", e.target.value)
                                 }}
                                 variant='outlined'
                             >
@@ -136,7 +160,7 @@ const FilterButton = ({ setFilterQuery }: Props) => {
                                 value={profQuery}
                                 onChange={(e) => {
                                     e.preventDefault()
-                                    setProfQuery(e.target.value)
+                                    handleFilterChange("profQuery", e.target.value)
                                 }}
                                 variant='outlined'
                             >
@@ -147,6 +171,9 @@ const FilterButton = ({ setFilterQuery }: Props) => {
                             </Select>
                         </div>
                     </MenuItem>
+                    <button className="clearFilters" onClick={() => setFilterState(defaultFilters)}>
+                        Limpiar filtros
+                    </button>
                 </FormControl>
             </Menu>
         </div >

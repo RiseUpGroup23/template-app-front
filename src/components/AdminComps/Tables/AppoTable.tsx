@@ -14,6 +14,7 @@ import { CircularProgress, FormControl, IconButton, InputBase, TablePagination, 
 import DeleteModal from '../Modals/DeleteModal';
 import EditAppointment from '../Modals/EditAppointment';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 import { TypeOfService } from '../../../typings/TypeOfServices';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { Professional } from '../../../typings/Professional';
@@ -47,9 +48,9 @@ export default function BasicTable() {
     const isMobile = useMediaQuery('(max-width:1024px)');
     const { dbUrl, cancelAppointment } = useConfig()
 
-    const searchAppos = () => {
+    const searchAppos = (forcedString?: string) => {
         setLoading(true)
-        axios(`${dbUrl}/appointments/search/?term=${searchValue}&${filterQuery}&page=${page + 1}&rows=${rowsPerPage}`).then((res) => {
+        axios(`${dbUrl}/appointments/search/?term=${forcedString !== undefined ? forcedString : searchValue}&${filterQuery}&page=${page + 1}&rows=${rowsPerPage}`).then((res) => {
             setRows(res.data.appointments.map((e: FormData) => createData(e)))
             setCount(res.data.totalAppointments)
         }).then(() => {
@@ -120,6 +121,8 @@ export default function BasicTable() {
                 className='formSearch'
                 onSubmit={(e) => {
                     e.preventDefault()
+                    if (searchValue === "") return
+                    setPage(0)
                     searchAppos()
                 }}>
                 <FormControl className='formFilters'>
@@ -131,15 +134,24 @@ export default function BasicTable() {
                             value={searchValue}
                             onChange={(e) => setSearchValue(e.target.value)}
                         />
+                        <IconButton
+                            onClick={() => {
+                                setSearchValue("")
+                                searchAppos("")
+                            }}
+                            sx={{ p: '5px', visibility: searchValue !== "" ? "visible" : "hidden" }}
+                            aria-label="clear">
+                            <CloseIcon sx={{ width: 15, height: 15 }} />
+                        </IconButton>
                         <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
                             <SearchIcon />
                         </IconButton>
                     </div>
-                    {!isMobile && <div className="canceledFilter">
+                    <div className="canceledFilter">
                         <FilterButton
                             setFilterQuery={setFilterQuery}
                         />
-                    </div>}
+                    </div>
                 </FormControl>
             </form>
         )
