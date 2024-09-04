@@ -12,6 +12,7 @@ const Services = () => {
     const [conflicts, setConflicts] = useState<any>({})
 
     useEffect(() => {
+        document.querySelector(".editorContainer")?.scrollTo(0, 0)
         fetchServices().then(() => {
             setLoading(false)
         })

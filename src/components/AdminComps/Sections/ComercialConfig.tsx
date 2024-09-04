@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useConfig } from "../../../context/AdminContext"
 import { RenderBanRow } from "../Rows/rows";
 import { arrowIco } from "./MainEditor";
@@ -12,6 +12,10 @@ const ComercialConfig = () => {
     const { config, newConfig, editProp, isMpConfigured } = useConfig()
     const [visibleItems, setVisibleItems] = useState(pageStep);
     const [mpEnabled, setMpEnabled] = useState(config?.appointment.mercadoPago || false)
+
+    useEffect(() => {
+        document.querySelector(".editorContainer")?.scrollTo(0, 0)
+    }, [])
 
     const handleSeeMore = () => {
         setVisibleItems(prevVisibleItems => prevVisibleItems + pageStep);
@@ -93,7 +97,7 @@ const ComercialConfig = () => {
                 </div>
                 <div className="mpInfo">
                     {isMpConfigured ?
-                        "(Si deshabilitas esta opción, los turnos se reservarán sin recibir ninguna seña)"
+                        "(Si deshabilitas esta opción, los turnos se reservarán sin costo)"
                         :
                         "No está asociada su cuenta de MercadoPago, comunicarse con soporte para activarlo"
                     }

@@ -8,13 +8,14 @@ import axios from 'axios';
 const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
 const Stats: React.FC = () => {
-    const { newConfig, dbUrl } = useConfig()
+    const { newConfig, dbUrl, services, fetchServices } = useConfig()
     const [monthAppos, setMonthAppos] = useState<any[]>([])
     const [data, setData] = useState<any[]>([])
-    const [scale, setScale] = useState<number[]>([])
     const isMobile = useMediaQuery('(max-width:1024px)');
 
     useEffect(() => {
+        document.querySelector(".editorContainer")?.scrollTo(0, 0)
+        !services?.length && fetchServices()
         axios(`${dbUrl}/appointments/month/${new Date().getFullYear()}/${(new Date().getUTCMonth() + 1).toString().padStart(2, '0')}`).then(res => {
             setMonthAppos(res.data)
             const today = new Date();
@@ -29,16 +30,20 @@ const Stats: React.FC = () => {
             const result: any[] = []
 
             datesArray.forEach((date) => {
-                const count = res.data.filter((apo: any) => new Date(apo.date).getDate() === date.getDate()).length
+                const dayAppos = res.data.filter((apo: any) => new Date(apo.date).getDate() === date.getDate())
+                const countObj: any = {}
+                dayAppos.forEach((apo: any) => {
+                    if (countObj[apo.typeOfService]) {
+                        countObj[apo.typeOfService]++
+                    } else {
+                        countObj[apo.typeOfService] = 1
+                    }
+                })
                 result.push({
                     day: today.getDay() === date.getDay() ? "Hoy" : days[date.getDay()].slice(0, isMobile ? 3 : 9),
-                    count: count
+                    ...countObj
                 })
             })
-            const maxCount = Math.max(...result.map(item => item.count));
-            const nextMultipleOfTen = Math.ceil(maxCount / 10) * 10;
-            const scaleArray = Array.from({ length: nextMultipleOfTen + 1 }, (_, index) => index);
-            setScale(scaleArray);
             setData(result)
         })
         //eslint-disable-next-line
@@ -60,10 +65,6 @@ const Stats: React.FC = () => {
                     .charts .MuiChartsAxis-line,
                     .charts .MuiChartsAxis-tick{
                         stroke:white !important;
-                    }
-
-                    .charts .MuiBarElement-root{
-                        fill: ${newConfig.customization.primary.color} !important;
                     }
 
                     .MuiDivider-root{
@@ -89,19 +90,20 @@ const Stats: React.FC = () => {
                         { scaleType: 'band', dataKey: 'day', tickPlacement: 'middle', tickLabelPlacement: 'middle' },
                     ]}
                     yAxis={[
-                        { scaleType: 'linear', tickInterval: scale, valueFormatter: (value) => `${value}`, hideTooltip: true }
+                        { scaleType: 'linear', valueFormatter: (value) => `${value}`, hideTooltip: true }
                     ]}
                     height={300}
-                    series={[{ dataKey: 'count', label: 'Turnos' }]}
+                    series={services?.map((srvc) => ({ dataKey: srvc._id, label: srvc.name })) ?? []}
                     borderRadius={10}
                 />
             </div>
+
             <span className="proxApo">
                 Este mes
             </span>
             <div className="blackLayout">
                 <div className="dataFrameCont">
-                    <div className="dataFrame">
+                    <div className="dataFrame3">
                         <span className="dataText">
                             <span className="dataNumber">
                                 {monthAppos.length}
@@ -112,7 +114,7 @@ const Stats: React.FC = () => {
                         </span>
                     </div>
                     <Divider orientation={`${isMobile ? "horizontal" : "vertical"}`} flexItem />
-                    <div className="dataFrame">
+                    <div className="dataFrame3">
                         <span className="dataText">
                             <span className="dataNumber">
                                 {monthAppos.filter(apo => apo.disabled).length}
@@ -123,7 +125,7 @@ const Stats: React.FC = () => {
                         </span>
                     </div>
                     <Divider orientation={`${isMobile ? "horizontal" : "vertical"}`} flexItem />
-                    <div className="dataFrame">
+                    <div className="dataFrame3">
                         <span className="dataText">
                             <span className="dataNumber">
                                 {`${(monthAppos.filter(apo => apo.disabled).length / monthAppos.length * 100).toFixed(2)}%`}
@@ -133,6 +135,38 @@ const Stats: React.FC = () => {
                             </span>
                         </span>
                     </div>
+                </div>
+            </div>
+
+            <span className="proxApo">
+                Servicios más demandados
+            </span>
+            <div className="blackLayout">
+                <div className="rankingContainer">
+                    {services?.sort((a, b) => {
+                        return monthAppos.filter(apo => apo.typeOfService === b._id).length - monthAppos.filter(apo => apo.typeOfService === a._id).length
+                    }).map((srvc, index) => {
+                        const count = monthAppos.filter(apo => apo.typeOfService === srvc._id).length
+                        return (
+                            <>
+                                <div className="rankingItem" key={srvc._id}>
+                                    <span className="rankingNumber">
+                                        #{services?.indexOf(srvc) + 1}
+                                    </span>
+                                    <img className='rankingImg' src={srvc.image} alt={srvc.name} />
+                                    <div className="rankingData">
+                                        <span className="rankingItemTitle">
+                                            {srvc.name}
+                                        </span>
+                                        <span className="rankingItemCount">
+                                            Turnos este mes: {count}
+                                        </span>
+                                    </div>
+                                </div>
+                                {services[index + 1] && <Divider />}
+                            </>
+                        )
+                    })}
                 </div>
             </div>
         </div>

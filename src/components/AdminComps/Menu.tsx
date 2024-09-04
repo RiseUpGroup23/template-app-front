@@ -79,8 +79,12 @@ const Menu = () => {
                 {items.map((item, index) =>
                     <Link to={item.url} key={index}>
                         <div className={`menuItem ${selected === index ? "itemSelected" : ""}`}>
-                            <span className={`menuItem ${selected === index ? "itemSelected" : ""}`}>{item.icon}</span>
-                            {item.title}
+                            <div className="menuAdminIcon">
+                                {item.icon}
+                            </div>
+                            <span className="menuAdminTitle">
+                                {item.title}
+                            </span>
                         </div>
                     </Link>
                 )}

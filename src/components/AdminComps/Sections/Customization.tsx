@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useConfig } from "../../../context/AdminContext"
 import { RenderImageRow, RenderTextRow } from "../Rows/rows"
 import EditColorModal from "../Modals/ColorModal"
@@ -8,6 +8,10 @@ import { MenuItem, Select, Stack, Switch } from "@mui/material";
 const Customization = () => {
     const { newConfig, editProp } = useConfig()
     const [oneColorMode, setOneColorMode] = useState(!newConfig?.customization.twoColors)
+
+    useEffect(() => {
+        document.querySelector(".editorContainer")?.scrollTo(0, 0)
+    }, [])
 
     if (!newConfig) return (<></>)
 
