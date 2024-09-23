@@ -58,7 +58,7 @@ code {
   justify-content: space-between;
 }
 
-.content> :nth-child(2):not(.headerContainer):not(.footer) {
+.content> :nth-child(2):not(.headerContent):not(.footer) {
   height: 100%;
   display: flex;
   flex-direction: column;

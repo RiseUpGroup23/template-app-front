@@ -1,5 +1,43 @@
 .headerContainer {
     display: flex;
+    flex-direction: column;
+}
+
+.modeAdminAd {
+    width: 100%;
+    color: #fff;
+    background: #3D3D3D;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.modeAdminAd svg {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+}
+
+.modeAdminAd25,
+.modeAdminAd50 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem 0;
+    max-height: 1rem;
+    gap: .25rem;
+}
+
+.modeAdminAd50 {
+    width: 50%;
+}
+
+.modeAdminAd25 {
+    width: 25%;
+}
+
+.headerContent {
+    display: flex;
     justify-content: space-between;
     height: 6rem;
     padding: 1rem;
@@ -112,7 +150,7 @@
 }
 
 @media (max-width:1024px) {
-    .headerContainer {
+    .headerContent {
         padding-left: 0;
     }
 
