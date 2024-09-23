@@ -25,7 +25,7 @@ const Header = () => {
         <div className="headerContainer">
             {isAuthenticated && <div className="modeAdminAd">
                 {!isMobile && <div className="modeAdminAd25"></div>}
-                <span className="modeAdminAd50">{isMobile ? "" : "Hola, BarberShop. "}
+                <span className="modeAdminAd50">{isMobile ? "" : `Hola, ${config.customization?.shopName ?? ""}. `}
                     Entraste en modo administrador
                     <Tooltip title="En este modo podrás crear turnos salteando los pasos de pago si los tienes configurados en el sitio.">
                         <HelpOutlineOutlinedIcon />
