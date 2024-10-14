@@ -128,7 +128,7 @@ const Stats: React.FC = () => {
                     <div className="dataFrame3">
                         <span className="dataText">
                             <span className="dataNumber">
-                                {`${(monthAppos.filter(apo => apo.disabled).length / monthAppos.length * 100).toFixed(2)}%`}
+                                {`${!isNaN((monthAppos.filter(apo => apo.disabled).length / monthAppos.length * 100)) ? (monthAppos.filter(apo => apo.disabled).length / monthAppos.length * 100).toFixed(2) + " %" : "-"}`}
                             </span>
                             <span className="dataLabel">
                                 Tasa de cancelación
