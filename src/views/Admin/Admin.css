@@ -81,6 +81,23 @@
     max-width: 150px;
 }
 
+.passwordInputCont {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.passwordInputCont input {
+    height: 90%;
+}
+
+.seePasswordButton {
+    position: absolute;
+    right: .25rem;
+    display: flex;
+    align-items: center;
+}
+
 @media (max-width:1024px) {
     .formLoginBox .textInModal {
         width: 90%;

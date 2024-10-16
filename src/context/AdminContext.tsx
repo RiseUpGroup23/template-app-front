@@ -189,11 +189,14 @@ export const ConfigProvider: React.FC<ConfigProviderProps> = ({ children }) => {
             if (res.data.logged) {
                 localStorage.setItem("jwt", res.data.token)
                 setIsAuthenticated(true);
+                return Promise.resolve()
             } else {
                 setAlert({ type: "error", msg: res.data.message });
+                return Promise.reject()
             }
         } catch (err) {
             setAlert({ type: "error", msg: "Hubo un error al iniciar sesión, inténtelo de nuevo más tarde" });
+            return Promise.reject()
         }
     }
 

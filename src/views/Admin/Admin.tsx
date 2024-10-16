@@ -5,11 +5,18 @@ import AdminModule from "../../components/AdminComps/AdminModule";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Alert } from "@mui/material";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Admin = () => {
     const { config, isAuthenticated, login, alert } = useConfig()
     const [user, setUser] = useState("")
     const [pass, setPass] = useState("")
+    const [showPassword, setShowPassword] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(prevState => !prevState);
+    };
 
     if (!config) return (<></>)
     return (
@@ -31,14 +38,26 @@ const Admin = () => {
                                 login(user, pass).then(() => {
                                     setUser("")
                                     setPass("")
+                                }).catch(() => {
+                                    setPass("")
                                 })
                             }}>
                             <div className="textInModal">
                                 <span>Usuario: </span>
                                 <input type='text' value={user} onChange={(e) => setUser(e.target.value)} />
-                            </div><div className="textInModal">
+                            </div>
+                            <div className="textInModal">
                                 <span>Contraseña: </span>
-                                <input type='password' value={pass} onChange={(e) => setPass(e.target.value)} />
+                                <div className="passwordInputCont">
+                                    <input
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={pass}
+                                        onChange={(e) => setPass(e.target.value)}
+                                    />
+                                    <button className="seePasswordButton" onClick={togglePasswordVisibility} type="button">
+                                        {!showPassword ? <VisibilityIcon sx={{ color: "white", width: "1rem" }} /> : <VisibilityOffIcon sx={{ color: "white", width: "1rem" }} />}
+                                    </button>
+                                </div>
                             </div>
                             <button type="submit" className="actionbutton">
                                 Acceder

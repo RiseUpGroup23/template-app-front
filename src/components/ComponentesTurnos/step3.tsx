@@ -130,6 +130,9 @@ const Step3 = ({ setNextButtonEnabled }: Props) => {
         const selected = dayjs(date);
         const hourParts = hour.split(":");
         const selectedHour = dayjs(date).set('hour', Number(hourParts[0])).set('minute', Number(hourParts[1]));
+        if (!config?.appointment.allowApposToday) {
+            return today.isSame(selected, 'day')
+        }
         return today.isSame(selected, 'day') && today.isAfter(selectedHour);
     }
 

@@ -12,6 +12,7 @@ const ComercialConfig = () => {
     const { config, newConfig, editProp, isMpConfigured } = useConfig()
     const [visibleItems, setVisibleItems] = useState(pageStep);
     const [mpEnabled, setMpEnabled] = useState(config?.appointment.mercadoPago || false)
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         document.querySelector(".editorContainer")?.scrollTo(0, 0)
@@ -126,7 +127,7 @@ const ComercialConfig = () => {
                 </div>
 
                 <div className="nextMonthsCont">
-                    <span>Selecciona cuánto tiempo antes pueden cancelar o reprogramar la reserva los usuarios</span>
+                    <span>Selecciona cuánto tiempo antes pueden cancelar o reprogramar la reserva los usuarios.</span>
                     <Select
                         labelId="disabled-option"
                         id="disabled-select"
@@ -141,6 +142,19 @@ const ComercialConfig = () => {
                             <MenuItem key={timeOption} value={timeOption}>{timeOption} {typeof timeOption === "number" ? "horas" : ""}</MenuItem>
                         )}
                     </Select>
+                </div>
+
+                <div className="nextMonthsCont">
+                    <span>Permitir realizar reservas en el día actual.</span>
+                    <Switch
+                        checked={newConfig?.appointment?.allowApposToday ?? false}
+                        disabled={loading}
+                        onChange={() => {
+                            editProp("appointment.allowApposToday", !newConfig.appointment.allowApposToday)
+                            setLoading(true)
+                            setTimeout(() => setLoading(false), 1000)
+                        }}
+                    />
                 </div>
             </div>
         </div>

@@ -27,6 +27,7 @@ export interface ConfigFile {
         mercadoPago: boolean;
         nextMonths: number;
         cancellationWindow: number | string;
+        allowApposToday: boolean;
     }
     banners: {
         imageAppointment: string;
