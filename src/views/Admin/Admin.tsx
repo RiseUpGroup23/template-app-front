@@ -44,7 +44,9 @@ const Admin = () => {
                             }}>
                             <div className="textInModal">
                                 <span>Usuario: </span>
-                                <input type='text' value={user} onChange={(e) => setUser(e.target.value)} />
+                                <div className="passwordInputCont">
+                                    <input type='text' value={user} onChange={(e) => setUser(e.target.value)} />
+                                </div>
                             </div>
                             <div className="textInModal">
                                 <span>Contraseña: </span>

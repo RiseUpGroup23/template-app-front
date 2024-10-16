@@ -312,8 +312,13 @@ input[type=file]::file-selector-button:hover {
     }
 
     .textInModal span,
-    .textInModal input {
+    .textInModal input,
+    .passwordInputCont {
         width: 50%;
+    }
+
+    .passwordInputCont input {
+        width: 100%;
     }
 
     .drop-container {

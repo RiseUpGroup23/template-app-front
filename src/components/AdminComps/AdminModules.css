@@ -79,10 +79,12 @@
     border-radius: 1rem;
     display: flex;
     align-items: center;
+    border: 1px solid transparent;
+    transition: all .3s ease;
 }
 
 .menuItem:hover {
-    border: 2px solid #5F5F5F;
+    border: 1px solid #5F5F5F;
 }
 
 .menuAdminIcon {
