@@ -62,5 +62,15 @@ export interface ConfigFile {
         shopName: string;
         twoColors: boolean;
         floatButtons: string;
+    },
+    articles?: {
+        active: boolean,
+        items: [
+            {
+                title: string
+                content: string
+                image: string
+            }
+        ]
     }
 }

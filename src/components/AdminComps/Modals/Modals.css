@@ -306,6 +306,11 @@ input[type=file]::file-selector-button:hover {
     gap: 1rem;
 }
 
+.articleMde {
+    width: 100%;
+    color: #000;
+}
+
 @media (max-width:1024px) {
     .textInModal {
         width: 100%;

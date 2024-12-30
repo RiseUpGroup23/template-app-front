@@ -69,3 +69,11 @@ code {
 .MuiBox-root:focus-visible {
   outline: none;
 }
+
+.w-md-editor-text .wmde-markdown-color {
+  display: none;
+}
+
+.w-md-editor-text-input {
+  -webkit-text-fill-color: black !important;
+}

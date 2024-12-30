@@ -12,6 +12,7 @@ import { BannedDay } from "../../../typings/ConfigFile";
 import BansModal from "../Modals/BansModal";
 import ReactMarkdown from "react-markdown";
 import ModalConflicts from "../Modals/ModalConflicts";
+import ArticleModal from "../Modals/ArticleModal";
 
 export function RenderTextRow(label: string, valor: string, prop: string, noMD?: boolean, limit?: number): JSX.Element {
     return (
@@ -169,6 +170,35 @@ export function RenderBanRow(ban: BannedDay, index: number): JSX.Element {
                         editProp("appointment.bannedDays", config?.appointment.bannedDays.filter((day, i) => index !== i))
                     }} message="¿Desea eliminar esta excepción?" />
                     <BansModal ban={ban} index={index} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+
+
+export function RenderArticleRow(article: any, index: number): JSX.Element {
+    const { editProp, config } = useConfig()
+
+    const deleteRow = () => {
+        const updatedArray = [...config?.articles?.items ?? []];
+        updatedArray.splice(index, 1);
+        editProp("articles.items", updatedArray);
+    }
+
+    return (
+        <div className="rowContainer" key={article.title}>
+            <div className="rowItem" style={{ width: '35%' }}>
+                <span>{article.title}</span>
+            </div>
+            <div className="rowItem" style={{ width: '40%' }}>
+                <img src={article.image} alt={article.title} />
+            </div>
+            <div className="rowItem" style={{ width: '25%' }}>
+                <div className="actionsContainer">
+                    <DeleteModal message="¿Desea eliminar este artículo?" action={deleteRow} />
+                    <ArticleModal article={article} index={index} />
                 </div>
             </div>
         </div>

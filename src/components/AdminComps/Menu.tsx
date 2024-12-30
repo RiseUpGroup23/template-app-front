@@ -14,6 +14,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import "./AdminModules.css";
 import DeleteModal from "./Modals/DeleteModal";
 import { useConfig } from "../../context/AdminContext";
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 
 const items = [
     {
@@ -40,6 +41,11 @@ const items = [
         title: "Servicios",
         url: "/admin/servicios",
         icon: <ChecklistRtlOutlinedIcon />
+    },
+    {
+        title: "Novedades",
+        url: "/admin/novedades",
+        icon: <NewspaperIcon />
     },
     {
         title: "Políticas",

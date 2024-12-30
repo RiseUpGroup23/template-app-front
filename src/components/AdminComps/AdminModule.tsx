@@ -11,6 +11,7 @@ import Professionals from "./Sections/Professionals"
 import Services from "./Sections/Services"
 import ComercialConfig from "./Sections/ComercialConfig"
 import Stats from "./Sections/Stats"
+import News from "./Sections/News"
 
 
 const AdminModule = () => {
@@ -29,6 +30,7 @@ const AdminModule = () => {
                     <Route path="/turnos" element={<Appointments />} />
                     <Route path="/profesionales" element={<Professionals />} />
                     <Route path="/servicios" element={<Services />} />
+                    <Route path="/novedades" element={<News />} />
                     <Route path="/politicas" element={<ComercialConfig />} />
                     <Route path="/estadisticas" element={<Stats />} />
                 </Routes>
