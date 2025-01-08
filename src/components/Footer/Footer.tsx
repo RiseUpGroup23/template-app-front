@@ -31,9 +31,9 @@ const Footer = () => {
                 </div>
 
             </div>
-            <a href="https://www.rise-up.com.ar/" className="devBy">
+            <a href="https://www.riseup.com.ar/" className="devBy">
                 Diseñado y desarrollado por
-                <img src="https://www.rise-up.com.ar/LogoRiseUp/Logo.png" alt="footerLogo" />
+                <img src="https://www.riseup.com.ar/LogoRiseUp/Logo.png" alt="footerLogo" />
             </a>
         </div>
     )
