@@ -1,0 +1,35 @@
+.articleImageCont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.articleImage {
+    max-height: 500px;
+    max-width: 90vw;
+    object-fit: contain;
+    margin: 2rem;
+    border-radius: 1rem;
+}
+
+.articleContent {
+    font-size: 2rem;
+}
+
+.articleGoBack {
+    display: flex;
+    width: min(100%, 90vw);
+    margin: 0 0 2rem;
+}
+
+@media (max-width:1300px) {
+
+    .articleContent,
+    .articleImage {
+        margin: 0 1rem !important;
+    }
+
+    .articleGoBack {
+        margin: 2rem 0 0;
+    }
+}

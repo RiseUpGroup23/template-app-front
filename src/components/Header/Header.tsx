@@ -57,6 +57,9 @@ const Header = () => {
                                     <button style={{ color: `${config.customization.primary.text}` }} className={`botonHeader ${location.pathname === '/' ? 'active' : ''}`}>Inicio</button>
                                 </Link>
                                 <MenuTurnos />
+                                {config?.articles?.active && <Link to={"/novedades"}>
+                                    <button style={{ color: `${config.customization.primary.text}` }} className={`botonHeader ${location.pathname === '/novedades' ? 'active' : ''}`}>Novedades</button>
+                                </Link>}
                                 <button onClick={() => {
                                     if (localStorage.getItem("inverted")) {
                                         localStorage.removeItem("inverted")

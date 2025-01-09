@@ -61,6 +61,13 @@ export default function MenuDrawer() {
                             </ListItemButton>
                         </ListItem>
                     </Link>
+                    {config?.articles?.active && <Link to={"/novedades"}>
+                        <ListItem key="novedades" disablePadding className={`${window.location.pathname.includes("/novedades") ? "drawerSelected" : ""}`}>
+                            <ListItemButton>
+                                <ListItemText primary="Novedades" />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>}
                     {config?.customization.twoColors && <ListItem onClick={() => {
                         if (localStorage.getItem("inverted")) {
                             localStorage.removeItem("inverted")
