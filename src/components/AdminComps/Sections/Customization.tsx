@@ -126,7 +126,7 @@ const Customization = () => {
                 </div>
 
                 {RenderTextRow("Título", newConfig.texts.presentationTitle, "texts.presentationTitle", false, 45)}
-                {RenderTextRow("Texto de presentación", newConfig.texts.presentationText, "texts.presentationText", false, 320)}
+                {RenderTextRow("Texto de presentación", newConfig.texts.presentationText, "texts.presentationText", false, 370)}
                 {RenderTextRow("Texto del Footer", newConfig.texts.footer, "texts.footer", true, 45)}
 
             </div>

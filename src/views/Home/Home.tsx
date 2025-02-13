@@ -1,12 +1,12 @@
-
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { useConfig } from '../../context/AdminContext';
 import Header from '../../components/Header/Header';
 import "./Home.css"
 import Footer from '../../components/Footer/Footer';
-import React from 'react';
 import Overlay from '../Turnos/Overlay';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import MapIcon from '@mui/icons-material/Map';
 
 const Home = () => {
     const { config } = useConfig()
@@ -26,8 +26,10 @@ const Home = () => {
                 </div>
                 <div className="blackInfo">
                     <a className="blackInfoItem" href={`https://www.google.com/maps?q=${config.contact.address}, ${config.contact.city}, ${config.contact.state}`} target="_blank" rel='noreferrer'>
-                        <LocationOnOutlinedIcon style={{color:'white', width:"58", height:"58"}}/>
-                        <p>{config.contact.address}</p>
+                        <LocationOnOutlinedIcon style={{ color: 'white', width: "58", height: "58" }} />
+                        <p style={{ textDecoration: "underline" }}>
+                            {config.contact.address}
+                        </p>
                     </a>
                     <a className="blackInfoItem" href={`https://wa.me/${config.contact.phone.includes("+") ? config.contact.phone : `+54${config.contact.phone}`}?text=Hola ${config.customization.shopName}!`} target="_blank" rel='noreferrer'>
                         <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
