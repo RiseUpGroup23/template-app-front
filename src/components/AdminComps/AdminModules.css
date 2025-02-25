@@ -75,12 +75,13 @@
 .menuItem {
     color: white;
     font-size: min(1.5rem, 2vw);
-    padding: 1rem;
+    padding: .5rem;
     border-radius: 1rem;
     display: flex;
     align-items: center;
     border: 1px solid transparent;
     transition: all .3s ease;
+    margin-bottom: .25rem;
 }
 
 .menuItem:hover {
@@ -825,7 +826,7 @@
     }
 
     .menuItem span {
-        font-size: 1.5rem !important;
+        font-size: 1rem !important;
     }
 
     .itemSelected span {

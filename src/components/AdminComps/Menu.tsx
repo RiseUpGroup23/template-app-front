@@ -15,6 +15,7 @@ import "./AdminModules.css";
 import DeleteModal from "./Modals/DeleteModal";
 import { useConfig } from "../../context/AdminContext";
 import NewspaperIcon from '@mui/icons-material/Newspaper';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 
 const items = [
     {
@@ -46,6 +47,11 @@ const items = [
         title: "Novedades",
         url: "/admin/novedades",
         icon: <NewspaperIcon />
+    },
+    {
+        title: "Sobre nosotros",
+        url: "/admin/about",
+        icon: <GroupsOutlinedIcon />
     },
     {
         title: "Políticas",

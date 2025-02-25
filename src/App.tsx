@@ -12,6 +12,7 @@ import News from './views/News/News';
 import { useConfig } from './context/AdminContext';
 import titleToLink from './modules/titleToLink';
 import Article from './views/Article/Article';
+import About from './views/About/About';
 
 function App() {
   const { config } = useConfig()
@@ -28,6 +29,7 @@ function App() {
         <Route path='/reserva-confirmada' element={<TurnoConfirmado />} />
         <Route path='/reserva-error' element={<TurnoRechazado />} />
         <Route path='/novedades' element={<News />} />
+        <Route path='/nosotros' element={<About />} />
         {config?.articles?.items?.map((item) => (
           <Route path={`/novedades/${titleToLink(item.title)}`} element={<Article article={item} />} />
         ))}

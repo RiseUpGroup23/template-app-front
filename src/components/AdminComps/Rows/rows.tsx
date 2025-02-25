@@ -178,27 +178,27 @@ export function RenderBanRow(ban: BannedDay, index: number): JSX.Element {
 
 
 
-export function RenderArticleRow(article: any, index: number): JSX.Element {
-    const { editProp, config } = useConfig()
+export function RenderArticleRow(item: any, index: number, type: 'articles' | 'about'): JSX.Element {
+    const { editProp, config } = useConfig();
 
     const deleteRow = () => {
-        const updatedArray = [...config?.articles?.items ?? []];
+        const updatedArray = [...config?.[type]?.items ?? []];
         updatedArray.splice(index, 1);
-        editProp("articles.items", updatedArray);
-    }
+        editProp(`${type}.items`, updatedArray);
+    };
 
     return (
-        <div className="rowContainer" key={article.title}>
+        <div className="rowContainer" key={item.title}>
             <div className="rowItem" style={{ width: '35%' }}>
-                <span>{article.title}</span>
+                <span>{item.title}</span>
             </div>
             <div className="rowItem" style={{ width: '40%' }}>
-                <img src={article.image} alt={article.title} />
+                <img src={item.image} alt={item.title} />
             </div>
             <div className="rowItem" style={{ width: '25%' }}>
                 <div className="actionsContainer">
-                    <DeleteModal message="¿Desea eliminar este artículo?" action={deleteRow} />
-                    <ArticleModal article={article} index={index} />
+                    <DeleteModal message="¿Desea eliminar este elemento?" action={deleteRow} />
+                    <ArticleModal type={type} item={item} index={index} />
                 </div>
             </div>
         </div>

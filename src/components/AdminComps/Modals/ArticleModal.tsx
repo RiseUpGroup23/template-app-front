@@ -5,29 +5,30 @@ import Modal from '@mui/material/Modal';
 import { Close as CloseIcon } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Alert } from '@mui/material';
-import uploadImage from '../utils/uploadImage'; // Suponiendo que esta función maneja la subida de imágenes
+import uploadImage from '../utils/uploadImage';
 import { useConfig } from '../../../context/AdminContext';
-import { style } from './EditTextModal'; // Estilo del modal
+import { style } from './EditTextModal';
 import EditIcon from '@mui/icons-material/Edit';
 import MDEditor, { commands } from "@uiw/react-md-editor";
 
 interface Props {
-    article: { title: string; content: string; image: string };
-    customTrigger?: any; // Similar al trigger en ProfessionalModal
-    index?: number
+    type: 'articles' | 'about';
+    item: { title: string; content: string; image: string };
+    customTrigger?: any;
+    index?: number;
 }
 
-const ArticleModal = ({ article, customTrigger, index }: Props) => {
+const ArticleModal = ({ type, item, customTrigger, index }: Props) => {
     const { setAlert, editProp, config } = useConfig();
     const [open, setOpen] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
-    const [src, setSrc] = React.useState(article.image !== "" ? article.image : "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-article.png");
+    const [src, setSrc] = React.useState(item.image || "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-article.png");
     const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
-    const [editedArticle, setEditedArticle] = React.useState(article);
+    const [editedItem, setEditedItem] = React.useState(item);
 
     const handleOpen = () => {
-        setEditedArticle(article); // Inicializar con los datos del artículo
+        setEditedItem(item);
         setOpen(true);
     };
 
@@ -36,44 +37,40 @@ const ArticleModal = ({ article, customTrigger, index }: Props) => {
         setOpen(false);
         setErrorMessage(null);
         setSelectedImage(null);
-        setSrc(article.image); // Restablecer imagen original
+        setSrc(item.image);
     };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        const maxSize = 2 * 1024 * 1024; // 2MB max
+        const maxSize = 2 * 1024 * 1024;
         if (file) {
             if (file.size > maxSize) {
                 setErrorMessage("La imagen supera los 2MB, por favor seleccione una más pequeña.");
             } else {
                 setErrorMessage(null);
                 setSelectedImage(file);
-                const imageUrl = URL.createObjectURL(file);
-                setSrc(imageUrl);
+                setSrc(URL.createObjectURL(file));
             }
         }
     };
 
     const handleSave = async () => {
         setLoading(true);
-
-        // Subir imagen si es necesario
-        const newImage = selectedImage ? await uploadImage(selectedImage).catch(() => editedArticle.image) : editedArticle.image;
-
-        const updatedArticle = { ...editedArticle, image: newImage ?? "" };
+        const newImage = selectedImage ? await uploadImage(selectedImage).catch(() => editedItem.image) : editedItem.image;
+        const updatedItem = { ...editedItem, image: newImage ?? "" };
 
         try {
-            if (typeof index === "number" && config?.articles?.items) {
-                const copyArray = config?.articles?.items
-                copyArray[index] = updatedArticle
-                await editProp("articles.items", copyArray)
+            if (typeof index === "number" && config?.[type]?.items) {
+                const copyArray = [...config[type]!.items];
+                copyArray[index] = updatedItem;
+                await editProp(`${type}.items`, copyArray);
             } else {
-                await editProp("articles.items", config?.articles?.items.concat(updatedArticle))
+                await editProp(`${type}.items`, [...(config?.[type]?.items || []), updatedItem]);
             }
-            setAlert({ type: 'success', msg: 'Artículo actualizado con éxito' });
+            setAlert({ type: 'success', msg: 'Elemento actualizado con éxito' });
             setOpen(false);
         } catch (error) {
-            setAlert({ type: 'error', msg: 'Hubo un error al actualizar el artículo' });
+            setAlert({ type: 'error', msg: 'Hubo un error al actualizar el elemento' });
         }
 
         setLoading(false);
@@ -82,93 +79,30 @@ const ArticleModal = ({ article, customTrigger, index }: Props) => {
     return (
         <>
             <div className="rowButtonAction" onClick={handleOpen}>
-                {!customTrigger ? (
-                    <EditIcon style={{ width: "37", height: "37" }} />
-                ) : (
-                    customTrigger
-                )}
+                {!customTrigger ? <EditIcon style={{ width: 37, height: 37 }} /> : customTrigger}
             </div>
 
-            <Modal
-                open={open}
-                onClose={(e, reason) => handleClose(reason)}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
+            <Modal open={open} onClose={(e, reason) => handleClose(reason)}>
                 <Box sx={style}>
-                    <div className="closeIcon" onClick={() => handleClose()}>
-                        <CloseIcon />
-                    </div>
-
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Editar Artículo
-                    </Typography>
-
-                    {/* Título */}
+                    <div className="closeIcon" onClick={() => handleClose()}><CloseIcon /></div>
+                    <Typography variant="h6">Editar {type === 'articles' ? 'Artículo' : 'Sección'}</Typography>
                     <div className="textInModal">
                         <span>Título: </span>
-                        <input
-                            type="text"
-                            value={editedArticle.title}
-                            onChange={(e) => setEditedArticle((prev) => ({ ...prev, title: e.target.value }))}
-                        />
+                        <input type="text" value={editedItem.title} onChange={(e) => setEditedItem({ ...editedItem, title: e.target.value })} />
                     </div>
-
-                    {/* Imagen */}
                     <div className="dragContainer">
                         <img className="editBoxImage" src={src} alt="editImagePreview" />
-                        <label
-                            htmlFor="image-upload"
-                            className="drop-container"
-                            onDragOver={(e) => e.preventDefault()}
-                            onDragEnter={(e) => e.preventDefault()}
-                            onDragLeave={(e) => e.preventDefault()}
-                            onDrop={(event) => {
-                                event.preventDefault();
-                                const file = event.dataTransfer.files[0];
-                                if (file) {
-                                    setSelectedImage(file);
-                                    const imageUrl = URL.createObjectURL(file);
-                                    setSrc(imageUrl);
-                                }
-                            }}
-                        >
+                        <label htmlFor="image-upload" className="drop-container">
                             <span className="drop-title">Arrastra un archivo aquí</span> o
-                            <input type="file" id="image-upload" accept="image/*" required onChange={handleImageChange} />
+                            <input type="file" id="image-upload" accept="image/*" onChange={handleImageChange} />
                         </label>
                     </div>
-
-                    {/* Contenido */}
-                    <div className="textInModal">
-                        <span>Contenido: </span>
-                    </div>
-                    <div data-color-mode="light" className="articleMde">
-                        <MDEditor
-                            value={editedArticle.content}
-                            height={300}
-                            onChange={(text) => setEditedArticle((prev) => ({ ...prev, content: text ?? "" }))}
-                            commands={[commands.bold, commands.italic, commands.strikethrough]}
-                            extraCommands={[]}
-                        />
-                    </div>
-
-                    {/* Error Message */}
-                    {errorMessage && (
-                        <div className="avaAlert">
-                            <Alert severity="error">{errorMessage}</Alert>
-                        </div>
-                    )}
-
-                    {/* Modal Buttons */}
+                    <div className="textInModal"><span>Contenido: </span></div>
+                    <MDEditor value={editedItem.content} height={300} onChange={(text) => setEditedItem({ ...editedItem, content: text ?? "" })} commands={[commands.bold, commands.italic, commands.strikethrough]} extraCommands={[]} />
+                    {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
                     <div className="modalButtons">
-                        <button className="backModal" onClick={() => handleClose()}>
-                            Volver
-                        </button>
-                        <button
-                            className={`confirmModal ${!editedArticle.title || !editedArticle.content || loading ? 'buttonDisabled' : ''}`}
-                            onClick={handleSave}
-                            disabled={!editedArticle.title || !editedArticle.content || loading}
-                        >
+                        <button className="backModal" onClick={() => handleClose()}>Volver</button>
+                        <button className={`confirmModal ${!editedItem.title || !editedItem.content || loading ? 'buttonDisabled' : ''}`} onClick={handleSave} disabled={!editedItem.title || !editedItem.content || loading}>
                             {!loading ? 'Guardar' : <CircularProgress size={20} sx={{ color: 'black' }} />}
                         </button>
                     </div>

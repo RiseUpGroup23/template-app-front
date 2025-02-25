@@ -72,5 +72,15 @@ export interface ConfigFile {
                 image: string
             }
         ]
+    },
+    about?: {
+        active: boolean,
+        items: [
+            {
+                tab: string
+                content: string
+                image: string
+            }
+        ]
     }
 }

@@ -1,0 +1,54 @@
+.aboutContainer {
+    width: 100%;
+}
+
+.aboutSection {
+    height: 100%;
+    min-height: 40vh;
+}
+
+.aboutContainer .appointTitle {
+    margin: 3rem auto;
+    min-height: unset !important;
+}
+
+.aboutTabs {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+}
+
+.aboutTabItem {
+    padding: .5rem 2rem;
+    border-radius: .625rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tabContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 75%;
+    margin: auto;
+    margin-bottom: 2rem;
+}
+
+@media (max-width:1024px) {
+    .aboutTabs {
+        justify-content: flex-start;
+        overflow: auto;
+    }
+
+    .aboutTabItem {
+        font-size: 1rem;
+    }
+
+    .tabContent {
+        flex-direction: column;
+        width: 90%;
+    }
+}

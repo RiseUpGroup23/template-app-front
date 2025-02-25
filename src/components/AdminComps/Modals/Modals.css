@@ -20,6 +20,10 @@
     color: white;
 }
 
+.wmde-markdown-var{
+    width: 100%;
+}
+
 .backModal,
 .confirmModal,
 .cancelModal {

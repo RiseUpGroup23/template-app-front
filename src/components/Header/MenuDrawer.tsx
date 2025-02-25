@@ -48,14 +48,14 @@ export default function MenuDrawer() {
                         </ListItem>
                     </Link>
                     <Link to={"/reservar"}>
-                        <ListItem key="novedades" disablePadding className={`${window.location.pathname === "/reservar" ? "drawerSelected" : ""}`}>
+                        <ListItem key="turno" disablePadding className={`${window.location.pathname === "/reservar" ? "drawerSelected" : ""}`}>
                             <ListItemButton>
                                 <ListItemText primary="Solicitar turno" />
                             </ListItemButton>
                         </ListItem>
                     </Link>
                     <Link to={"/reprogramar"}>
-                        <ListItem key="novedades" disablePadding className={`${window.location.pathname === "/reprogramar" ? "drawerSelected" : ""}`}>
+                        <ListItem key="misturnos" disablePadding className={`${window.location.pathname === "/reprogramar" ? "drawerSelected" : ""}`}>
                             <ListItemButton>
                                 <ListItemText primary="Mis turnos" />
                             </ListItemButton>
@@ -65,6 +65,13 @@ export default function MenuDrawer() {
                         <ListItem key="novedades" disablePadding className={`${window.location.pathname.includes("/novedades") ? "drawerSelected" : ""}`}>
                             <ListItemButton>
                                 <ListItemText primary="Novedades" />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>}
+                    {config?.about?.active && <Link to={"/nosotros"}>
+                        <ListItem key="nosotros" disablePadding className={`${window.location.pathname.includes("/nosotros") ? "drawerSelected" : ""}`}>
+                            <ListItemButton>
+                                <ListItemText primary="Nosotros" />
                             </ListItemButton>
                         </ListItem>
                     </Link>}
