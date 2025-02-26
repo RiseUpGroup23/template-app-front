@@ -30,11 +30,19 @@
 
 .tabContent {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     width: 75%;
     margin: auto;
     margin-bottom: 2rem;
+}
+
+.tabContent img {
+    max-width: min(400px, 100%);
+}
+
+.tabContent .markDownText {
+    display: block;
 }
 
 @media (max-width:1024px) {

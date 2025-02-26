@@ -5,6 +5,7 @@ import Footer from "../../components/Footer/Footer";
 import { useConfig } from "../../context/AdminContext";
 import "./about.css";
 import Markdown from "react-markdown";
+import remarkGfm from 'remark-gfm';
 
 const About = () => {
     const { config } = useConfig();
@@ -40,10 +41,12 @@ const About = () => {
                         ))}
                     </div>
                     <div className="tabContent">
-                        {tabs[selected] && <Markdown>
-                            {tabs[selected].content}
-                        </Markdown>}
-                        <img src={tabs[selected]?.image} alt={tabs[selected]?.title} />
+                        <div className="markDownText">
+                            {tabs[selected] && (
+                                <Markdown children={tabs[selected].content} remarkPlugins={[remarkGfm]} />
+                            )}
+                        </div>
+                        {tabs[selected]?.image ? <img src={tabs[selected]?.image} alt={tabs[selected]?.title} /> : null}
                     </div>
                 </div>}
             </div>

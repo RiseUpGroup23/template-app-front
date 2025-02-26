@@ -76,3 +76,12 @@ code {
   min-height: unset !important;
   display: inline;
 }
+
+.w-md-editor-area .wmde-markdown-color {
+  display: none;
+}
+
+.w-md-editor-text-input {
+  -webkit-text-fill-color: white !important;
+  color: white !important;
+}
