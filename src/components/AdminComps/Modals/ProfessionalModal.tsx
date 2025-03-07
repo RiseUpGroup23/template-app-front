@@ -289,6 +289,14 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     </div>
 
                     <div className="textInModal">
+                        <span>Máx turnos x horario: </span>
+                        <input type='number' value={prof.maxAppos} onChange={(e) => {
+                            setProf((prev) => ({ ...prev, maxAppos: Number(e.target.value) }))
+                        }}
+                        />
+                    </div>
+
+                    <div className="textInModal">
                         <span>Tipos de servicio: </span>
                         <div className="editToS">
                             {services?.map((service, index) => (

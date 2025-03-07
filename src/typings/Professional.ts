@@ -20,6 +20,7 @@ export interface Professional {
     timeAvailabilities: TimeAvailability;
     typesOfServices: TypeOfService[];
     disabled: boolean;
+    maxAppos: number;
 }
 
 export interface TimeAvailability {
