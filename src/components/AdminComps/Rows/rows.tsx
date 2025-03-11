@@ -20,7 +20,7 @@ export function RenderTextRow(label: string, valor: string, prop: string, noMD?:
             <div className="rowItem" style={{ width: '35%' }}>
                 <span>{label}</span>
             </div>
-            <div className="rowItem" style={{ width: '45%' }}>
+            <div className="rowItem markdown" style={{ width: '45%' }}>
                 <ReactMarkdown>{valor}</ReactMarkdown>
             </div>
             <div className="rowItem" style={{ width: '20%' }}>

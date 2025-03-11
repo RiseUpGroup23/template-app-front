@@ -220,11 +220,24 @@
 
 .rowContainer .rowItem {
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 2rem;
     padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rowContainer .rowItem.markdown {
+    margin: 0 auto;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline;
+    white-space: break-spaces;
+}
+
+.rowContainer .rowItem.markdown>* {
+    margin: 0 auto;
+    text-align: center;
 }
 
 .rowContainer .rowItem span,

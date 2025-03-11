@@ -89,9 +89,9 @@ const EditTextModal = ({ initialTitle, prop, noMD = false, limit = false }: Prop
                     <Typography id="modal-modal-title" variant="h6" component="h2">
                         Editar texto
                     </Typography>
-                    <div data-color-mode="light" style={{ width: "100%" }}>
+                    <div data-color-mode="dark" style={{ width: "100%" }}>
                         <MDEditor
-                            height={200}
+                            minHeight={2000}
                             value={value}
                             onChange={(text) => handleText(text || "")}
                             commands={noMD ? [] : [commands.bold, commands.italic, commands.strikethrough]}

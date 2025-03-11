@@ -81,7 +81,12 @@ code {
   display: none;
 }
 
+.w-md-editor-text {
+  max-height: unset !important;
+}
+
 .w-md-editor-text-input {
   -webkit-text-fill-color: white !important;
   color: white !important;
+  box-sizing: border-box !important;
 }

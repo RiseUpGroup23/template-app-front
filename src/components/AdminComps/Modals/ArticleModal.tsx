@@ -98,8 +98,8 @@ const ArticleModal = ({ type, item, customTrigger, index }: Props) => {
                         </label>
                     </div>
                     <div className="textInModal"><span>Contenido: </span></div>
-                    <div style={{ maxHeight: "70vh", width: "100%" }}>
-                        <MDEditor minHeight={300} value={editedItem.content} onChange={(text) => setEditedItem({ ...editedItem, content: text ?? "" })} commands={[commands.bold, commands.italic, commands.strikethrough]} extraCommands={[]} />
+                    <div data-color-mode="dark" style={{ maxHeight: "70vh", width: "100%" }}>
+                        <MDEditor minHeight={2000} value={editedItem.content} onChange={(text) => setEditedItem({ ...editedItem, content: text ?? "" })} commands={[commands.bold, commands.italic, commands.strikethrough]} extraCommands={[]} />
                     </div>
                     {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
                     <div className="modalButtons">
