@@ -128,6 +128,8 @@ const Customization = () => {
                 {RenderTextRow("Título", newConfig.texts.presentationTitle, "texts.presentationTitle", false, 45)}
                 {RenderTextRow("Texto de presentación", newConfig.texts.presentationText, "texts.presentationText", false, 370)}
                 {RenderTextRow("Texto del Footer", newConfig.texts.footer, "texts.footer", true, 45)}
+                {RenderTextRow("Texto seleccionar prof", newConfig.texts.profHeader, "texts.profHeader", true, 45)}
+                {RenderTextRow("Texto seleccionar servicio", newConfig.texts.serviceHeader, "texts.serviceHeader", true, 45)}
 
             </div>
             <span className="proxApo">

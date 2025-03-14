@@ -39,6 +39,8 @@ export interface ConfigFile {
         presentationText: string;
         presentationTitle: string;
         footer: string;
+        profHeader: string;
+        serviceHeader: string;
     }
     contact: Contact;
     reservationPrice: Number;

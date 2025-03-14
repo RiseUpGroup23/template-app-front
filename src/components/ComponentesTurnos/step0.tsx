@@ -15,7 +15,7 @@ const Step0 = () => {
     return (
         <div>
             <div className="appointTitle" style={{ color: `${config.customization.primary.text}` }}>
-                Elegí que <span>servicio necesitas</span>
+                {config.texts.serviceHeader}
             </div>
             <div className="container_Professional_Service">
                 {services?.length && professionals?.length ?
