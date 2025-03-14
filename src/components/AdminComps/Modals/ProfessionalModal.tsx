@@ -289,7 +289,7 @@ const ProfessionalModal = ({ professional, customTrigger }: Props) => {
                     </div>
 
                     <div className="textInModal">
-                        <span>Máx turnos x horario: </span>
+                        <span>Máx turnos por horario: </span>
                         <input type='number' value={prof.maxAppos} onChange={(e) => {
                             setProf((prev) => ({ ...prev, maxAppos: Number(e.target.value) }))
                         }}
